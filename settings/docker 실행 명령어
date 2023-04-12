@@ -1,0 +1,1 @@
+docker exec -it redis_test redis-clidocker exec -it redis_test redis-cli

@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -39,6 +40,12 @@ public class NovelEpisode {
   @Column(name = "capacity")
   private long capacity;
 
+  @Column(name = "reg_dt")
+  private LocalDateTime regDt;
+
+  @Column(name = "udt_dt")
+  private LocalDateTime udtDt;
+
   public NovelEpisode novelEpisode(String episodeId, String novelId, long episodeNo, String episodeTitle, String content, long page, long cost, long capacity) {
     NovelEpisode novelEpisode = new NovelEpisode();
     novelEpisode.setEpisodeId(episodeId);
@@ -49,6 +56,7 @@ public class NovelEpisode {
     novelEpisode.setPage(page);
     novelEpisode.setCost(cost);
     novelEpisode.setCapacity(capacity);
+    novelEpisode.setRegDt(LocalDateTime.now());
     return novelEpisode;
   }
 }

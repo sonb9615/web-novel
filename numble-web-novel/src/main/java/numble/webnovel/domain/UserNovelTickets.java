@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
@@ -36,8 +37,8 @@ public class UserNovelTickets {
   @Column(name = "ticket_cost")
   private long ticketCost;
 
-  @Column(name = "date")
-  private java.sql.Date date;
+  @Column(name = "reg_dt")
+  private LocalDateTime regDt;
 
   public static UserNovelTickets userNovelTickets(String ticketNo, String userNo, String novelId, long ticketCnt, long usableTicketCnt, long usedTicketCnt, long ticketCost, Date date) {
     UserNovelTickets userNovelTickets = new UserNovelTickets();
@@ -48,7 +49,7 @@ public class UserNovelTickets {
     userNovelTickets.setUsableTicketCnt(usableTicketCnt);
     userNovelTickets.setUsedTicketCnt(usedTicketCnt);
     userNovelTickets.setTicketCost(ticketCost);
-    userNovelTickets.setDate(date);
+    userNovelTickets.setRegDt(LocalDateTime.now());
     return userNovelTickets;
   }
 }

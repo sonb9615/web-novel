@@ -1,6 +1,7 @@
 package numble.webnovel.domain;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -17,8 +18,11 @@ public class ChildCode {
   @Id
   @Column(name = "code")
   private String code;
+
+  @NonNull
   @Column(name = "parent_code")
   private String parentCode;
+
   @Column(name = "value")
   private String value;
 

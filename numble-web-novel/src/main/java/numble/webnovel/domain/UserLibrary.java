@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -26,8 +27,8 @@ public class UserLibrary {
   @Column(name = "last_page_no")
   private long lastPageNo;
 
-  @Column(name = "read_date")
-  private java.sql.Date readDate;
+  @Column(name = "read_dt")
+  private LocalDateTime readDt;
 
   @Column(name = "star_point")
   private long starPoint;
@@ -37,7 +38,7 @@ public class UserLibrary {
     userLibrary.setEpisodeId(episodeId);
     userLibrary.setUserNo(userNo);
     userLibrary.setLastPageNo(lastPageNo);
-    userLibrary.setReadDate(readDate);
+    userLibrary.setReadDt(LocalDateTime.now());
     userLibrary.setStarPoint(starPoint);
     return userLibrary;
   }

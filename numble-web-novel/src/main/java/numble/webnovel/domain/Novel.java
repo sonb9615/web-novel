@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -36,6 +37,12 @@ public class Novel {
   @Column(name = "novel_img")
   private String novelImg;
 
+  @Column(name = "reg_dt")
+  private LocalDateTime regDt;
+
+  @Column(name = "udt_dt")
+  private LocalDateTime udtDt;
+
   public static Novel novel(String novelId, String title, String author, long likeCnt, String novelInfo, long paymentCnt, String novelImg) {
     Novel novel = new Novel();
     novel.setNovelId(novelId);
@@ -44,6 +51,7 @@ public class Novel {
     novel.setNovelInfo(novelInfo);
     novel.setPaymentCnt(paymentCnt);
     novel.setNovelImg(novelImg);
+    novel.setRegDt(LocalDateTime.now());
     return novel;
   }
 }

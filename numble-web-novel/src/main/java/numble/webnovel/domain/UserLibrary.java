@@ -3,10 +3,7 @@ package numble.webnovel.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
@@ -17,10 +14,12 @@ import java.time.LocalDateTime;
 public class UserLibrary {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
   @Column(name = "episode_id")
   private String episodeId;
 
-  @Id
   @Column(name = "user_no")
   private String userNo;
 

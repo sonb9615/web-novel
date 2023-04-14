@@ -18,10 +18,10 @@ CREATE TABLE `novel` (
 	`novel_info`	varchar(1000)	COMMENT '작품소개',
 	`payment_cnt`	INT	NULL	COMMENT '구매 카운트',
 	`novel_img`	varchar(100) NULL COMMENT '표지 이미지',
+    `episode_cost`	INT	NULL	COMMENT '소설 이용권 가격',
     `reg_dt` datetime(6) NULL COMMENT '등록 날짜',
     `udt_dt` datetime(6) NULL COMMENT '업데이트 날짜'
 );
-
 
 CREATE TABLE `novel_episode` (
 	`episode_id`	varchar(36)	NOT NULL	COMMENT '에피소드 id',
@@ -30,7 +30,7 @@ CREATE TABLE `novel_episode` (
 	`episode_title`	varchar(100)	NULL	COMMENT '에피소드 제목',
 	`content`	varchar(100)	NULL	COMMENT '소설 내용',
 	`page`	INT	NULL	COMMENT '총 페이지',
-	`cost`	INT	NULL	COMMENT '회차별 가격',
+	`free_yn`	boolean	NULL	DEFAULT false	COMMENT '무료 에피소드 판별',
 	`capacity`	INT	NULL	COMMENT '용량',
    `reg_dt` datetime(6) NULL COMMENT '등록 날짜',
     `udt_dt` datetime(6) NULL COMMENT '업데이트 날짜'

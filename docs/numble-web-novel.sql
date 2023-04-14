@@ -37,6 +37,7 @@ CREATE TABLE `novel_episode` (
 );
 
 CREATE TABLE `user_library` (
+	`id` bigint not null comment 'id',
 	`episode_id`	varchar(36)	NOT NULL	COMMENT '에피소드 id',
 	`user_no`	varchar(36)	NOT NULL	COMMENT '회원번호',
 	`last_page_no`	INT	NULL	COMMENT '마지막 페이지',

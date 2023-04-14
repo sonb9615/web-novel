@@ -1,1 +1,9 @@
-docker exec -it redis_test redis-clidocker exec -it redis_test redis-cli
+
+//redis 이미지 받기
+docker pull redis:7.0.10
+
+//compose파일 실행
+docker-compose -f redis-compose.yml up --build
+
+//redis client 접속
+docker exec -it redis_test redis-cli

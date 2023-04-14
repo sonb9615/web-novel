@@ -37,9 +37,9 @@ public class UserInfo {
     private String email;
 
     @Column(name = "cache")
-    private long cache;
+    private int cache;
 
-    public static UserInfo userInfo(String userNo, String password, String role, String phone, String gender, String email, long cache, String userId) {
+    public static UserInfo userInfo(String userNo, String password, String role, String phone, String gender, String email, int cache, String userId) {
         UserInfo userInfo = new UserInfo();
         userInfo.setUserNo(userNo);
         userInfo.setUserId(userId);

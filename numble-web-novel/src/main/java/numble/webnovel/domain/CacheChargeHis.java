@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -21,17 +22,17 @@ public class CacheChargeHis {
   @Column(name = "user_no")
   private String userNo;
   @Column(name = "date")
-  private java.sql.Date date;
+  private LocalDateTime date;
   @Column(name = "cost")
   private long cost;
   @Column(name = "cache_cost")
   private long cacheCost;
 
-  public static CacheChargeHis cacheChargeHis(String paymentNo, String userNo, Date date, long cost, long cacheCost) {
+  public static CacheChargeHis cacheChargeHis(String paymentNo, String userNo, long cost, long cacheCost) {
     CacheChargeHis cacheChargeHis = new CacheChargeHis();
     cacheChargeHis.setPaymentNo(paymentNo);
     cacheChargeHis.setUserNo(userNo);
-    cacheChargeHis.setDate(date);
+    cacheChargeHis.setDate(LocalDateTime.now());
     cacheChargeHis.setCost(cost);
     cacheChargeHis.setCacheCost(cacheCost);
     return cacheChargeHis;

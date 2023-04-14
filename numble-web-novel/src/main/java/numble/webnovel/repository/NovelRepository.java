@@ -15,6 +15,10 @@ public class NovelRepository {
     // 소설 저장
     public void save(Novel novel){em.persist(novel);}
 
+    public Novel findById(String novelId){
+        return em.find(Novel.class, novelId);
+    }
+
     //소설 삭제
     public void delete(String novelId){
 

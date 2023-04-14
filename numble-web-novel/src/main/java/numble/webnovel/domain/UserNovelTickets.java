@@ -40,7 +40,7 @@ public class UserNovelTickets {
   @Column(name = "reg_dt")
   private LocalDateTime regDt;
 
-  public static UserNovelTickets userNovelTickets(String ticketNo, String userNo, String novelId, long ticketCnt, long usableTicketCnt, long usedTicketCnt, long ticketCost, Date date) {
+  public static UserNovelTickets userNovelTickets(String ticketNo, String userNo, String novelId, long ticketCnt, long usableTicketCnt, long usedTicketCnt, long ticketCost) {
     UserNovelTickets userNovelTickets = new UserNovelTickets();
     userNovelTickets.setTicketNo(ticketNo);
     userNovelTickets.setUserNo(userNo);

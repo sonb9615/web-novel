@@ -34,8 +34,8 @@ public class NovelEpisode {
   @Column(name = "page")
   private long page;
 
-  @Column(name = "cost")
-  private long cost;
+  @Column(name = "free_yn")
+  private boolean freeYn;
 
   @Column(name = "capacity")
   private long capacity;
@@ -46,7 +46,7 @@ public class NovelEpisode {
   @Column(name = "udt_dt")
   private LocalDateTime udtDt;
 
-  public NovelEpisode novelEpisode(String episodeId, String novelId, long episodeNo, String episodeTitle, String content, long page, long cost, long capacity) {
+  public NovelEpisode novelEpisode(String episodeId, String novelId, long episodeNo, String episodeTitle, String content, long page, long capacity) {
     NovelEpisode novelEpisode = new NovelEpisode();
     novelEpisode.setEpisodeId(episodeId);
     novelEpisode.setNovelId(novelId);
@@ -54,7 +54,7 @@ public class NovelEpisode {
     novelEpisode.setEpisodeTitle(episodeTitle);
     novelEpisode.setContent(content);
     novelEpisode.setPage(page);
-    novelEpisode.setCost(cost);
+    novelEpisode.setFreeYn(false);
     novelEpisode.setCapacity(capacity);
     novelEpisode.setRegDt(LocalDateTime.now());
     return novelEpisode;

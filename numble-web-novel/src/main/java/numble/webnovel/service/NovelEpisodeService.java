@@ -11,4 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class NovelEpisodeService {
 
     private final NovelEpisodeRepository novelEpisodeRepository;
+
+
+
 }

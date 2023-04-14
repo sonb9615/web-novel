@@ -37,20 +37,25 @@ public class Novel {
   @Column(name = "novel_img")
   private String novelImg;
 
+  @Column(name = "episode_cost")
+  private int episodeCost;
+
   @Column(name = "reg_dt")
   private LocalDateTime regDt;
 
   @Column(name = "udt_dt")
   private LocalDateTime udtDt;
 
-  public static Novel novel(String novelId, String title, String author, long likeCnt, String novelInfo, long paymentCnt, String novelImg) {
+  public static Novel novel(String novelId, String title, String author, long likeCnt, String novelInfo, long paymentCnt, String novelImg, int episodeCost) {
     Novel novel = new Novel();
     novel.setNovelId(novelId);
     novel.setTitle(title);
+    novel.setAuthor(author);
     novel.setLikeCnt(likeCnt);
     novel.setNovelInfo(novelInfo);
     novel.setPaymentCnt(paymentCnt);
     novel.setNovelImg(novelImg);
+    novel.setEpisodeCost(episodeCost);
     novel.setRegDt(LocalDateTime.now());
     return novel;
   }

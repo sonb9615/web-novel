@@ -38,4 +38,9 @@ public class UserInfoService {
         this.saveUserInfo(userInfo);
         return result;
     }
+
+    @Transactional
+    public void deleteByUserNo(String userNo){
+        userInfoRepository.delete(userNo);
+    }
 }

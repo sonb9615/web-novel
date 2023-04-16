@@ -37,15 +37,4 @@ public class CacheChargeHis {
     cacheChargeHis.setCacheCost(cacheCost);
     return cacheChargeHis;
   }
-
-  @Override
-  public String toString() {
-    return "CacheChargeHis{" +
-            "paymentNo='" + paymentNo + '\'' +
-            ", userNo='" + userNo + '\'' +
-            ", date=" + date +
-            ", cost=" + cost +
-            ", cacheCost=" + cacheCost +
-            '}';
-  }
 }

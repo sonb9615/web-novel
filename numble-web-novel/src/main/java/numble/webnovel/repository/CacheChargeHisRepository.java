@@ -14,5 +14,9 @@ public class CacheChargeHisRepository {
 
     public void save(CacheChargeHis cacheChargeHis){em.persist(cacheChargeHis);}
 
+    public CacheChargeHis findById(String payment_no){
+        return em.find(CacheChargeHis.class, payment_no);
+    }
+
 
 }

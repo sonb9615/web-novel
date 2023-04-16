@@ -19,28 +19,27 @@ public class CacheChargeService {
     private final UUIDGeneration uuidGeneration;
     private final CacheChargeHisRepository cacheChargeHisRepository;
     private final NovelEpisodeService novelEpisodeService;
+    private final ChargeValidationService chargeValidationService;
 
     @Transactional
     public void cacheCharge(CacheCargeInfo cacheCargeInfo) throws InterruptedException {
         String userNo = cacheCargeInfo.getUser_no();
         int money = cacheCargeInfo.getMoney();
-
-        if(money <= 0) throw new CommonException(CommonExceptionEnum.CHARGE_RANGE_EXCEPTION);
-
-        // 결제 시작..? -> redis validation
-
+        if(chargeValidationService.isDuplicatedCharge(userNo)){
+            throw new CommonException(CommonExceptionEnum.DUPLICATE_CHARGE_EXCEPTION);
+        }
+        chargeValidationService.saveCharge(userNo, userNo);
+        if(money <= 0) {
+            throw new CommonException(CommonExceptionEnum.CHARGE_RANGE_EXCEPTION);
+        }
         // 결제 가짜 로직
         Thread.sleep(1000);
-
         // 유저정보에 저장
         int cache = userInfoService.sumUserCache(userNo, money);
         // 히스토리 테이블 저장
         String uuid = uuidGeneration.getUUID();
         CacheChargeHis cacheChargeHis = CacheChargeHis.cacheChargeHis(uuid, userNo, money, cache);
         this.saveCacheChargeHis(cacheChargeHis);
-        if(!cacheCargeInfo.getNovel_id().isEmpty()){
-
-        }
     }
 
     @Transactional
@@ -48,4 +47,7 @@ public class CacheChargeService {
         cacheChargeHisRepository.save(cacheChargeHis);
     }
 
+    public CacheChargeHis findByPaymentNo(String paymentNo){
+        return cacheChargeHisRepository.findById(paymentNo);
+    }
 }

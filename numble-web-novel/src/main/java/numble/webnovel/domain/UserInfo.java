@@ -39,7 +39,7 @@ public class UserInfo {
     @Column(name = "cache")
     private int cache;
 
-    public static UserInfo userInfo(String userNo, String password, String role, String phone, String gender, String email, int cache, String userId) {
+    public static UserInfo userInfo(String userNo, String userId, String password, String role, String phone, String gender, String email, int cache) {
         UserInfo userInfo = new UserInfo();
         userInfo.setUserNo(userNo);
         userInfo.setUserId(userId);

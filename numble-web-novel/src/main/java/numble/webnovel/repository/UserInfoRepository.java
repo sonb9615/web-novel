@@ -9,9 +9,10 @@ import javax.persistence.EntityManager;
 
 @Repository
 @RequiredArgsConstructor
-public class UserInfoRepository {
+public class UserInfoRepository{
 
     private final EntityManager em;
+    private final UserInfoInterface userInfoInterface;
 
     // 회원정보 저장
     public void saveUserInfo(UserInfo userInfo){em.persist(userInfo);}
@@ -19,6 +20,10 @@ public class UserInfoRepository {
     // userNo로 회원정보 조회
     public UserInfo findById(String userNo){
         return em.find(UserInfo.class, userNo);
+    }
+
+    public void delete(String userNo){
+        userInfoInterface.deleteById(userNo);
     }
 
 }

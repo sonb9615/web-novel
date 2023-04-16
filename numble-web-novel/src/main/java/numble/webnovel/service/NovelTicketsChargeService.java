@@ -8,9 +8,6 @@ import numble.webnovel.domain.UserNovelTickets;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -24,7 +21,7 @@ public class NovelTicketsChargeService {
     @Transactional
     public void chargeTicket(NovelTicketChargeInfo chargeInfo){
         chargeInfo = getNovelTicketChargeInfo(chargeInfo);
-        if(validEnoughCahce(chargeInfo)){
+        if(validEnoughCache(chargeInfo)){
             int chargeTicketsCnt = chargeInfo.getChargeTicketsCnt();
             UserInfo userInfo = userInfoService.findByUserNo(chargeInfo.getUserNo());
             userInfo.setCache(chargeInfo.getUserCache() - chargeTicketsCnt * chargeInfo.getEpisodeCost());
@@ -34,11 +31,11 @@ public class NovelTicketsChargeService {
             userNovelTicketsService.saveUserNovelTickets(userNovelTickets);
             return;
         }
+
         //   캐쉬충전 으로 리다이렉팅
     }
 
     private NovelTicketChargeInfo getNovelTicketChargeInfo(NovelTicketChargeInfo novelTicketChargeInfo){
-        int chargeTicketsCnt = novelTicketChargeInfo.getChargeTicketsCnt();
         // 단가가 얼마인지
         Novel novel = novelService.findNovel(novelTicketChargeInfo.getNovelId());
         int episodeCost = novel.getEpisodeCost();
@@ -50,7 +47,7 @@ public class NovelTicketsChargeService {
         return novelTicketChargeInfo;
     }
 
-    private boolean validEnoughCahce(NovelTicketChargeInfo novelTicketChargeInfo){
+    private boolean validEnoughCache(NovelTicketChargeInfo novelTicketChargeInfo){
         int chargeTicketsCnt = novelTicketChargeInfo.getChargeTicketsCnt();
         int episodeCost = novelTicketChargeInfo.getEpisodeCost();
         int userCache = novelTicketChargeInfo.getUserCache();

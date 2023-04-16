@@ -2,6 +2,7 @@ package numble.webnovel.controller;
 
 import lombok.RequiredArgsConstructor;
 import numble.webnovel.domain.CacheCargeInfo;
+import numble.webnovel.domain.ChargeApiResponse;
 import numble.webnovel.domain.ChargeInfoRequest;
 import numble.webnovel.domain.NovelTicketChargeInfo;
 import numble.webnovel.service.CacheChargeService;
@@ -13,22 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class ApiController {
+public class ChargeApiController {
 
     private final NovelTicketsChargeService novelTicketsChargeService;
     private final CacheChargeService cacheChargeService;
 
-    @PostMapping("/api/chargeTickets")
-    public void chargeTickets(@RequestBody @Validated NovelTicketChargeInfo novelTicketChargeInfo){
-        novelTicketsChargeService.chargeTicket(novelTicketChargeInfo);
+    @PostMapping("/charge/tickets")
+    public ChargeApiResponse chargeTickets(@RequestBody @Validated NovelTicketChargeInfo novelTicketChargeInfo){
+        return novelTicketsChargeService.chargeTicket(novelTicketChargeInfo);
     }
 
-    @PostMapping("api/cacheCharge")
-    public void cacheCharge(@RequestBody @Validated CacheCargeInfo cacheCargeInfo) throws InterruptedException {
-        cacheChargeService.cacheCharge(cacheCargeInfo);
+    @PostMapping("/charge/cache")
+    public ChargeApiResponse cacheCharge(@RequestBody @Validated CacheCargeInfo cacheCargeInfo) throws InterruptedException {
+        return cacheChargeService.cacheCharge(cacheCargeInfo);
     }
 
-    @PostMapping("api/validCharge")
+    @PostMapping("/charge/validation")
     public boolean validCharge(@RequestBody @Validated ChargeInfoRequest chargeInfoRequest){
 
         return true;

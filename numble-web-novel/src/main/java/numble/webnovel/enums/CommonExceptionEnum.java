@@ -15,7 +15,8 @@ public enum CommonExceptionEnum {
     INVALID_FORMAT_EXCEPTION(HttpStatus.BAD_REQUEST,"E0005","올바른 형태의 값인지 확인해주세요."),
     RESULT_NOT_EXIST_EXCEPTION(HttpStatus.BAD_REQUEST,"CE0002","값이 존재하지 않습니다."),
     CHARGE_RANGE_EXCEPTION(HttpStatus.BAD_REQUEST, "ZE0001", "100캐시부터 충전 가능합니다."),
-    DUPLICATE_CHARGE_EXCEPTION(HttpStatus.BAD_REQUEST, "DE0001", "중복 충전 건입니다.");
+    DUPLICATE_CHARGE_EXCEPTION(HttpStatus.BAD_REQUEST, "DE0001", "중복 충전 건입니다."),
+    CACHE_SHORTAGE_EXCEPTION(HttpStatus.BAD_REQUEST, "SE0001", "캐쉬가 부족합니다.");
 
     private final HttpStatus status;
     private final String code;

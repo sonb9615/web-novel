@@ -1,10 +1,9 @@
 package numble.webnovel.service;
 
 import lombok.RequiredArgsConstructor;
-import numble.webnovel.domain.Novel;
-import numble.webnovel.domain.NovelTicketChargeInfo;
-import numble.webnovel.domain.UserInfo;
-import numble.webnovel.domain.UserNovelTickets;
+import numble.webnovel.domain.*;
+import numble.webnovel.enums.CommonExceptionEnum;
+import numble.webnovel.exceptions.CommonException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +16,15 @@ public class NovelTicketsChargeService {
     private final UserInfoService userInfoService;
     private final NovelService novelService;
     private final UUIDGeneration uuidGeneration;
+    private final ChargeValidationService chargeValidationService;
 
     @Transactional
-    public void chargeTicket(NovelTicketChargeInfo chargeInfo){
+    public ChargeApiResponse chargeTicket(NovelTicketChargeInfo chargeInfo){
+        String userNo = chargeInfo.getUserNo();
+        if(chargeValidationService.isDuplicatedCharge(userNo)){
+            throw new CommonException(CommonExceptionEnum.DUPLICATE_CHARGE_EXCEPTION);
+        }
+        chargeValidationService.saveCharge(userNo, userNo);
         chargeInfo = getNovelTicketChargeInfo(chargeInfo);
         if(validEnoughCache(chargeInfo)){
             int chargeTicketsCnt = chargeInfo.getChargeTicketsCnt();
@@ -29,10 +34,11 @@ public class NovelTicketsChargeService {
             UserNovelTickets userNovelTickets = UserNovelTickets.userNovelTickets(uuidGeneration.getUUID(), chargeInfo.getUserNo()
                     ,chargeInfo.getNovelId(),chargeTicketsCnt, chargeTicketsCnt, 0, chargeInfo.getEpisodeCost());
             userNovelTicketsService.saveUserNovelTickets(userNovelTickets);
-            return;
+            ChargeApiResponse chargeApiResponse = new ChargeApiResponse();
+            chargeApiResponse.setResult("SUCESS");
+            return chargeApiResponse;
         }
-
-        //   캐쉬충전 으로 리다이렉팅
+        throw new CommonException(CommonExceptionEnum.CACHE_SHORTAGE_EXCEPTION);
     }
 
     private NovelTicketChargeInfo getNovelTicketChargeInfo(NovelTicketChargeInfo novelTicketChargeInfo){

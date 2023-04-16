@@ -3,7 +3,7 @@ package numble.webnovel.service;
 import lombok.RequiredArgsConstructor;
 import numble.webnovel.domain.CacheCargeInfo;
 import numble.webnovel.domain.CacheChargeHis;
-import numble.webnovel.domain.UserInfo;
+import numble.webnovel.domain.ChargeApiResponse;
 import numble.webnovel.enums.CommonExceptionEnum;
 import numble.webnovel.exceptions.CommonException;
 import numble.webnovel.repository.CacheChargeHisRepository;
@@ -22,8 +22,8 @@ public class CacheChargeService {
     private final ChargeValidationService chargeValidationService;
 
     @Transactional
-    public void cacheCharge(CacheCargeInfo cacheCargeInfo) throws InterruptedException {
-        String userNo = cacheCargeInfo.getUser_no();
+    public ChargeApiResponse cacheCharge(CacheCargeInfo cacheCargeInfo) throws InterruptedException {
+        String userNo = cacheCargeInfo.getUserNo();
         int money = cacheCargeInfo.getMoney();
         if(chargeValidationService.isDuplicatedCharge(userNo)){
             throw new CommonException(CommonExceptionEnum.DUPLICATE_CHARGE_EXCEPTION);
@@ -40,6 +40,9 @@ public class CacheChargeService {
         String uuid = uuidGeneration.getUUID();
         CacheChargeHis cacheChargeHis = CacheChargeHis.cacheChargeHis(uuid, userNo, money, cache);
         this.saveCacheChargeHis(cacheChargeHis);
+        ChargeApiResponse chargeApiResponse = new ChargeApiResponse();
+        chargeApiResponse.setResult("SUCESS");
+        return chargeApiResponse;
     }
 
     @Transactional

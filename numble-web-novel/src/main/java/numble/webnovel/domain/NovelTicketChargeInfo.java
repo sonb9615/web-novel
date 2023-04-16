@@ -13,7 +13,7 @@ public class NovelTicketChargeInfo {
     private int episodeCost;
     private int userCache;
 
-    public NovelTicketChargeInfo novelTicketChargeInfo(String userNo, String novelId, int chargeTicketsCnt) {
+    public static  NovelTicketChargeInfo novelTicketChargeInfo(String userNo, String novelId, int chargeTicketsCnt) {
         NovelTicketChargeInfo novelTicketChargeInfo = new NovelTicketChargeInfo();
         novelTicketChargeInfo.setUserNo(userNo);
         novelTicketChargeInfo.setNovelId(novelId);

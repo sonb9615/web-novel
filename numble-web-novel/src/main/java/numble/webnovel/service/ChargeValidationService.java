@@ -19,6 +19,6 @@ public class ChargeValidationService {
     }
 
     public void saveCharge(String userNo, String value) {
-        redisService.setStringValueOneSec(REDIS_KEY + userNo, userNo);
+        redisService.setStringValueOneSec(REDIS_KEY + userNo, value);
     }
 }

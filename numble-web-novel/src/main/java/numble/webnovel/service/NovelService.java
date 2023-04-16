@@ -14,6 +14,11 @@ public class NovelService {
     private final NovelRepository novelRepository;
 
     @Transactional
+    public void saveNovel(Novel novel){
+        novelRepository.save(novel);
+    }
+
+    @Transactional
     public Novel findNovel(String novelId){
         return novelRepository.findById(novelId);
     }

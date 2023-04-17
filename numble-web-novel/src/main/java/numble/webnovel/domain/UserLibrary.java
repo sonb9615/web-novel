@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "user_library")
+@Table(name = "user_library", indexes = @Index(name = "idx_user_library", columnList = "user_no, episode_id"))
 public class UserLibrary {
 
   @Id
   @Column(name = "id")
-  private Long id;
+  private String id;
 
   @Column(name = "episode_id")
   private String episodeId;
@@ -32,8 +32,9 @@ public class UserLibrary {
   @Column(name = "star_point")
   private int starPoint;
 
-  public static UserLibrary userLibrary(String episodeId, String userNo, int lastPageNo, LocalDateTime readDate, int starPoint) {
+  public static UserLibrary userLibrary(String id, String episodeId, String userNo, int lastPageNo, LocalDateTime readDate, int starPoint) {
     UserLibrary userLibrary = new UserLibrary();
+    userLibrary.setId(id);
     userLibrary.setEpisodeId(episodeId);
     userLibrary.setUserNo(userNo);
     userLibrary.setLastPageNo(lastPageNo);

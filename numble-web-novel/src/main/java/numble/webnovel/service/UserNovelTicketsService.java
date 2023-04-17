@@ -22,6 +22,7 @@ public class UserNovelTicketsService {
     private final UserNovelTicketsRepository userNovelTicketsRepository;
     private final NovelService novelService;
     private final UserLibraryService userLibraryService;
+    private final UUIDGeneration uuidGeneration;
 
     @Transactional
     public NovelTicketsResponse useNovelTickets(NovelTicketsRequest novelTicketsRequest){
@@ -32,7 +33,7 @@ public class UserNovelTicketsService {
         //이용권 하나 사용
         this.deductTicket(userNovelTicketsList.get(0));
         //유저 라이브러리에 에피 저장
-        UserLibrary userLibrary = UserLibrary.userLibrary(episodeId, userNo, 0, LocalDateTime.now(), 0);
+        UserLibrary userLibrary = UserLibrary.userLibrary(uuidGeneration.getUUID(), episodeId, userNo, 0, LocalDateTime.now(), 0);
         userLibraryService.saveUserLibrary(userLibrary);
         //구매수 +1;
         novelService.plusNovelLickCnt(novelId, 1);

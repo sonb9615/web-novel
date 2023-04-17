@@ -43,7 +43,7 @@ CREATE TABLE `user_library` (
 	`last_page_no`	INT	NULL	COMMENT '마지막 페이지',
 	`read_dt` datetime(6)	NULL comment '읽은 날짜',
 	`star_point`	INT	NULL	COMMENT '별점'
-);
+);user_library
 
 CREATE TABLE `novel_tag` (
 	`id` int NOT NULL comment 'id', 
@@ -95,8 +95,7 @@ ALTER TABLE `novel_episode` ADD CONSTRAINT `PK_NOVEL_EPISODE` PRIMARY KEY (
 );
 
 ALTER TABLE `user_library` ADD CONSTRAINT `PK_USER_LIBRARY` PRIMARY KEY (
-	`episode_id`,
-	`user_no`
+	`id`
 );
 
 ALTER TABLE `cache_charge_his` ADD CONSTRAINT `PK_CACHE_CHARGE_HIS` PRIMARY KEY (

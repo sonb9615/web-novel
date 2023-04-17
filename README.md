@@ -48,7 +48,7 @@
 }
 ```
 
-####Error Response
+#### Error Response
 ```json
 {
     "status": "BAD_REQUEST",
@@ -88,7 +88,7 @@
 }
 ```
 
-####Error Response
+#### Error Response
 ```json
 {
     "status": "BAD_REQUEST",

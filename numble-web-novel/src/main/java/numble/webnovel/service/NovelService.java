@@ -6,6 +6,8 @@ import numble.webnovel.repository.NovelRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -21,6 +23,14 @@ public class NovelService {
     @Transactional
     public Novel findNovel(String novelId){
         return novelRepository.findById(novelId);
+    }
+
+    @Transactional
+    public void plusNovelLickCnt(String novelId, int cnt){
+        Novel novel = this.findNovel(novelId);
+        novel.setLikeCnt(novel.getLikeCnt() + cnt);
+        novel.setUdtDt(LocalDateTime.now());
+        this.saveNovel(novel);
     }
 
 }

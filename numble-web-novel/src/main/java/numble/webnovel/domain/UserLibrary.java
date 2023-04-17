@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class UserLibrary {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
   private Long id;
 
   @Column(name = "episode_id")
@@ -24,20 +24,20 @@ public class UserLibrary {
   private String userNo;
 
   @Column(name = "last_page_no")
-  private long lastPageNo;
+  private int lastPageNo;
 
   @Column(name = "read_dt")
   private LocalDateTime readDt;
 
   @Column(name = "star_point")
-  private long starPoint;
+  private int starPoint;
 
-  public static UserLibrary userLibrary(String episodeId, String userNo, long lastPageNo, Date readDate, long starPoint) {
+  public static UserLibrary userLibrary(String episodeId, String userNo, int lastPageNo, LocalDateTime readDate, int starPoint) {
     UserLibrary userLibrary = new UserLibrary();
     userLibrary.setEpisodeId(episodeId);
     userLibrary.setUserNo(userNo);
     userLibrary.setLastPageNo(lastPageNo);
-    userLibrary.setReadDt(LocalDateTime.now());
+    userLibrary.setReadDt(readDate);
     userLibrary.setStarPoint(starPoint);
     return userLibrary;
   }

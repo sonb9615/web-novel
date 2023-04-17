@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class ChargeInfoRequest {
 
-    private CacheCargeInfo cacheCargeInfo;
-    private NovelTicketChargeInfo novelTicketChargeInfo;
+    private CacheCargeRequest cacheCargeRequest;
+    private NovelTicketChargeRequest novelTicketChargeRequest;
 }

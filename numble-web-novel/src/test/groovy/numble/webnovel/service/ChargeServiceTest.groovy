@@ -1,8 +1,8 @@
 package numble.webnovel.service
 
-import numble.webnovel.domain.CacheCargeInfo
+import numble.webnovel.domain.CacheCargeRequest
 import numble.webnovel.domain.Novel
-import numble.webnovel.domain.NovelTicketChargeInfo
+import numble.webnovel.domain.NovelTicketChargeRequest
 import numble.webnovel.domain.UserInfo
 import numble.webnovel.exceptions.CommonException
 import org.springframework.beans.factory.annotation.Autowired
@@ -39,7 +39,7 @@ class ChargeServiceTest extends Specification{
         chargeValidationService.saveCharge(userNo, userNo);
 
         when:
-        CacheCargeInfo cacheCargeInfo = CacheCargeInfo.cacheCargeInfo(userNo, "testEpi", 100);
+        CacheCargeRequest cacheCargeInfo = CacheCargeRequest.cacheCargeInfo(userNo, "testEpi", 100);
         cacheChargeService.cacheCharge(cacheCargeInfo);
 
         then:
@@ -57,7 +57,7 @@ class ChargeServiceTest extends Specification{
 
         when:
         Thread.sleep(2000);
-        CacheCargeInfo cacheCargeInfo = CacheCargeInfo.cacheCargeInfo(userNo, "testEpi", 100);
+        CacheCargeRequest cacheCargeInfo = CacheCargeRequest.cacheCargeInfo(userNo, "testEpi", 100);
         cacheChargeService.cacheCharge(cacheCargeInfo);
 
         then:
@@ -77,7 +77,7 @@ class ChargeServiceTest extends Specification{
         novelService.saveNovel(novel);
 
         when:
-        NovelTicketChargeInfo novelTicketChargeInfo = NovelTicketChargeInfo.novelTicketChargeInfo(userNo, novelId, 3);
+        NovelTicketChargeRequest novelTicketChargeInfo = NovelTicketChargeRequest.novelTicketChargeInfo(userNo, novelId, 3);
         novelTicketsChargeService.chargeTicket(novelTicketChargeInfo);
 
         then:
@@ -96,7 +96,7 @@ class ChargeServiceTest extends Specification{
         novelService.saveNovel(novel);
 
         when:
-        NovelTicketChargeInfo novelTicketChargeInfo = NovelTicketChargeInfo.novelTicketChargeInfo(userNo, novelId, 3);
+        NovelTicketChargeRequest novelTicketChargeInfo = NovelTicketChargeRequest.novelTicketChargeInfo(userNo, novelId, 3);
         novelTicketsChargeService.chargeTicket(novelTicketChargeInfo);
 
         then:

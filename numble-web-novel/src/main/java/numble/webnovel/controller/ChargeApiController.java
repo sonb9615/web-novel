@@ -1,10 +1,10 @@
 package numble.webnovel.controller;
 
 import lombok.RequiredArgsConstructor;
-import numble.webnovel.domain.CacheCargeInfo;
+import numble.webnovel.domain.CacheCargeRequest;
 import numble.webnovel.domain.ChargeApiResponse;
 import numble.webnovel.domain.ChargeInfoRequest;
-import numble.webnovel.domain.NovelTicketChargeInfo;
+import numble.webnovel.domain.NovelTicketChargeRequest;
 import numble.webnovel.enums.ExceptionEnum;
 import numble.webnovel.exceptions.CommonException;
 import numble.webnovel.service.CacheChargeService;
@@ -22,17 +22,17 @@ public class ChargeApiController {
     private final CacheChargeService cacheChargeService;
 
     @PostMapping("/charge/tickets")
-    public ChargeApiResponse chargeTickets(@RequestBody @Validated NovelTicketChargeInfo novelTicketChargeInfo){
-        if(novelTicketsChargeService.validRequestParam(novelTicketChargeInfo)){
-            return novelTicketsChargeService.chargeTicket(novelTicketChargeInfo);
+    public ChargeApiResponse chargeTickets(@RequestBody @Validated NovelTicketChargeRequest novelTicketChargeRequest){
+        if(novelTicketsChargeService.validRequestParam(novelTicketChargeRequest)){
+            return novelTicketsChargeService.chargeTicket(novelTicketChargeRequest);
         }
         throw new CommonException(ExceptionEnum.PARAM_NOT_EXIST_EXCEPTION);
     }
 
     @PostMapping("/charge/cache")
-    public ChargeApiResponse cacheCharge(@RequestBody @Validated CacheCargeInfo cacheCargeInfo) throws InterruptedException {
-        if(cacheChargeService.validRequestParam(cacheCargeInfo)){
-            return cacheChargeService.cacheCharge(cacheCargeInfo);
+    public ChargeApiResponse cacheCharge(@RequestBody @Validated CacheCargeRequest cacheCargeRequest) throws InterruptedException {
+        if(cacheChargeService.validRequestParam(cacheCargeRequest)){
+            return cacheChargeService.cacheCharge(cacheCargeRequest);
         }
         throw new CommonException(ExceptionEnum.PARAM_NOT_EXIST_EXCEPTION);
     }

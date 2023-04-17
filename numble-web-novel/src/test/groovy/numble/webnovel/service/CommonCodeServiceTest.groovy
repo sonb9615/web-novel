@@ -1,10 +1,9 @@
 package numble.webnovel.service
 
-import numble.webnovel.domain.CacheCargeInfo
+import numble.webnovel.domain.CacheCargeRequest
 import numble.webnovel.domain.ChildCode
 import numble.webnovel.domain.UserInfo
 import numble.webnovel.exceptions.CommonException
-import numble.webnovel.service.CommonCodeService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
@@ -44,7 +43,7 @@ class CommonCodeServiceTest extends Specification{
         chargeValidationService.saveCharge(userNo, userNo);
 
         when:
-        CacheCargeInfo cacheCargeInfo = CacheCargeInfo.cacheCargeInfo(userNo, "testEpi", 100);
+        CacheCargeRequest cacheCargeInfo = CacheCargeRequest.cacheCargeInfo(userNo, "testEpi", 100);
         cacheChargeService.cacheCharge(cacheCargeInfo);
 
         then:
@@ -61,7 +60,7 @@ class CommonCodeServiceTest extends Specification{
 
         when:
         Thread.sleep(2000);
-        CacheCargeInfo cacheCargeInfo = CacheCargeInfo.cacheCargeInfo(userNo, "testEpi", 100);
+        CacheCargeRequest cacheCargeInfo = CacheCargeRequest.cacheCargeInfo(userNo, "testEpi", 100);
         cacheChargeService.cacheCharge(cacheCargeInfo);
 
         then:

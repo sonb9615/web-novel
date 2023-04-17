@@ -17,7 +17,8 @@ public enum ExceptionEnum {
     CHARGE_RANGE_EXCEPTION(HttpStatus.BAD_REQUEST, "ZE0001", "100캐시부터 충전 가능합니다."),
     DUPLICATE_CHARGE_EXCEPTION(HttpStatus.BAD_REQUEST, "DE0001", "중복 충전 건입니다."),
     CACHE_SHORTAGE_EXCEPTION(HttpStatus.BAD_REQUEST, "SE0001", "캐쉬가 부족합니다."),
-    PARAM_NOT_EXIST_EXCEPTION(HttpStatus.BAD_REQUEST, "PE0001", "필수 파라미터 확인해주세요.");
+    PARAM_NOT_EXIST_EXCEPTION(HttpStatus.BAD_REQUEST, "PE0001", "필수 파라미터 확인해주세요."),
+    NOVEL_TICKET_NOT_EXIST_EXCEPTION(HttpStatus.BAD_REQUEST, "NE0001", "사용가능한 소설 이용권이 없습니다.");
 
     private final HttpStatus status;
     private final String code;

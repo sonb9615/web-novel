@@ -19,7 +19,7 @@ public class NovelTicketsChargeService {
     private final ChargeValidationService chargeValidationService;
 
     @Transactional
-    public ChargeApiResponse chargeTicket(NovelTicketChargeInfo chargeInfo){
+    public ChargeApiResponse chargeTicket(NovelTicketChargeRequest chargeInfo){
         String userNo = chargeInfo.getUserNo();
         if(chargeValidationService.isDuplicatedCharge(userNo)){
             throw new CommonException(ExceptionEnum.DUPLICATE_CHARGE_EXCEPTION);
@@ -42,28 +42,28 @@ public class NovelTicketsChargeService {
     }
 
     @Transactional
-    public NovelTicketChargeInfo getNovelTicketChargeInfo(NovelTicketChargeInfo novelTicketChargeInfo){
+    public NovelTicketChargeRequest getNovelTicketChargeInfo(NovelTicketChargeRequest novelTicketChargeRequest){
         // 단가가 얼마인지
-        Novel novel = novelService.findNovel(novelTicketChargeInfo.getNovelId());
+        Novel novel = novelService.findNovel(novelTicketChargeRequest.getNovelId());
         int episodeCost = novel.getEpisodeCost();
         // 캐시 충분한지
-        UserInfo userInfo = userInfoService.findByUserNo(novelTicketChargeInfo.getUserNo());
+        UserInfo userInfo = userInfoService.findByUserNo(novelTicketChargeRequest.getUserNo());
         int userCache = userInfo.getCache();
-        novelTicketChargeInfo.setEpisodeCost(episodeCost);
-        novelTicketChargeInfo.setUserCache(userCache);
-        return novelTicketChargeInfo;
+        novelTicketChargeRequest.setEpisodeCost(episodeCost);
+        novelTicketChargeRequest.setUserCache(userCache);
+        return novelTicketChargeRequest;
     }
 
     @Transactional
-    public boolean validEnoughCache(NovelTicketChargeInfo novelTicketChargeInfo){
-        int chargeTicketsCnt = novelTicketChargeInfo.getChargeTicketsCnt();
-        int episodeCost = novelTicketChargeInfo.getEpisodeCost();
-        int userCache = novelTicketChargeInfo.getUserCache();
+    public boolean validEnoughCache(NovelTicketChargeRequest novelTicketChargeRequest){
+        int chargeTicketsCnt = novelTicketChargeRequest.getChargeTicketsCnt();
+        int episodeCost = novelTicketChargeRequest.getEpisodeCost();
+        int userCache = novelTicketChargeRequest.getUserCache();
         return chargeTicketsCnt * episodeCost <= userCache;
     }
 
-    public boolean validRequestParam(NovelTicketChargeInfo novelTicketChargeInfo){
-        return !novelTicketChargeInfo.getUserNo().isEmpty() && !novelTicketChargeInfo.getNovelId().isEmpty()
-                && novelTicketChargeInfo.getChargeTicketsCnt() != 0;
+    public boolean validRequestParam(NovelTicketChargeRequest novelTicketChargeRequest){
+        return !novelTicketChargeRequest.getUserNo().isEmpty() && !novelTicketChargeRequest.getNovelId().isEmpty()
+                && novelTicketChargeRequest.getChargeTicketsCnt() != 0;
     }
 }

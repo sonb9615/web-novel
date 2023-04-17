@@ -1,7 +1,7 @@
 package numble.webnovel.service;
 
 import lombok.RequiredArgsConstructor;
-import numble.webnovel.domain.CacheCargeInfo;
+import numble.webnovel.domain.CacheCargeRequest;
 import numble.webnovel.domain.CacheChargeHis;
 import numble.webnovel.domain.ChargeApiResponse;
 import numble.webnovel.enums.ExceptionEnum;
@@ -22,9 +22,9 @@ public class CacheChargeService {
     private final ChargeValidationService chargeValidationService;
 
     @Transactional
-    public ChargeApiResponse cacheCharge(CacheCargeInfo cacheCargeInfo) throws InterruptedException {
-        String userNo = cacheCargeInfo.getUserNo();
-        int money = cacheCargeInfo.getMoney();
+    public ChargeApiResponse cacheCharge(CacheCargeRequest cacheCargeRequest) throws InterruptedException {
+        String userNo = cacheCargeRequest.getUserNo();
+        int money = cacheCargeRequest.getMoney();
         if(chargeValidationService.isDuplicatedCharge(userNo)){
             throw new CommonException(ExceptionEnum.DUPLICATE_CHARGE_EXCEPTION);
         }
@@ -55,7 +55,7 @@ public class CacheChargeService {
         return cacheChargeHisRepository.findById(paymentNo);
     }
 
-    public boolean validRequestParam(CacheCargeInfo cacheCargeInfo){
-        return !cacheCargeInfo.getUserNo().isEmpty() && cacheCargeInfo.getMoney() > 0;
+    public boolean validRequestParam(CacheCargeRequest cacheCargeRequest){
+        return !cacheCargeRequest.getUserNo().isEmpty() && cacheCargeRequest.getMoney() > 0;
     }
 }

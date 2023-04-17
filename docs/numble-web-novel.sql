@@ -37,13 +37,13 @@ CREATE TABLE `novel_episode` (
 );
 
 CREATE TABLE `user_library` (
-	`id` bigint not null comment 'id',
+	`id` varchar(36) not null comment 'id',
 	`episode_id`	varchar(36)	NOT NULL	COMMENT '에피소드 id',
 	`user_no`	varchar(36)	NOT NULL	COMMENT '회원번호',
 	`last_page_no`	INT	NULL	COMMENT '마지막 페이지',
 	`read_dt` datetime(6)	NULL comment '읽은 날짜',
 	`star_point`	INT	NULL	COMMENT '별점'
-);user_library
+);
 
 CREATE TABLE `novel_tag` (
 	`id` int NOT NULL comment 'id', 
@@ -117,6 +117,8 @@ ALTER TABLE `parent_code` ADD CONSTRAINT `PK_PARENT_CODE` PRIMARY KEY (
 ALTER TABLE `novel_tag` ADD CONSTRAINT `PK_NOVEL_TAG` PRIMARY KEY (
 	`id`
 );
+
+create index idx_user_library on user_library (`user_no`, `episode_id`);
 
 
 

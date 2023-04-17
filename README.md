@@ -48,6 +48,15 @@
 }
 ```
 
+####Error Response
+```json
+{
+    "status": "BAD_REQUEST",
+    "code": "PE0001",
+    "message": "필수 파라미터 확인해주세요."
+}
+```
+
 ### 2. 이용권 충전 API
 
 #### HTTP Mthod
@@ -79,3 +88,11 @@
 }
 ```
 
+####Error Response
+```json
+{
+    "status": "BAD_REQUEST",
+    "code": "PE0001",
+    "message": "필수 파라미터 확인해주세요."
+}
+```

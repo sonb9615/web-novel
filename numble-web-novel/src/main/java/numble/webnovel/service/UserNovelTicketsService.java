@@ -2,7 +2,7 @@ package numble.webnovel.service;
 
 import lombok.RequiredArgsConstructor;
 import numble.webnovel.domain.UserNovelTickets;
-import numble.webnovel.enums.CommonExceptionEnum;
+import numble.webnovel.enums.ExceptionEnum;
 import numble.webnovel.exceptions.CommonException;
 import numble.webnovel.repository.UserNovelTicketsRepository;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class UserNovelTicketsService {
         List<UserNovelTickets> userNovelTicketsList
                 = userNovelTicketsRepository.findUsableTicketsByNovelIdUserId(userNo, novelId);
         if(userNovelTicketsList.size() == 0){
-            throw new CommonException(CommonExceptionEnum.RESULT_NOT_EXIST_EXCEPTION);
+            throw new CommonException(ExceptionEnum.RESULT_NOT_EXIST_EXCEPTION);
         }
         return userNovelTicketsList;
     }

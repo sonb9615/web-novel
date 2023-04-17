@@ -2,7 +2,7 @@ package numble.webnovel.service;
 
 import lombok.RequiredArgsConstructor;
 import numble.webnovel.domain.UserInfo;
-import numble.webnovel.enums.CommonExceptionEnum;
+import numble.webnovel.enums.ExceptionEnum;
 import numble.webnovel.exceptions.CommonException;
 import numble.webnovel.repository.UserInfoRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class UserInfoService {
     public UserInfo findByUserNo(String userNo){
         UserInfo userInfo = userInfoRepository.findById(userNo);
         if(userInfo == null){
-            throw new CommonException(CommonExceptionEnum.RESULT_NOT_EXIST_EXCEPTION);
+            throw new CommonException(ExceptionEnum.RESULT_NOT_EXIST_EXCEPTION);
         }
         return userInfo;
     }

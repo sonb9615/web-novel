@@ -3,7 +3,7 @@ package numble.webnovel.service;
 import lombok.RequiredArgsConstructor;
 import numble.webnovel.domain.ChildCode;
 import numble.webnovel.domain.ParentCode;
-import numble.webnovel.enums.CommonExceptionEnum;
+import numble.webnovel.enums.ExceptionEnum;
 import numble.webnovel.exceptions.CommonException;
 import numble.webnovel.repository.CommonCodeRepository;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class CommonCodeService {
     public void saveChildCode(ChildCode childCode){
         ParentCode parentCode = commonCodeRepository.findByCode(childCode.getParentCode());
         if(parentCode == null){
-            throw new CommonException(CommonExceptionEnum.RESULT_NOT_EXIST_EXCEPTION);
+            throw new CommonException(ExceptionEnum.RESULT_NOT_EXIST_EXCEPTION);
         }
         commonCodeRepository.saveChildCode(childCode);
     }

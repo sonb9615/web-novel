@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import numble.webnovel.domain.CacheCargeInfo;
 import numble.webnovel.domain.CacheChargeHis;
 import numble.webnovel.domain.ChargeApiResponse;
-import numble.webnovel.enums.CommonExceptionEnum;
+import numble.webnovel.enums.ExceptionEnum;
 import numble.webnovel.exceptions.CommonException;
 import numble.webnovel.repository.CacheChargeHisRepository;
 import org.springframework.stereotype.Service;
@@ -26,11 +26,11 @@ public class CacheChargeService {
         String userNo = cacheCargeInfo.getUserNo();
         int money = cacheCargeInfo.getMoney();
         if(chargeValidationService.isDuplicatedCharge(userNo)){
-            throw new CommonException(CommonExceptionEnum.DUPLICATE_CHARGE_EXCEPTION);
+            throw new CommonException(ExceptionEnum.DUPLICATE_CHARGE_EXCEPTION);
         }
         chargeValidationService.saveCharge(userNo, userNo);
         if(money <= 0) {
-            throw new CommonException(CommonExceptionEnum.CHARGE_RANGE_EXCEPTION);
+            throw new CommonException(ExceptionEnum.CHARGE_RANGE_EXCEPTION);
         }
         // 결제 가짜 로직
         Thread.sleep(1000);
@@ -50,7 +50,12 @@ public class CacheChargeService {
         cacheChargeHisRepository.save(cacheChargeHis);
     }
 
+    @Transactional
     public CacheChargeHis findByPaymentNo(String paymentNo){
         return cacheChargeHisRepository.findById(paymentNo);
+    }
+
+    public boolean validRequestParam(CacheCargeInfo cacheCargeInfo){
+        return !cacheCargeInfo.getUserNo().isEmpty() && cacheCargeInfo.getMoney() > 0;
     }
 }

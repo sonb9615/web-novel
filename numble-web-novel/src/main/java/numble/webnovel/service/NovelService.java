@@ -14,9 +14,16 @@ import java.time.LocalDateTime;
 public class NovelService {
 
     private final NovelRepository novelRepository;
+    private final UUIDGeneration uuidGeneration;
 
     @Transactional
     public void saveNovel(Novel novel){
+        if(novel.getNovelId().isEmpty()) {
+            novel.setNovelId(uuidGeneration.getUUID());
+            novel.setRegDt(LocalDateTime.now());
+        }else{
+            novel.setUdtDt(LocalDateTime.now());
+        }
         novelRepository.save(novel);
     }
 
@@ -31,6 +38,10 @@ public class NovelService {
         novel.setLikeCnt(novel.getLikeCnt() + cnt);
         novel.setUdtDt(LocalDateTime.now());
         this.saveNovel(novel);
+    }
+
+    public boolean validateRequestParam(Novel novel){
+        return !novel.getTitle().isEmpty() && !novel.getAuthor().isEmpty() && novel.getEpisodeCost() >= 0;
     }
 
 }

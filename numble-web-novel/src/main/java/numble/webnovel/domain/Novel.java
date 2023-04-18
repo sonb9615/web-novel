@@ -56,7 +56,6 @@ public class Novel {
     novel.setPaymentCnt(paymentCnt);
     novel.setNovelImg(novelImg);
     novel.setEpisodeCost(episodeCost);
-    novel.setRegDt(LocalDateTime.now());
     return novel;
   }
 }

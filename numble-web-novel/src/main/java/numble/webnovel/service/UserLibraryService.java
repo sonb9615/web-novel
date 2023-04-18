@@ -6,6 +6,8 @@ import numble.webnovel.repository.UserLibraryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserLibraryService {
@@ -16,4 +18,10 @@ public class UserLibraryService {
     public void saveUserLibrary(UserLibrary userLibrary){
         userLibraryRepository.save(userLibrary);
     }
+
+    @Transactional
+    public List<UserLibrary> findUserLibrary(String userNo){
+        return userLibraryRepository.findListByUserNo(userNo);
+    }
+
 }

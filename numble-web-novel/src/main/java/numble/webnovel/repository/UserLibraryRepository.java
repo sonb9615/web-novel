@@ -18,7 +18,13 @@ public class UserLibraryRepository {
     }
 
     public List<UserLibrary> findListByUserNo(String userNo){
-        return em.createQuery("select lib from UserLibrary lib where lib.userNo = :userNo", UserLibrary.class)
+        return em.createQuery("select lib\n" +
+                        "from UserLibrary lib\n" +
+                        "inner join NovelEpisode epi\n" +
+                        "on epi.episodeId = lib.episodeId\n" +
+                        "inner join Novel nvl\n" +
+                        "on nvl.novelId = epi.novelId\n" +
+                        "where lib.userNo = :userNo", UserLibrary.class)
                 .setParameter("userNo", userNo)
                 .getResultList();
     }

@@ -32,6 +32,12 @@ public class UserLibrary {
   @Column(name = "star_point")
   private int starPoint;
 
+  private String novelId;
+
+  private int page;
+
+  private String title;
+
   public static UserLibrary userLibrary(String id, String episodeId, String userNo, int lastPageNo, LocalDateTime readDate, int starPoint) {
     UserLibrary userLibrary = new UserLibrary();
     userLibrary.setId(id);

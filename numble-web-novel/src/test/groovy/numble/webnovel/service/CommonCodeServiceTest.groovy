@@ -6,9 +6,13 @@ import numble.webnovel.domain.UserInfo
 import numble.webnovel.exceptions.CommonException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.annotation.Rollback
+import org.springframework.transaction.annotation.Transactional
 import spock.lang.Specification
 
 @SpringBootTest
+@Rollback
+@Transactional
 class CommonCodeServiceTest extends Specification{
 
     @Autowired

@@ -37,11 +37,12 @@ CREATE TABLE `novel_episode` (
 );
 
 CREATE TABLE `user_library` (
-	`id` varchar(36) not null comment 'id',
-	`episode_id`	varchar(36)	NOT NULL	COMMENT '에피소드 id',
+	`id`	varchar(36)	NOT NULL	COMMENT '각 row 고유 id',
+	`episode_id`	varchar(36)	NULL	COMMENT '에피소드 id',
+	`ticket_no`	varchar(36)	NOT NULL	COMMENT '이용권 번호',
 	`user_no`	varchar(36)	NOT NULL	COMMENT '회원번호',
 	`last_page_no`	INT	NULL	COMMENT '마지막 페이지',
-	`read_dt` datetime(6)	NULL comment '읽은 날짜',
+	`read_date`	DATE	NULL comment '읽은 날짜',
 	`star_point`	INT	NULL	COMMENT '별점'
 );
 
@@ -69,7 +70,6 @@ CREATE TABLE `user_novel_tickets` (
 	`ticket_cost`	INT	NULL	COMMENT '이용권 단가',
 	`reg_dt`	datetime(6)	NULL	COMMENT '이용권 구매 날짜'
 );
-
 
 CREATE TABLE `child_code` (
 	`code`	varchar(100)	NOT NULL	COMMENT '자식 코드',

@@ -1,26 +1,25 @@
 package numble.webnovel.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "novel_episode")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class NovelEpisode {
 
   @Id
   @Column(name = "episode_id")
   private String episodeId;
-
-  @Column(name = "novel_id")
-  private String novelId;
 
   @Column(name = "episode_no")
   private long episodeNo;
@@ -32,7 +31,7 @@ public class NovelEpisode {
   private String content;
 
   @Column(name = "page")
-  private long page;
+  private int page;
 
   @Column(name = "free_yn")
   private boolean freeYn;
@@ -46,10 +45,21 @@ public class NovelEpisode {
   @Column(name = "udt_dt")
   private LocalDateTime udtDt;
 
-  public NovelEpisode novelEpisode(String episodeId, String novelId, long episodeNo, String episodeTitle, String content, long page, long capacity) {
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "novel_id")
+  private Novel novel;
+
+  @OneToMany(mappedBy = "novelEpisode")
+  private List<UserLibrary> userLibraryList = new ArrayList<>();
+
+  public void setNovel(Novel novel){
+    this.novel = novel;
+    novel.getNovelEpisodeList().add(this);
+  }
+
+  public NovelEpisode createNovelEpisode(String episodeId, long episodeNo, String episodeTitle, String content, int page, long capacity) {
     NovelEpisode novelEpisode = new NovelEpisode();
     novelEpisode.setEpisodeId(episodeId);
-    novelEpisode.setNovelId(novelId);
     novelEpisode.setEpisodeNo(episodeNo);
     novelEpisode.setEpisodeTitle(episodeTitle);
     novelEpisode.setContent(content);

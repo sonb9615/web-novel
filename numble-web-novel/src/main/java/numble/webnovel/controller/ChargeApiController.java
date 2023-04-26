@@ -1,12 +1,13 @@
 package numble.webnovel.controller;
 
 import lombok.RequiredArgsConstructor;
-import numble.webnovel.domain.CacheCargeRequest;
-import numble.webnovel.domain.ChargeApiResponse;
+import numble.webnovel.domain.CacheChargeRequest;
+import numble.webnovel.repository.dto.response.ChargeCacheResponse;
 import numble.webnovel.domain.ChargeInfoRequest;
 import numble.webnovel.domain.NovelTicketChargeRequest;
 import numble.webnovel.enums.ExceptionEnum;
 import numble.webnovel.exceptions.CommonException;
+import numble.webnovel.repository.dto.response.ChargeTicketsResponse;
 import numble.webnovel.service.CacheChargeService;
 import numble.webnovel.service.NovelTicketsChargeService;
 import org.springframework.validation.annotation.Validated;
@@ -22,24 +23,21 @@ public class ChargeApiController {
     private final CacheChargeService cacheChargeService;
 
     @PostMapping("/charge/tickets")
-    public ChargeApiResponse chargeTickets(@RequestBody @Validated NovelTicketChargeRequest novelTicketChargeRequest){
-        if(novelTicketsChargeService.validRequestParam(novelTicketChargeRequest)){
-            return novelTicketsChargeService.chargeTicket(novelTicketChargeRequest);
+    public ChargeTicketsResponse chargeTickets(@RequestBody @Validated NovelTicketChargeRequest request){
+        if(novelTicketsChargeService.validRequestParam(request)){
+            return ChargeTicketsResponse.createChargeTicketsResponse("SUCCESS"
+                    , novelTicketsChargeService.chargeTicket(request.getUserNo(), request.getNovelId(), request.getChargeTicketsCnt()));
         }
         throw new CommonException(ExceptionEnum.PARAM_NOT_EXIST_EXCEPTION);
     }
 
     @PostMapping("/charge/cache")
-    public ChargeApiResponse cacheCharge(@RequestBody @Validated CacheCargeRequest cacheCargeRequest) throws InterruptedException {
-        if(cacheChargeService.validRequestParam(cacheCargeRequest)){
-            return cacheChargeService.cacheCharge(cacheCargeRequest);
+    public ChargeCacheResponse chargeCache(@RequestBody @Validated CacheChargeRequest request) throws InterruptedException {
+        if(cacheChargeService.validRequestParam(request)){
+            return ChargeCacheResponse.createChargeApiResponse("SUCCESS"
+                    ,cacheChargeService.cacheCharge(request.getUserNo(), request.getMoney()));
         }
         throw new CommonException(ExceptionEnum.PARAM_NOT_EXIST_EXCEPTION);
     }
 
-    @PostMapping("/charge/validation")
-    public boolean validCharge(@RequestBody @Validated ChargeInfoRequest chargeInfoRequest){
-
-        return true;
-    }
 }

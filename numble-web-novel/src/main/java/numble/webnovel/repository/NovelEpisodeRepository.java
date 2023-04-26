@@ -20,9 +20,9 @@ public class NovelEpisodeRepository {
         return em.find(NovelEpisode.class, episodeId);
     }
 
-    public List<NovelEpisode> findByNovelId(String novelId){
-        return em.createQuery("select e from NovelEpisode e where e.novelId = :novelId order by e.regDt", NovelEpisode.class)
-                .setParameter("novelId", novelId)
-                .getResultList();
-    }
+//    public List<NovelEpisode> findByNovelId(String novelId){
+//        return em.createQuery("select e from NovelEpisode e where e.novelId = :novelId order by e.regDt", NovelEpisode.class)
+//                .setParameter("novelId", novelId)
+//                .getResultList();
+//    }
 }

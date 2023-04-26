@@ -1,17 +1,21 @@
 package numble.webnovel.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import numble.webnovel.enums.ExceptionEnum;
+import numble.webnovel.exceptions.CommonException;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @Table(name="user_info")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserInfo {
 
     @Id
@@ -39,7 +43,32 @@ public class UserInfo {
     @Column(name = "cache")
     private int cache;
 
-    public static UserInfo userInfo(String userNo, String userId, String password, String role, String phone, String gender, String email, int cache) {
+    @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
+    private List<CacheChargeHis> cacheChargeHisList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
+    private List<UserNovelTickets> userNovelTickets = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
+    private List<UserLibrary> userLibraryList = new ArrayList<>();
+
+    public void setCacheChargeHis(CacheChargeHis his){
+        this.cacheChargeHisList.add(his);
+        his.setUserInfo(this);
+    }
+
+    public void setNovelTicket(UserNovelTickets ticket){
+        this.userNovelTickets.add(ticket);
+        ticket.setUserInfo(this);
+    }
+
+    public void setUserLibrary(UserLibrary library){
+        this.userLibraryList.add(library);
+        library.setUserInfo(this);
+    }
+
+    public static UserInfo userInfo(String userNo, String userId, String password, String role, String phone, String gender
+            , String email, int cache, List<CacheChargeHis> chargeHisList, List<UserNovelTickets> ticketsList, List<UserLibrary> libraryList) {
         UserInfo userInfo = new UserInfo();
         userInfo.setUserNo(userNo);
         userInfo.setUserId(userId);
@@ -49,6 +78,30 @@ public class UserInfo {
         userInfo.setGender(gender);
         userInfo.setEmail(email);
         userInfo.setCache(cache);
+        for(CacheChargeHis his : chargeHisList){
+            userInfo.setCacheChargeHis(his);
+        }
+        for(UserNovelTickets ticket : ticketsList){
+            userInfo.setNovelTicket(ticket);
+        }
+        for(UserLibrary library : libraryList){
+            userInfo.setUserLibrary(library);
+        }
         return userInfo;
+    }
+
+    // 비지니스 로직
+    public void chargeCost(int money){
+        if(money % 100 != 0) {
+            throw new CommonException(ExceptionEnum.CHARGE_RANGE_EXCEPTION);
+        }
+        this.cache = money;
+    }
+
+    public void buyTicket(int episodeCost, int episodeCnt){
+        if(this.cache < episodeCost * episodeCnt){
+            throw new CommonException(ExceptionEnum.CACHE_SHORTAGE_EXCEPTION);
+        }
+        this.cache -= episodeCost * episodeCnt;
     }
 }

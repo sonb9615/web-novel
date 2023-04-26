@@ -1,6 +1,8 @@
 package numble.webnovel.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,21 +11,28 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "novel_tag")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class NovelTag {
 
   @Id
   @Column(name = "id")@GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-  @Column(name = "novel_id")
-  private String novelId;
-
   @Column(name = "tag")
   private String tag;
 
-  public static NovelTag novelTag(String novelId, String tag) {
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "novel_id")
+  private Novel novel;
+
+  public void setNovel(Novel novel){
+    this.novel = novel;
+    novel.getNovelTagList().add(this);
+  }
+
+  public static NovelTag novelTag(Novel novel, String tag) {
     NovelTag novelTag = new NovelTag();
-    novelTag.setNovelId(novelId);
+    novelTag.setNovel(novel);
     novelTag.setTag(tag);
     return novelTag;
   }

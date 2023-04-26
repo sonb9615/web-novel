@@ -1,12 +1,11 @@
 package numble.webnovel.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
@@ -14,13 +13,12 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "cache_charge_his")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CacheChargeHis {
 
   @Id
   @Column(name = "payment_no")
   private String paymentNo;
-  @Column(name = "user_no")
-  private String userNo;
   @Column(name = "date")
   private LocalDateTime date;
   @Column(name = "cost")
@@ -28,13 +26,22 @@ public class CacheChargeHis {
   @Column(name = "cache_cost")
   private long cacheCost;
 
-  public static CacheChargeHis cacheChargeHis(String paymentNo, String userNo, long cost, long cacheCost) {
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_no")
+  private UserInfo userInfo;
+
+  public void setUserInfo(UserInfo info){
+    this.userInfo = info;
+    info.getCacheChargeHisList().add(this);
+  }
+
+  public static CacheChargeHis createCacheChargeHis(String paymentNo, UserInfo userInfo, long cost, long cacheCost) {
     CacheChargeHis cacheChargeHis = new CacheChargeHis();
     cacheChargeHis.setPaymentNo(paymentNo);
-    cacheChargeHis.setUserNo(userNo);
     cacheChargeHis.setDate(LocalDateTime.now());
     cacheChargeHis.setCost(cost);
     cacheChargeHis.setCacheCost(cacheCost);
+    cacheChargeHis.setUserInfo(userInfo);
     return cacheChargeHis;
   }
 }

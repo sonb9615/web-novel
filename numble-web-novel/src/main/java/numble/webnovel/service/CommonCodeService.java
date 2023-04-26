@@ -21,12 +21,12 @@ public class CommonCodeService {
         commonCodeRepository.saveParentCode(parentCode);
     }
 
-    @Transactional
-    public void saveChildCode(ChildCode childCode){
-        ParentCode parentCode = commonCodeRepository.findByCode(childCode.getParentCode());
-        if(parentCode == null){
-            throw new CommonException(ExceptionEnum.RESULT_NOT_EXIST_EXCEPTION);
-        }
-        commonCodeRepository.saveChildCode(childCode);
-    }
+//    @Transactional
+//    public void saveChildCode(ChildCode childCode){
+//        ParentCode parentCode = commonCodeRepository.findByCode(childCode.getParentCode());
+//        if(parentCode == null){
+//            throw new CommonException(ExceptionEnum.RESULT_NOT_EXIST_EXCEPTION);
+//        }
+//        commonCodeRepository.saveChildCode(childCode);
+//    }
 }

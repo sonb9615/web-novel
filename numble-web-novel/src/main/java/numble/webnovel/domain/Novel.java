@@ -1,18 +1,20 @@
 package numble.webnovel.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "novel")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Novel {
 
   @Id
@@ -26,7 +28,7 @@ public class Novel {
   private String author;
 
   @Column(name = "like_cnt")
-  private long likeCnt;
+  private int likeCnt;
 
   @Column(name = "novel_info")
   private String novelInfo;
@@ -46,7 +48,34 @@ public class Novel {
   @Column(name = "udt_dt")
   private LocalDateTime udtDt;
 
-  public static Novel novel(String novelId, String title, String author, long likeCnt, String novelInfo, long paymentCnt, String novelImg, int episodeCost) {
+  @OneToMany(mappedBy = "novel", cascade = CascadeType.ALL)
+  private List<NovelEpisode> novelEpisodeList = new ArrayList<>();
+
+  @OneToMany(mappedBy = "novel", cascade = CascadeType.ALL)
+  private List<NovelTag> novelTagList = new ArrayList<>();
+
+  @OneToMany(mappedBy = "novel", cascade = CascadeType.ALL)
+  private List<UserNovelTickets> userNovelTicketsList = new ArrayList<>();
+
+  public void setNovelTag(NovelTag tag){
+    this.novelTagList.add(tag);
+    tag.setNovel(this);
+  }
+
+  public void setNovelEpisode(NovelEpisode episode){
+    this.novelEpisodeList.add(episode);
+    episode.setNovel(this);
+  }
+
+  public void setUserNovelTicket(UserNovelTickets tickets){
+    this.userNovelTicketsList.add(tickets);
+    tickets.setNovel(this);
+  }
+
+  // 생성 매서드
+  public static Novel novel(String novelId, String title, String author, int likeCnt
+          , String novelInfo, long paymentCnt, String novelImg, int episodeCost
+          , List<NovelTag> novelTags, List<NovelEpisode> novelEpisodes, List<UserNovelTickets> tickets) {
     Novel novel = new Novel();
     novel.setNovelId(novelId);
     novel.setTitle(title);
@@ -56,6 +85,28 @@ public class Novel {
     novel.setPaymentCnt(paymentCnt);
     novel.setNovelImg(novelImg);
     novel.setEpisodeCost(episodeCost);
+    for(NovelTag novelTag : novelTags){
+      novel.setNovelTag(novelTag);
+    }
+    for(NovelEpisode novelEpisode : novelEpisodes){
+      novel.setNovelEpisode(novelEpisode);
+    }
+    for(UserNovelTickets ticket : tickets){
+      novel.setUserNovelTicket(ticket);
+    }
     return novel;
+  }
+
+  // 비지니스 로직
+  public int plusLikeCnt(){
+    return getLikeCnt() + 1;
+  }
+
+  public int minusLikeCnt(){
+    return getLikeCnt() - 1;
+  }
+
+  public void plusPaymentCnt(int cnt){
+    this.paymentCnt += cnt;
   }
 }

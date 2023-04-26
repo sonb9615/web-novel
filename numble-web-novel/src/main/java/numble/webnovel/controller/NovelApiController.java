@@ -2,7 +2,8 @@ package numble.webnovel.controller;
 
 import lombok.RequiredArgsConstructor;
 import numble.webnovel.domain.Novel;
-import numble.webnovel.domain.NovelTicketsResponse;
+import numble.webnovel.domain.NovelEpisode;
+import numble.webnovel.repository.dto.response.NovelTicketsResponse;
 import numble.webnovel.domain.NovelTicketsRequest;
 import numble.webnovel.enums.ExceptionEnum;
 import numble.webnovel.exceptions.CommonException;
@@ -28,12 +29,11 @@ public class NovelApiController {
         throw new CommonException(ExceptionEnum.PARAM_NOT_EXIST_EXCEPTION);
     }
 
-
-
     @PostMapping("/novel/useTicket")
-    public NovelTicketsResponse useNovelTicket(@RequestBody @Validated NovelTicketsRequest novelTicketsRequest){
-        if(userNovelTicketsService.validRequestParam(novelTicketsRequest)){
-            return userNovelTicketsService.useNovelTickets(novelTicketsRequest);
+    public NovelTicketsResponse useNovelTicket(@RequestBody @Validated NovelTicketsRequest request){
+        if(userNovelTicketsService.validRequestParam(request)){
+            userNovelTicketsService.useNovelTickets(request.getUserNo(), request.getNovelId(), request.getEpisodeId());
+            return NovelTicketsResponse.createNovelTicketsResponse(request.getNovelId(), request.getEpisodeId());
         }
         throw new CommonException(ExceptionEnum.PARAM_NOT_EXIST_EXCEPTION);
     }

@@ -17,15 +17,19 @@ public class UserLibraryRepository {
         em.persist(userLibrary);
     }
 
-    public List<UserLibrary> findListByUserNo(String userNo){
-        return em.createQuery("select lib\n" +
-                        "from UserLibrary lib\n" +
-                        "inner join NovelEpisode epi\n" +
-                        "on epi.episodeId = lib.episodeId\n" +
-                        "inner join Novel nvl\n" +
-                        "on nvl.novelId = epi.novelId\n" +
-                        "where lib.userNo = :userNo", UserLibrary.class)
-                .setParameter("userNo", userNo)
-                .getResultList();
+    public UserLibrary findById(String id){
+        return em.find(UserLibrary.class, id);
     }
+
+//    public List<UserLibrary> findListByUserNo(String userNo){
+//        return em.createQuery("select lib\n" +
+//                        "from UserLibrary lib\n" +
+//                        "inner join NovelEpisode epi\n" +
+//                        "on epi.episodeId = lib.episodeId\n" +
+//                        "inner join Novel nvl\n" +
+//                        "on nvl.novelId = epi.novelId\n" +
+//                        "where lib.userNo = :userNo", UserLibrary.class)
+//                .setParameter("userNo", userNo)
+//                .getResultList();
+//    }
 }

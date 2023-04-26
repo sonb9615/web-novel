@@ -1,16 +1,14 @@
-package numble.webnovel.domain;
+package numble.webnovel.repository.dto.response;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class NovelTicketsResponse {
 
     private String novelId;
     private String episodeId;
 
-    public static NovelTicketsResponse novelTicketsResponse(String novelId, String episodeId) {
+    public static NovelTicketsResponse createNovelTicketsResponse(String novelId, String episodeId) {
         NovelTicketsResponse novelTicketsResponse = new NovelTicketsResponse();
         novelTicketsResponse.setNovelId(novelId);
         novelTicketsResponse.setEpisodeId(episodeId);

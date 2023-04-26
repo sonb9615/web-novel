@@ -19,11 +19,11 @@ public class UserLibraryApiController {
 
     private final UserLibraryService userLibraryService;
 
-    @PostMapping("/userLib/find")
-    public List<UserLibrary> findUserLibrary(@RequestBody @Validated UserLibraryRequest userLibraryRequest){
-        if(!userLibraryRequest.getUserNo().isEmpty()){
-            return userLibraryService.findUserLibrary(userLibraryRequest.getUserNo());
-        }
-        throw new CommonException(ExceptionEnum.PARAM_NOT_EXIST_EXCEPTION);
-    }
+//    @PostMapping("/userLib/find")
+//    public List<UserLibrary> findUserLibrary(@RequestBody @Validated UserLibraryRequest userLibraryRequest){
+//        if(!userLibraryRequest.getUserNo().isEmpty()){
+//            return userLibraryService.findUserLibrary(userLibraryRequest.getUserNo());
+//        }
+//        throw new CommonException(ExceptionEnum.PARAM_NOT_EXIST_EXCEPTION);
+//    }
 }

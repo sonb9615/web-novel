@@ -1,6 +1,6 @@
 package numble.webnovel.service
 
-import numble.webnovel.domain.CacheCargeRequest
+import numble.webnovel.domain.CacheChargeRequest
 import numble.webnovel.domain.Novel
 import numble.webnovel.domain.NovelTicketChargeRequest
 import numble.webnovel.domain.UserInfo
@@ -39,7 +39,7 @@ class ChargeServiceTest extends Specification{
         chargeValidationService.saveCharge(userNo, userNo);
 
         when:
-        CacheCargeRequest cacheCargeInfo = CacheCargeRequest.cacheCargeInfo(userNo, "testEpi", 100);
+        CacheChargeRequest cacheCargeInfo = CacheChargeRequest.cacheCargeInfo(userNo, "testEpi", 100);
         cacheChargeService.cacheCharge(cacheCargeInfo);
 
         then:
@@ -57,7 +57,7 @@ class ChargeServiceTest extends Specification{
 
         when:
         Thread.sleep(2000);
-        CacheCargeRequest cacheCargeInfo = CacheCargeRequest.cacheCargeInfo(userNo, "testEpi", 100);
+        CacheChargeRequest cacheCargeInfo = CacheChargeRequest.cacheCargeInfo(userNo, "testEpi", 100);
         cacheChargeService.cacheCharge(cacheCargeInfo);
 
         then:

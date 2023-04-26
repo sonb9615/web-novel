@@ -19,9 +19,9 @@ public class UserLibraryService {
         userLibraryRepository.save(userLibrary);
     }
 
-    @Transactional
-    public List<UserLibrary> findUserLibrary(String userNo){
-        return userLibraryRepository.findListByUserNo(userNo);
-    }
+//    @Transactional
+//    public List<UserLibrary> findUserLibrary(String userNo){
+//        return userLibraryRepository.findListByUserNo(userNo);
+//    }
 
 }

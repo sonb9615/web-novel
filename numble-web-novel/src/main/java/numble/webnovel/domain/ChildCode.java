@@ -1,35 +1,36 @@
 package numble.webnovel.domain;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "child_code")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChildCode {
 
   @Id
   @Column(name = "code")
   private String code;
 
-  @NonNull
-  @Column(name = "parent_code")
-  private String parentCode;
-
   @Column(name = "value")
   private String value;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "parent_code")
+  private ParentCode parentCode;
+
+  public void addParentCode(ParentCode code){
+    this.parentCode = code;
+    code.getChildCodeList().add(this);
+  }
 
   public static ChildCode childCode(String code, String parentCode, String value){
     ChildCode childCode = new ChildCode();
     childCode.setCode(code);
-    childCode.setParentCode(parentCode);
+  //  childCode.setParentCode(parentCode);
     childCode.setValue(value);
     return childCode;
   }

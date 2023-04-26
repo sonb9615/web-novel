@@ -17,8 +17,17 @@ public class UserNovelTicketsRepository {
         em.persist(userNovelTickets);
     }
 
-    public List<UserNovelTickets> findUsableTicketsByNovelIdUserId(String userNo, String novelId){
-        return em.createQuery("select t from UserNovelTickets t where t.userNo = :userNo and t.novelId = :novelId and t.usableTicketCnt > 0 order by t.regDt", UserNovelTickets.class)
+    public UserNovelTickets findById(String ticketNo){
+        return em.find(UserNovelTickets.class, ticketNo);
+    }
+
+    public List<UserNovelTickets> findAllTicketsByNovelIdUserId(String userNo, String novelId){
+        return em.createQuery("select t from UserNovelTickets t" +
+                        " join fetch t.novel n" +
+                        " join fetch t.userInfo u" +
+                        " where u.userNo = :userNo" +
+                        " and n.novelId = :novelId" +
+                        " order by t.regDt", UserNovelTickets.class)
                 .setParameter("userNo", userNo)
                 .setParameter("novelId", novelId)
                 .getResultList();

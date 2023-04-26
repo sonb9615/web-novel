@@ -1,9 +1,11 @@
 package numble.webnovel.service
 
-import numble.webnovel.domain.CacheCargeRequest
+import numble.webnovel.domain.CacheChargeRequest
 import numble.webnovel.domain.ChildCode
 import numble.webnovel.domain.UserInfo
+import numble.webnovel.domain.UserNovelTickets
 import numble.webnovel.exceptions.CommonException
+import numble.webnovel.repository.UserNovelTicketsRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.annotation.Rollback
@@ -25,6 +27,11 @@ class CommonCodeServiceTest extends Specification{
     UUIDGeneration uuidGeneration;
     @Autowired
     ChargeValidationService chargeValidationService;
+    @Autowired
+    UserNovelTicketsService userNovelTicketsService;
+    @Autowired
+    UserNovelTicketsRepository userNovelTicketsRepository;
+
 
     def "부모코드가 없으면 자식코드는 저장이 되지 않는다"() {
 
@@ -47,7 +54,7 @@ class CommonCodeServiceTest extends Specification{
         chargeValidationService.saveCharge(userNo, userNo);
 
         when:
-        CacheCargeRequest cacheCargeInfo = CacheCargeRequest.cacheCargeInfo(userNo, "testEpi", 100);
+        CacheChargeRequest cacheCargeInfo = CacheChargeRequest.cacheCargeInfo(userNo, "testEpi", 100);
         cacheChargeService.cacheCharge(cacheCargeInfo);
 
         then:
@@ -64,7 +71,7 @@ class CommonCodeServiceTest extends Specification{
 
         when:
         Thread.sleep(2000);
-        CacheCargeRequest cacheCargeInfo = CacheCargeRequest.cacheCargeInfo(userNo, "testEpi", 100);
+        CacheChargeRequest cacheCargeInfo = CacheChargeRequest.cacheCargeInfo(userNo, "testEpi", 100);
         cacheChargeService.cacheCharge(cacheCargeInfo);
 
         then:
@@ -73,7 +80,20 @@ class CommonCodeServiceTest extends Specification{
         userInfoService.deleteByUserNo(userNo);
     }
 
-
+    def "List로 받은 것은 하나의 로우가 영속성을 가지고 있을까"(){
+        given:
+        String userNo = "ef21dc73ec124a93b1d8896c08374de7";
+        String novelId = "45ed40d9224a4d70bc1fff6f8306881c";
+        when:
+        List<UserNovelTickets> userNovelTicketsList = userNovelTicketsService.findUsableTickets(userNo, novelId);
+        String ticketId = userNovelTicketsList.get(0).useTicket();
+        then:
+        List<UserNovelTickets> userNovelTicketsList_1 = userNovelTicketsService.findUsableTickets(userNo, novelId);
+        for(UserNovelTickets t : userNovelTicketsList_1){
+            println(t.getUsableTicketCnt());
+        }
+        userNovelTicketsList_1.get(0).getUsableTicketCnt() == 2;
+    }
 
 
 }

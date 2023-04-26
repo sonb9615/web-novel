@@ -18,7 +18,6 @@ public class CacheChargeService {
     private final UserInfoService userInfoService;
     private final UUIDGeneration uuidGeneration;
     private final CacheChargeHisRepository cacheChargeHisRepository;
-    private final NovelEpisodeService novelEpisodeService;
     private final ChargeValidationService chargeValidationService;
 
     @Transactional
@@ -31,7 +30,7 @@ public class CacheChargeService {
         Thread.sleep(1000);
         // 캐시 저장
         UserInfo userInfo = userInfoService.findByUserNo(userNo);
-        userInfo.chargeCost(money);
+        userInfo.chargeCache(money);
         // 히스토리 테이블 저장
         String uuid = uuidGeneration.getUUID();
         CacheChargeHis cacheChargeHis = CacheChargeHis.createCacheChargeHis(uuid, userInfo, money, money);
@@ -49,7 +48,7 @@ public class CacheChargeService {
         return cacheChargeHisRepository.findById(paymentNo);
     }
 
-    public boolean validRequestParam(CacheChargeRequest cacheCargeRequest){
-        return !cacheCargeRequest.getUserNo().isEmpty() && cacheCargeRequest.getMoney() > 0;
+    public boolean validRequestParam(CacheChargeRequest cacheChargeRequest){
+        return !cacheChargeRequest.getUserNo().isEmpty() && cacheChargeRequest.getMoney() > 0;
     }
 }

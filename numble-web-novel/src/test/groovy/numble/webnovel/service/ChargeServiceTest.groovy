@@ -1,7 +1,8 @@
 package numble.webnovel.service
 
-import numble.webnovel.domain.CacheChargeRequest
+
 import numble.webnovel.domain.Novel
+import numble.webnovel.domain.NovelTag
 import numble.webnovel.domain.NovelTicketChargeRequest
 import numble.webnovel.domain.UserInfo
 import numble.webnovel.exceptions.CommonException
@@ -33,52 +34,45 @@ class ChargeServiceTest extends Specification{
 
     def "1초 이내에 중복 충전 건이 들어오면 예외처리 한다"(){
         given:
-        String userNo = uuidGeneration.getUUID();
-        UserInfo userInfo = UserInfo.userInfo(userNo, "origin", "orginPW", "reader", "010-1111-1111", "female","origin@email.com",0);
-        userInfoService.saveUserInfo(userInfo);
+        def userNo = "e898ef0f3fc24ce68e48cc82010353fe";
         chargeValidationService.saveCharge(userNo, userNo);
 
         when:
-        CacheChargeRequest cacheCargeInfo = CacheChargeRequest.cacheCargeInfo(userNo, "testEpi", 100);
-        cacheChargeService.cacheCharge(cacheCargeInfo);
+        cacheChargeService.cacheCharge(userNo, 100);
 
         then:
         def e = thrown(CommonException.class);
         println(e);
-        userInfoService.deleteByUserNo(userNo);
     }
 
     def "1초 이후에 충전은 허용한다."(){
         given:
-        String userNo = uuidGeneration.getUUID();
-        UserInfo userInfo = UserInfo.userInfo(userNo, "origin_1", "orginPW", "reader", "010-1111-1111", "female","origin@email.com",0);
-        userInfoService.saveUserInfo(userInfo);
+        def userNo = "e898ef0f3fc24ce68e48cc82010353fe";
         chargeValidationService.saveCharge(userNo, userNo);
 
         when:
         Thread.sleep(2000);
-        CacheChargeRequest cacheCargeInfo = CacheChargeRequest.cacheCargeInfo(userNo, "testEpi", 100);
-        cacheChargeService.cacheCharge(cacheCargeInfo);
+        cacheChargeService.cacheCharge(userNo, 100);
 
         then:
         UserInfo info = userInfoService.findByUserNo(userNo);
-        info.getCache() == 1000;
-        userInfoService.deleteByUserNo(userNo);
+        info.getCache() == 100;
     }
 
 
     def "캐쉬가 충분한 상태에서 이용권 충전"(){
         given:
         String userNo = uuidGeneration.getUUID();
-        UserInfo userInfo = UserInfo.userInfo(userNo, "testUserId", "qwer1243", "reader", "010-1111-1111", "female","testUser@email.com",1000);
+        UserInfo userInfo = UserInfo.createUserInfo(userNo, "testUserId", "qwer1243", "reader", "010-1111-1111", "female","testUser@email.com");
+        userInfo.chargeCache(1000);
         userInfoService.saveUserInfo(userInfo);
         String novelId = uuidGeneration.getUUID();
-        Novel novel = Novel.novel(novelId, "메밀꽃 필 무렵", "이효석", 0, "메밀꽃 필 무렵 입니다.", 0, "novelImgUrl", 200) ;
+        List<NovelTag> novelTags = new ArrayList<>();
+        Novel novel = Novel.novel(novelId, "title", "author", 0, "description", 0, "novelImgUrl", 200, novelTags ) ;
         novelService.saveNovel(novel);
 
         when:
-        NovelTicketChargeRequest novelTicketChargeInfo = NovelTicketChargeRequest.novelTicketChargeInfo(userNo, novelId, 3);
-        novelTicketsChargeService.chargeTicket(novelTicketChargeInfo);
+        novelTicketsChargeService.chargeTicket(userNo, novelId, 3);
 
         then:
         UserInfo info = userInfoService.findByUserNo(userNo);
@@ -89,7 +83,7 @@ class ChargeServiceTest extends Specification{
     def "이용권 충전시 캐쉬가 충분하지 않으면 에러"(){
         given:
         String userNo = uuidGeneration.getUUID();
-        UserInfo userInfo = UserInfo.userInfo(userNo, "origin", "orginPW", "reader", "010-1111-1111", "female","origin@email.com",0);
+        UserInfo userInfo = UserInfo.createUserInfo(userNo, "origin", "orginPW", "reader", "010-1111-1111", "female","origin@email.com",0);
         userInfoService.saveUserInfo(userInfo);
         String novelId = uuidGeneration.getUUID();
         Novel novel = Novel.novel(novelId, "어린왕자", "생텍쥐페리", 0, "어린왕자 입니다.", 0, "novelImgUrl", 100) ;

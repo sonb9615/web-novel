@@ -75,7 +75,7 @@ public class Novel {
   // 생성 매서드
   public static Novel novel(String novelId, String title, String author, int likeCnt
           , String novelInfo, long paymentCnt, String novelImg, int episodeCost
-          , List<NovelTag> novelTags, List<NovelEpisode> novelEpisodes, List<UserNovelTickets> tickets) {
+          , List<NovelTag> novelTags) {
     Novel novel = new Novel();
     novel.setNovelId(novelId);
     novel.setTitle(title);
@@ -87,12 +87,6 @@ public class Novel {
     novel.setEpisodeCost(episodeCost);
     for(NovelTag novelTag : novelTags){
       novel.setNovelTag(novelTag);
-    }
-    for(NovelEpisode novelEpisode : novelEpisodes){
-      novel.setNovelEpisode(novelEpisode);
-    }
-    for(UserNovelTickets ticket : tickets){
-      novel.setUserNovelTicket(ticket);
     }
     return novel;
   }

@@ -67,8 +67,8 @@ public class UserInfo {
         library.setUserInfo(this);
     }
 
-    public static UserInfo userInfo(String userNo, String userId, String password, String role, String phone, String gender
-            , String email, int cache, List<CacheChargeHis> chargeHisList, List<UserNovelTickets> ticketsList, List<UserLibrary> libraryList) {
+    public static UserInfo createUserInfo(String userNo, String userId, String password, String role
+            , String phone, String gender, String email) {
         UserInfo userInfo = new UserInfo();
         userInfo.setUserNo(userNo);
         userInfo.setUserId(userId);
@@ -77,21 +77,12 @@ public class UserInfo {
         userInfo.setPhone(phone);
         userInfo.setGender(gender);
         userInfo.setEmail(email);
-        userInfo.setCache(cache);
-        for(CacheChargeHis his : chargeHisList){
-            userInfo.setCacheChargeHis(his);
-        }
-        for(UserNovelTickets ticket : ticketsList){
-            userInfo.setNovelTicket(ticket);
-        }
-        for(UserLibrary library : libraryList){
-            userInfo.setUserLibrary(library);
-        }
+        userInfo.setCache(0);
         return userInfo;
     }
 
     // 비지니스 로직
-    public void chargeCost(int money){
+    public void chargeCache(int money){
         if(money % 100 != 0) {
             throw new CommonException(ExceptionEnum.CHARGE_RANGE_EXCEPTION);
         }

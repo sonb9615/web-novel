@@ -2,11 +2,10 @@ package numble.webnovel.controller;
 
 import lombok.RequiredArgsConstructor;
 import numble.webnovel.domain.CacheChargeRequest;
-import numble.webnovel.repository.dto.response.ChargeCacheResponse;
-import numble.webnovel.domain.ChargeInfoRequest;
 import numble.webnovel.domain.NovelTicketChargeRequest;
 import numble.webnovel.enums.ExceptionEnum;
 import numble.webnovel.exceptions.CommonException;
+import numble.webnovel.repository.dto.response.ChargeCacheResponse;
 import numble.webnovel.repository.dto.response.ChargeTicketsResponse;
 import numble.webnovel.service.CacheChargeService;
 import numble.webnovel.service.NovelTicketsChargeService;
@@ -27,7 +26,7 @@ public class ChargeApiController {
     @PostMapping("/charge/cache")
     public ChargeCacheResponse chargeCache(@RequestBody @Validated CacheChargeRequest request) throws InterruptedException {
         if(cacheChargeService.validRequestParam(request)){
-            return ChargeCacheResponse.createChargeApiResponse("SUCCESS"
+            return ChargeCacheResponse.createChargeCacheResponse("SUCCESS"
                     ,cacheChargeService.cacheCharge(request.getUserNo(), request.getMoney()));
         }
         throw new CommonException(ExceptionEnum.PARAM_NOT_EXIST_EXCEPTION);

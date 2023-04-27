@@ -2,7 +2,9 @@ package numble.webnovel.service;
 
 import lombok.RequiredArgsConstructor;
 import numble.webnovel.domain.Novel;
+import numble.webnovel.enums.CommonStatusEnum;
 import numble.webnovel.repository.NovelRepository;
+import numble.webnovel.repository.dto.request.NovelSaveRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,14 +19,34 @@ public class NovelService {
     private final UUIDGeneration uuidGeneration;
 
     @Transactional
-    public void saveNovel(Novel novel){
-        if(novel.getNovelId().isEmpty()) {
-            novel.setNovelId(uuidGeneration.getUUID());
-            novel.setRegDt(LocalDateTime.now());
+    public void saveNovel(NovelSaveRequest request){
+        if(CommonStatusEnum.CREATE.equals(request.getStatus())) {
+            request.setNovelId(uuidGeneration.getUUID());
+            Novel novel = request.toNovel();
+            novelRepository.save(novel);
+        }else if(CommonStatusEnum.UPDATE.equals(request.getStatus())){
+            Novel novel = novelRepository.findById(request.getNovelId());
+            novel.updateNovel(request.getNovelInfo(), request.getNovelImg(), request.getEpisodeCost(), request.getGenre());
         }else{
-            novel.setUdtDt(LocalDateTime.now());
+            novelRepository.delete(request.getNovelId());
         }
-        novelRepository.save(novel);
+
+    }
+
+
+    @Transactional
+    public void save(Novel novel){
+
+    }
+
+    @Transactional
+    public void update(){
+
+    }
+
+    @Transactional
+    public void delete(){
+
     }
 
     @Transactional
@@ -37,11 +59,10 @@ public class NovelService {
         Novel novel = this.findNovel(novelId);
         novel.setLikeCnt(novel.getLikeCnt() + cnt);
         novel.setUdtDt(LocalDateTime.now());
-        this.saveNovel(novel);
     }
 
-    public boolean validateRequestParam(Novel novel){
-        return !novel.getTitle().isEmpty() && !novel.getAuthor().isEmpty() && novel.getEpisodeCost() >= 0;
+    public boolean validateRequestParam(NovelSaveRequest request){
+        return !request.getTitle().isEmpty() && !request.getAuthor().isEmpty() && request.getEpisodeCost() >= 0;
     }
 
 }

@@ -20,6 +20,19 @@ class UserInfoServiceTest extends Specification{
     private UserInfoService userInfoService;
     @Autowired
     private UserInfoRepository userInfoRepository;
+    @Autowired
+    private UserInfoRepository userInfoInterface;
+
+    def "회원찾기"(){
+        given:
+        String userId = "testId_1"
+        when:
+//        List<UserInfo> user = userInfoInterface.findByUserId(userId);
+        UserInfo info = userInfoService.findByUserNo("269235c0ac264698951ac2058304aa2a");
+        then:
+        info.getUserId() == userId;
+        println info.getPassword();
+    }
 
     def "회원가입"(){
         given:

@@ -30,10 +30,12 @@ public class NovelTag {
     novel.getNovelTagList().add(this);
   }
 
-  public static NovelTag novelTag(Novel novel, String tag) {
+  public static NovelTag creatNovelTag(Novel novel, String tag) {
     NovelTag novelTag = new NovelTag();
     novelTag.setNovel(novel);
     novelTag.setTag(tag);
     return novelTag;
   }
+
+
 }

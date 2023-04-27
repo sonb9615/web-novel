@@ -5,7 +5,6 @@ import numble.webnovel.domain.ChildCode
 import numble.webnovel.domain.UserInfo
 import numble.webnovel.domain.UserNovelTickets
 import numble.webnovel.exceptions.CommonException
-import numble.webnovel.repository.UserNovelTicketsRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.annotation.Rollback
@@ -29,8 +28,6 @@ class CommonCodeServiceTest extends Specification{
     ChargeValidationService chargeValidationService;
     @Autowired
     UserNovelTicketsService userNovelTicketsService;
-    @Autowired
-    UserNovelTicketsRepository userNovelTicketsRepository;
 
 
     def "부모코드가 없으면 자식코드는 저장이 되지 않는다"() {

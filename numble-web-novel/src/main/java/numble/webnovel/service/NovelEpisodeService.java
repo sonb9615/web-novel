@@ -16,11 +16,8 @@ public class NovelEpisodeService {
     private final NovelEpisodeRepository novelEpisodeRepository;
 
     public NovelEpisode findNovelEpisodeById(String episodeId){
-        NovelEpisode novelEpisode = novelEpisodeRepository.findById(episodeId);
-        if(novelEpisode == null){
-            throw new CommonException(ExceptionEnum.RESULT_NOT_EXIST_EXCEPTION);
-        }
-        return novelEpisode;
+        return novelEpisodeRepository.findById(episodeId)
+                .orElseThrow(() -> new CommonException(ExceptionEnum.RESULT_NOT_EXIST_EXCEPTION));
     }
 
 }

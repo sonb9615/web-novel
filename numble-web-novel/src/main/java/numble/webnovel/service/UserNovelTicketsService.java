@@ -1,11 +1,13 @@
 package numble.webnovel.service;
 
 import lombok.RequiredArgsConstructor;
-import numble.webnovel.domain.*;
+import numble.webnovel.domain.NovelEpisode;
+import numble.webnovel.domain.NovelTicketsRequest;
+import numble.webnovel.domain.UserLibrary;
+import numble.webnovel.domain.UserNovelTickets;
 import numble.webnovel.enums.ExceptionEnum;
 import numble.webnovel.exceptions.CommonException;
-import numble.webnovel.repository.UserNovelTicketsRepository;
-import numble.webnovel.repository.dto.response.NovelTicketsResponse;
+import numble.webnovel.repository.UserNovelTicketRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +18,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserNovelTicketsService {
 
-    private final UserNovelTicketsRepository userNovelTicketsRepository;
     private final UserLibraryService userLibraryService;
     private final UUIDGeneration uuidGeneration;
     private final NovelEpisodeService novelEpisodeService;
+    private final UserNovelTicketRepository userNovelTicketRepository;
 
     @Transactional
     public void useNovelTickets(String userNo, String novelId, String episodeId){
@@ -35,13 +37,13 @@ public class UserNovelTicketsService {
 
     @Transactional
     public void saveUserNovelTickets(UserNovelTickets userNovelTickets){
-        userNovelTicketsRepository.save(userNovelTickets);
+        userNovelTicketRepository.save(userNovelTickets);
     }
 
     @Transactional
     public List<UserNovelTickets> findUsableTickets(String userNo, String novelId){
         List<UserNovelTickets> userNovelTicketsList
-                = userNovelTicketsRepository.findAllTicketsByNovelIdUserId(userNo, novelId);
+                = userNovelTicketRepository.findAllTicketsByNovelIdUserId(userNo, novelId);
         if(userNovelTicketsList.size() == 0){
             throw new CommonException(ExceptionEnum.NOVEL_TICKET_NOT_EXIST_EXCEPTION);
         }

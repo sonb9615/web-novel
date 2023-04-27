@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -38,6 +39,9 @@ public class Novel {
 
   @Column(name = "novel_img")
   private String novelImg;
+
+  @Column(name = "genre")
+  private String genre;
 
   @Column(name = "episode_cost")
   private int episodeCost;
@@ -73,21 +77,19 @@ public class Novel {
   }
 
   // 생성 매서드
-  public static Novel novel(String novelId, String title, String author, int likeCnt
-          , String novelInfo, long paymentCnt, String novelImg, int episodeCost
-          , List<NovelTag> novelTags) {
+  public static Novel createNovel(String novelId, String title, String author
+          , String novelInfo, String novelImg, int episodeCost, String genre) {
     Novel novel = new Novel();
     novel.setNovelId(novelId);
     novel.setTitle(title);
     novel.setAuthor(author);
-    novel.setLikeCnt(likeCnt);
+    novel.setLikeCnt(0);
     novel.setNovelInfo(novelInfo);
-    novel.setPaymentCnt(paymentCnt);
+    novel.setPaymentCnt(0);
     novel.setNovelImg(novelImg);
     novel.setEpisodeCost(episodeCost);
-    for(NovelTag novelTag : novelTags){
-      novel.setNovelTag(novelTag);
-    }
+    novel.setGenre(genre);
+    novel.setRegDt(LocalDateTime.now());
     return novel;
   }
 
@@ -102,5 +104,14 @@ public class Novel {
 
   public void plusPaymentCnt(int cnt){
     this.paymentCnt += cnt;
+  }
+
+  // title, author 는 수정 불가
+  public void updateNovel(String info, String img, int cost, String genre){
+    if(!Objects.equals(this.novelInfo, info)) this.novelInfo = info;
+    if(!Objects.equals(this.novelImg, img)) this.novelImg = img;
+    if(!Objects.equals(this.episodeCost, cost)) this.episodeCost = cost;
+    if(!Objects.equals(this.genre, genre)) this.genre = genre;
+    this.udtDt = LocalDateTime.now();
   }
 }

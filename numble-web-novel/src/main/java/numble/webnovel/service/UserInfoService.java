@@ -7,32 +7,21 @@ import numble.webnovel.exceptions.CommonException;
 import numble.webnovel.repository.UserInfoRepository;
 import numble.webnovel.repository.dto.request.LoginRequest;
 import numble.webnovel.repository.dto.request.SignUpRequest;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserInfoService {
 
-    private final UserInfoRepository userInfoRepository;
     private final UUIDGeneration uuidGeneration;
-
-    @Transactional
-    public void saveUserInfo(UserInfo userInfo){
-        userInfoRepository.saveUserInfo(userInfo);
-    }
+    private final UserInfoRepository userInfoRepository;
 
     @Transactional
     public UserInfo findByUserNo(String userNo){
-        UserInfo userInfo = userInfoRepository.findById(userNo);
-        if(userInfo == null){
-            throw new CommonException(ExceptionEnum.RESULT_NOT_EXIST_EXCEPTION);
-        }
-        return userInfo;
+         return userInfoRepository.findById(userNo)
+                 .orElseThrow(() -> new CommonException(ExceptionEnum.RESULT_NOT_EXIST_EXCEPTION));
     }
 
     @Transactional
@@ -40,7 +29,7 @@ public class UserInfoService {
         if(isDuplicatedUserId(request.getUserId())){
             UserInfo userInfo = UserInfo.createUserInfo(uuidGeneration.getUUID(), request.getUserId(), request.getPassword(), request.getRole()
                 , request.getPhone(), request.getGender(), request.getEmail());
-            userInfoRepository.saveUserInfo(userInfo);
+            userInfoRepository.save(userInfo);
         }
     }
 
@@ -51,8 +40,7 @@ public class UserInfoService {
 
     @Transactional
     public boolean isDuplicatedUserId(String userId){
-        List<UserInfo> userInfoList = userInfoRepository.findByUserId(userId);
-        if(userInfoList.size() > 0){
+        if(userInfoRepository.findByUserId(userId).isPresent()){
             throw new CommonException(ExceptionEnum.DUPLICATE_USER_ID);
         }
         return true;
@@ -60,16 +48,14 @@ public class UserInfoService {
 
     @Transactional
     public boolean validLogin(String userId, String password){
-        List<UserInfo> userInfoList = userInfoRepository.findByUserIdPW(userId, password);
-        if(userInfoList.size() != 1){
+        if(userInfoRepository.findByUserIdPW(userId, password).isEmpty()){
             throw new CommonException(ExceptionEnum.INVALID_LOGIN);
         }
         return true;
     }
 
-
     @Transactional
     public void deleteByUserNo(String userNo){
-        userInfoRepository.delete(userNo);
+        userInfoRepository.deleteById(userNo);
     }
 }

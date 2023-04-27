@@ -17,8 +17,8 @@ public class CacheChargeService {
 
     private final UserInfoService userInfoService;
     private final UUIDGeneration uuidGeneration;
-    private final CacheChargeHisRepository cacheChargeHisRepository;
     private final ChargeValidationService chargeValidationService;
+    private final CacheChargeHisRepository cacheChargeHisRepository;
 
     @Transactional
     public int cacheCharge(String userNo, int money) throws InterruptedException {
@@ -45,7 +45,8 @@ public class CacheChargeService {
 
     @Transactional
     public CacheChargeHis findByPaymentNo(String paymentNo){
-        return cacheChargeHisRepository.findById(paymentNo);
+        return cacheChargeHisRepository.findById(paymentNo)
+                .orElseThrow(() -> new CommonException(ExceptionEnum.RESULT_NOT_EXIST_EXCEPTION));
     }
 
     public boolean validRequestParam(CacheChargeRequest cacheChargeRequest){

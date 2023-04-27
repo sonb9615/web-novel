@@ -1,8 +1,7 @@
 package numble.webnovel.controller;
 
 import lombok.RequiredArgsConstructor;
-import numble.webnovel.domain.Novel;
-import numble.webnovel.domain.NovelEpisode;
+import numble.webnovel.repository.dto.request.NovelSaveRequest;
 import numble.webnovel.repository.dto.response.NovelTicketsResponse;
 import numble.webnovel.domain.NovelTicketsRequest;
 import numble.webnovel.enums.ExceptionEnum;
@@ -24,9 +23,11 @@ public class NovelApiController {
     private final NovelService novelService;
 
     @PostMapping("/novel/save")
-    public void saveNovel(@RequestBody @Validated Novel novel){
-        if(novelService.validateRequestParam(novel)){
-            novelService.saveNovel(novel);
+    public void saveNovel(@RequestBody @Validated NovelSaveRequest request){
+        if(novelService.validateRequestParam(request)){
+
+
+            novelService.saveNovel(request);
         }
         throw new CommonException(ExceptionEnum.PARAM_NOT_EXIST_EXCEPTION);
     }

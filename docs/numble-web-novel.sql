@@ -18,6 +18,7 @@ CREATE TABLE `novel` (
 	`novel_info`	varchar(1000)	COMMENT '작품소개',
 	`payment_cnt`	INT	NULL	COMMENT '구매 카운트',
 	`novel_img`	varchar(100) NULL COMMENT '표지 이미지',
+    `genre` varchar(100)	NULL COMMENT '장르',
     `episode_cost`	INT	NULL	COMMENT '소설 이용권 가격',
     `reg_dt` datetime(6) NULL COMMENT '등록 날짜',
     `udt_dt` datetime(6) NULL COMMENT '업데이트 날짜'

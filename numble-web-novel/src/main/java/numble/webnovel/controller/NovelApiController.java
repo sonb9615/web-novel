@@ -25,8 +25,6 @@ public class NovelApiController {
     @PostMapping("/novel/save")
     public void saveNovel(@RequestBody @Validated NovelSaveRequest request){
         if(novelService.validateRequestParam(request)){
-
-
             novelService.saveNovel(request);
         }
         throw new CommonException(ExceptionEnum.PARAM_NOT_EXIST_EXCEPTION);

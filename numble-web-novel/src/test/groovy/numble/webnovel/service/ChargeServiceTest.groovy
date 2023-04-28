@@ -3,7 +3,7 @@ package numble.webnovel.service
 
 import numble.webnovel.domain.Novel
 import numble.webnovel.domain.NovelTag
-import numble.webnovel.domain.NovelTicketChargeRequest
+import numble.webnovel.repository.dto.request.NovelTicketChargeRequest
 import numble.webnovel.domain.UserInfo
 import numble.webnovel.exceptions.CommonException
 import org.springframework.beans.factory.annotation.Autowired

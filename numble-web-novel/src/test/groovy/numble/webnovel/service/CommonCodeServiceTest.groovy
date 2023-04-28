@@ -1,6 +1,6 @@
 package numble.webnovel.service
 
-import numble.webnovel.domain.CacheChargeRequest
+import numble.webnovel.repository.dto.request.CacheChargeRequest
 import numble.webnovel.domain.ChildCode
 import numble.webnovel.domain.UserInfo
 import numble.webnovel.domain.UserNovelTickets

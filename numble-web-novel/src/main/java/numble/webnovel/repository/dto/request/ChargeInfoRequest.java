@@ -1,4 +1,4 @@
-package numble.webnovel.domain;
+package numble.webnovel.repository.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class ChargeInfoRequest {
 
-    private CacheChargeRequest cacheCargeRequest;
+    private CacheChargeRequest cacheChargeRequest;
     private NovelTicketChargeRequest novelTicketChargeRequest;
 }

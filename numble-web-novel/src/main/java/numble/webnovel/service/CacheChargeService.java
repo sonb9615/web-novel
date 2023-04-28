@@ -2,7 +2,7 @@ package numble.webnovel.service;
 
 import lombok.RequiredArgsConstructor;
 import numble.webnovel.domain.CacheChargeHis;
-import numble.webnovel.domain.CacheChargeRequest;
+import numble.webnovel.repository.dto.request.CacheChargeRequest;
 import numble.webnovel.domain.UserInfo;
 import numble.webnovel.enums.ExceptionEnum;
 import numble.webnovel.exceptions.CommonException;

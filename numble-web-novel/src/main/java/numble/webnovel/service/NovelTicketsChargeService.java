@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import numble.webnovel.domain.*;
 import numble.webnovel.enums.ExceptionEnum;
 import numble.webnovel.exceptions.CommonException;
+import numble.webnovel.repository.dto.request.NovelTicketChargeRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,8 +1,8 @@
 package numble.webnovel.controller;
 
 import lombok.RequiredArgsConstructor;
-import numble.webnovel.domain.CacheChargeRequest;
-import numble.webnovel.domain.NovelTicketChargeRequest;
+import numble.webnovel.repository.dto.request.CacheChargeRequest;
+import numble.webnovel.repository.dto.request.NovelTicketChargeRequest;
 import numble.webnovel.enums.ExceptionEnum;
 import numble.webnovel.exceptions.CommonException;
 import numble.webnovel.repository.dto.response.ChargeCacheResponse;

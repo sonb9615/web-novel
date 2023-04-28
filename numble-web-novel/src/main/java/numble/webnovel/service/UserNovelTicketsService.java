@@ -2,7 +2,7 @@ package numble.webnovel.service;
 
 import lombok.RequiredArgsConstructor;
 import numble.webnovel.domain.NovelEpisode;
-import numble.webnovel.domain.NovelTicketsRequest;
+import numble.webnovel.repository.dto.request.NovelTicketsRequest;
 import numble.webnovel.domain.UserLibrary;
 import numble.webnovel.domain.UserNovelTickets;
 import numble.webnovel.enums.ExceptionEnum;

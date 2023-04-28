@@ -1,11 +1,8 @@
 package numble.webnovel.service;
 
 import lombok.RequiredArgsConstructor;
-import numble.webnovel.domain.ChildCode;
 import numble.webnovel.domain.ParentCode;
-import numble.webnovel.enums.ExceptionEnum;
-import numble.webnovel.exceptions.CommonException;
-import numble.webnovel.repository.CommonCodeRepository;
+import numble.webnovel.repository.ParentCodeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CommonCodeService {
 
-    private final CommonCodeRepository commonCodeRepository;
+    private final ParentCodeRepository parentCodeRepository;
 
     @Transactional
     public void saveParentCode(ParentCode parentCode){
-        commonCodeRepository.saveParentCode(parentCode);
+        parentCodeRepository.save(parentCode);
     }
 
 //    @Transactional

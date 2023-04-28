@@ -1,6 +1,6 @@
 package numble.webnovel.service
 
-
+import numble.webnovel.domain.Novel
 import numble.webnovel.repository.UserLibraryRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -18,6 +18,18 @@ class NovelServiceTest extends Specification{
     private UserLibraryService userLibraryService;
     @Autowired
     private UserLibraryRepository userLibraryRepository;
+    @Autowired
+    private NovelService novelService;
+
+    def "소설 찾기"(){
+        given:
+        String novelId = "45ed40d9224a4d70bc1fff6f8306881c";
+        when:
+        Novel novel = novelService.findNovel(novelId);
+        then:
+        "메밀꽃 필 무렵" == novel.getTitle();
+
+    }
 
 
 //    def "유저 선호작 목록 불러오기"(){

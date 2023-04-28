@@ -3,6 +3,8 @@ package numble.webnovel.service;
 import lombok.RequiredArgsConstructor;
 import numble.webnovel.domain.Novel;
 import numble.webnovel.enums.CommonStatusEnum;
+import numble.webnovel.enums.ExceptionEnum;
+import numble.webnovel.exceptions.CommonException;
 import numble.webnovel.repository.NovelRepository;
 import numble.webnovel.repository.dto.request.NovelSaveRequest;
 import org.springframework.stereotype.Service;
@@ -15,8 +17,8 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class NovelService {
 
-    private final NovelRepository novelRepository;
     private final UUIDGeneration uuidGeneration;
+    private final NovelRepository novelRepository;
 
     @Transactional
     public void saveNovel(NovelSaveRequest request){
@@ -24,34 +26,20 @@ public class NovelService {
             request.setNovelId(uuidGeneration.getUUID());
             Novel novel = request.toNovel();
             novelRepository.save(novel);
-        }else if(CommonStatusEnum.UPDATE.equals(request.getStatus())){
-            Novel novel = novelRepository.findById(request.getNovelId());
-            novel.updateNovel(request.getNovelInfo(), request.getNovelImg(), request.getEpisodeCost(), request.getGenre());
         }else{
-            novelRepository.delete(request.getNovelId());
+            Novel novel = this.findNovel(request.getNovelId());
+            if(CommonStatusEnum.UPDATE.equals(request.getStatus())){
+                novel.updateNovel(request.getNovelInfo(), request.getNovelImg(), request.getEpisodeCost(), request.getGenre());
+            }else{
+                novelRepository.delete(novel);
+            }
         }
-
-    }
-
-
-    @Transactional
-    public void save(Novel novel){
-
-    }
-
-    @Transactional
-    public void update(){
-
-    }
-
-    @Transactional
-    public void delete(){
-
     }
 
     @Transactional
     public Novel findNovel(String novelId){
-        return novelRepository.findById(novelId);
+        return novelRepository.findById(novelId)
+                .orElseThrow(() -> new CommonException(ExceptionEnum.RESULT_NOT_EXIST_EXCEPTION));
     }
 
     @Transactional

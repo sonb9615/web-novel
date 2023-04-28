@@ -3,7 +3,7 @@ package numble.webnovel.controller;
 import lombok.RequiredArgsConstructor;
 import numble.webnovel.repository.dto.request.NovelSaveRequest;
 import numble.webnovel.repository.dto.response.NovelTicketsResponse;
-import numble.webnovel.domain.NovelTicketsRequest;
+import numble.webnovel.repository.dto.request.NovelTicketsRequest;
 import numble.webnovel.enums.ExceptionEnum;
 import numble.webnovel.exceptions.CommonException;
 import numble.webnovel.service.NovelService;

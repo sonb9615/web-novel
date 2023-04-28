@@ -1,4 +1,4 @@
-package numble.webnovel.domain;
+package numble.webnovel.repository.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;

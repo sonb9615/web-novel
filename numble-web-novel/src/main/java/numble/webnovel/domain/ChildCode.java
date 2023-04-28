@@ -27,10 +27,10 @@ public class ChildCode {
     code.getChildCodeList().add(this);
   }
 
-  public static ChildCode childCode(String code, String parentCode, String value){
+  public static ChildCode childCode(String code, String value, ParentCode parentCode){
     ChildCode childCode = new ChildCode();
     childCode.setCode(code);
-  //  childCode.setParentCode(parentCode);
+    childCode.setParentCode(parentCode);
     childCode.setValue(value);
     return childCode;
   }

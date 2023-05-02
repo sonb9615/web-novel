@@ -21,8 +21,7 @@ public class NovelSaveRequest {
     private CommonStatusEnum status;
 
     public Novel toNovel(){
-        return Novel.createNovel(this.novelId, this.title, this.author
-                ,this.novelInfo, this.novelImg, this.episodeCost, this.genre);
+        return Novel.createNovel(this.title, this.author, this.novelInfo, this.novelImg, this.episodeCost, this.genre);
     }
 
 }

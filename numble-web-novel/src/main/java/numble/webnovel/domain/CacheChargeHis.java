@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,31 +16,29 @@ import java.time.LocalDateTime;
 public class CacheChargeHis {
 
   @Id
-  @Column(name = "payment_no")
-  private String paymentNo;
-  @Column(name = "date")
+  @Column(name = "charge_his_id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private String chargeHisId;
+
   private LocalDateTime date;
-  @Column(name = "cost")
-  private long cost;
-  @Column(name = "cache_cost")
-  private long cacheCost;
+  private int cost;
+  private int cache;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_no")
-  private UserInfo userInfo;
+  @JoinColumn(name = "member_id")
+  private Member member;
 
-  public void setUserInfo(UserInfo info){
-    this.userInfo = info;
+  public void setMember(Member info){
+    this.member = info;
     info.getCacheChargeHisList().add(this);
   }
 
-  public static CacheChargeHis createCacheChargeHis(String paymentNo, UserInfo userInfo, long cost, long cacheCost) {
+  public static CacheChargeHis createCacheChargeHis(Member member, int cost, int cache) {
     CacheChargeHis cacheChargeHis = new CacheChargeHis();
-    cacheChargeHis.setPaymentNo(paymentNo);
     cacheChargeHis.setDate(LocalDateTime.now());
     cacheChargeHis.setCost(cost);
-    cacheChargeHis.setCacheCost(cacheCost);
-    cacheChargeHis.setUserInfo(userInfo);
+    cacheChargeHis.setCache(cache);
+    cacheChargeHis.setMember(member);
     return cacheChargeHis;
   }
 }

@@ -6,17 +6,15 @@ import lombok.Data;
 @Data
 public class SignUpRequest {
 
-    private String userId;
+    private String nickname;
     private String password;
     private String role;
-    private String phone;
-    private String gender;
     private String email;
 
 
-    public static SignUpRequest createSignUpRequest(String userId, String password){
+    public static SignUpRequest createSignUpRequest(String nickname, String password){
         SignUpRequest signUpRequest = new SignUpRequest();
-        signUpRequest.setUserId(userId);
+        signUpRequest.setNickname(nickname);
         signUpRequest.setPassword(password);
         return signUpRequest;
     }

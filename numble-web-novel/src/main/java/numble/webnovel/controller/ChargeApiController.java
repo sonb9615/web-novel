@@ -8,7 +8,7 @@ import numble.webnovel.exceptions.CommonException;
 import numble.webnovel.repository.dto.response.ChargeCacheResponse;
 import numble.webnovel.repository.dto.response.ChargeTicketsResponse;
 import numble.webnovel.service.CacheChargeService;
-import numble.webnovel.service.NovelTicketsChargeService;
+import numble.webnovel.service.NovelTicketChargeService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class ChargeApiController {
 
-    private final NovelTicketsChargeService novelTicketsChargeService;
+    private final NovelTicketChargeService novelTicketChargeService;
     private final CacheChargeService cacheChargeService;
 
     @PostMapping("/charge/cache")
@@ -34,9 +34,9 @@ public class ChargeApiController {
 
     @PostMapping("/charge/tickets")
     public ChargeTicketsResponse chargeTickets(@RequestBody @Validated NovelTicketChargeRequest request){
-        if(novelTicketsChargeService.validRequestParam(request)){
+        if(novelTicketChargeService.validRequestParam(request)){
             return ChargeTicketsResponse.createChargeTicketsResponse("SUCCESS"
-                    , novelTicketsChargeService.chargeTicket(request.getUserNo(), request.getNovelId(), request.getChargeTicketsCnt()));
+                    , novelTicketChargeService.chargeTicket(request.getUserNo(), request.getNovelId(), request.getChargeTicketsCnt()));
         }
         throw new CommonException(ExceptionEnum.PARAM_NOT_EXIST_EXCEPTION);
     }

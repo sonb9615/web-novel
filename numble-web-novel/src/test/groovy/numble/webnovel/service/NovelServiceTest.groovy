@@ -1,7 +1,7 @@
 package numble.webnovel.service
 
 import numble.webnovel.domain.Novel
-import numble.webnovel.repository.UserLibraryRepository
+import numble.webnovel.repository.LibraryRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.annotation.Rollback
@@ -15,9 +15,9 @@ import spock.lang.Specification
 class NovelServiceTest extends Specification{
 
     @Autowired
-    private UserLibraryService userLibraryService;
+    private LibraryService userLibraryService;
     @Autowired
-    private UserLibraryRepository userLibraryRepository;
+    private LibraryRepository userLibraryRepository;
     @Autowired
     private NovelService novelService;
 

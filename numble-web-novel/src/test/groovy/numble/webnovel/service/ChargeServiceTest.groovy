@@ -1,11 +1,10 @@
 package numble.webnovel.service
 
-
+import numble.webnovel.domain.Member
 import numble.webnovel.domain.Novel
 import numble.webnovel.domain.NovelTag
-import numble.webnovel.repository.dto.request.NovelTicketChargeRequest
-import numble.webnovel.domain.UserInfo
 import numble.webnovel.exceptions.CommonException
+import numble.webnovel.repository.dto.request.NovelTicketChargeRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.annotation.Rollback
@@ -18,11 +17,9 @@ import spock.lang.Specification
 class ChargeServiceTest extends Specification{
 
     @Autowired
-    CommonCodeService commonCodeService;
-    @Autowired
     CacheChargeService cacheChargeService;
     @Autowired
-    UserInfoService userInfoService;
+    MemberService userInfoService;
     @Autowired
     UUIDGeneration uuidGeneration;
     @Autowired
@@ -30,7 +27,7 @@ class ChargeServiceTest extends Specification{
     @Autowired
     NovelService novelService;
     @Autowired
-    NovelTicketsChargeService novelTicketsChargeService;
+    NovelTicketChargeService novelTicketsChargeService;
 
     def "1초 이내에 중복 충전 건이 들어오면 예외처리 한다"(){
         given:
@@ -55,7 +52,7 @@ class ChargeServiceTest extends Specification{
         cacheChargeService.cacheCharge(userNo, 100);
 
         then:
-        UserInfo info = userInfoService.findByUserNo(userNo);
+        Member info = userInfoService.findByUserNo(userNo);
         info.getCache() == 100;
     }
 
@@ -63,7 +60,7 @@ class ChargeServiceTest extends Specification{
     def "캐쉬가 충분한 상태에서 이용권 충전"(){
         given:
         String userNo = uuidGeneration.getUUID();
-        UserInfo userInfo = UserInfo.createUserInfo(userNo, "testUserId", "qwer1243", "reader", "010-1111-1111", "female","testUser@email.com");
+        Member userInfo = Member.createMember(userNo, "testUserId", "qwer1243", "reader", "010-1111-1111", "female","testUser@email.com");
         userInfo.chargeCache(1000);
         userInfoService.saveUserInfo(userInfo);
         String novelId = uuidGeneration.getUUID();
@@ -75,7 +72,7 @@ class ChargeServiceTest extends Specification{
         novelTicketsChargeService.chargeTicket(userNo, novelId, 3);
 
         then:
-        UserInfo info = userInfoService.findByUserNo(userNo);
+        Member info = userInfoService.findByUserNo(userNo);
         println(info.getCache());
         info.getCache() == 400;
     }
@@ -83,7 +80,7 @@ class ChargeServiceTest extends Specification{
     def "이용권 충전시 캐쉬가 충분하지 않으면 에러"(){
         given:
         String userNo = uuidGeneration.getUUID();
-        UserInfo userInfo = UserInfo.createUserInfo(userNo, "origin", "orginPW", "reader", "010-1111-1111", "female","origin@email.com",0);
+        Member userInfo = Member.createMember(userNo, "origin", "orginPW", "reader", "010-1111-1111", "female","origin@email.com",0);
         userInfoService.saveUserInfo(userInfo);
         String novelId = uuidGeneration.getUUID();
         Novel novel = Novel.novel(novelId, "어린왕자", "생텍쥐페리", 0, "어린왕자 입니다.", 0, "novelImgUrl", 100) ;

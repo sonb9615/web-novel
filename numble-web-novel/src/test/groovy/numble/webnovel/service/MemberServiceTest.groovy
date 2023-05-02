@@ -1,8 +1,8 @@
 package numble.webnovel.service
 
-import numble.webnovel.domain.UserInfo
+import numble.webnovel.domain.Member
 import numble.webnovel.exceptions.CommonException
-import numble.webnovel.repository.UserInfoRepository
+import numble.webnovel.repository.MemberRepository
 import numble.webnovel.repository.dto.request.LoginRequest
 import numble.webnovel.repository.dto.request.SignUpRequest
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,21 +14,21 @@ import spock.lang.Specification
 @SpringBootTest
 @Rollback
 @Transactional
-class UserInfoServiceTest extends Specification{
+class MemberServiceTest extends Specification{
 
     @Autowired
-    private UserInfoService userInfoService;
+    private MemberService userInfoService;
     @Autowired
-    private UserInfoRepository userInfoRepository;
+    private MemberRepository userInfoRepository;
     @Autowired
-    private UserInfoRepository userInfoInterface;
+    private MemberRepository userInfoInterface;
 
     def "회원찾기"(){
         given:
         String userId = "testId_1"
         when:
 //        List<UserInfo> user = userInfoInterface.findByUserId(userId);
-        UserInfo info = userInfoService.findByUserNo("269235c0ac264698951ac2058304aa2a");
+        Member info = userInfoService.findByUserNo("269235c0ac264698951ac2058304aa2a");
         then:
         info.getUserId() == userId;
         println info.getPassword();
@@ -42,7 +42,7 @@ class UserInfoServiceTest extends Specification{
         userInfoService.signUp(signUpRequest);
 
         then:
-        UserInfo userInfo = userInfoRepository.findByUserId("user_id").get(0);
+        Member userInfo = userInfoRepository.findByUserId("user_id").get(0);
         userInfo.getPassword() == "user_pw";
     }
 
@@ -87,5 +87,24 @@ class UserInfoServiceTest extends Specification{
         then:
         def e = thrown(CommonException.class)
         println(e);
+    }
+
+    def"유저 no로 찾기"(){
+        given:
+        String userNo = "269235c0ac264698951ac2058304aa2a";
+        when:
+        Member userInfo = userInfoService.findByUserNo(userNo);
+        then:
+        userInfo.getGender() == "female";
+    }
+
+    def "유저 아이디 비밀번호 유효성 검사"(){
+        given:
+        SignUpRequest signUpRequest = SignUpRequest.createSignUpRequest("user_id", "user_pw");
+        userInfoService.signUp(signUpRequest);
+        when:
+        Optional<Member> info =  userInfoRepository.findByUserId("user_id");
+        then:
+        info.get().getPassword() == "user_pw";
     }
 }

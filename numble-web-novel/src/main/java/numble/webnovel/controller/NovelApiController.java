@@ -7,7 +7,7 @@ import numble.webnovel.repository.dto.request.NovelTicketsRequest;
 import numble.webnovel.enums.ExceptionEnum;
 import numble.webnovel.exceptions.CommonException;
 import numble.webnovel.service.NovelService;
-import numble.webnovel.service.UserNovelTicketsService;
+import numble.webnovel.service.NovelTicketService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class NovelApiController {
 
-    private final UserNovelTicketsService userNovelTicketsService;
+    private final NovelTicketService novelTicketService;
     private final NovelService novelService;
 
     @PostMapping("/novel/save")
@@ -32,8 +32,8 @@ public class NovelApiController {
 
     @PostMapping("/novel/useTicket")
     public NovelTicketsResponse useNovelTicket(@RequestBody @Validated NovelTicketsRequest request){
-        if(userNovelTicketsService.validRequestParam(request)){
-            userNovelTicketsService.useNovelTickets(request.getUserNo(), request.getNovelId(), request.getEpisodeId());
+        if(novelTicketService.validRequestParam(request)){
+            novelTicketService.useNovelTickets(request.getUserNo(), request.getNovelId(), request.getEpisodeId());
             return NovelTicketsResponse.createNovelTicketsResponse(request.getNovelId(), request.getEpisodeId());
         }
         throw new CommonException(ExceptionEnum.PARAM_NOT_EXIST_EXCEPTION);

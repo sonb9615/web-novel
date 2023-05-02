@@ -15,8 +15,9 @@ import javax.persistence.*;
 public class NovelTag {
 
   @Id
-  @Column(name = "id")@GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  @Column(name = "novel_tag_id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long novelTagId;
 
   @Column(name = "tag")
   private String tag;

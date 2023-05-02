@@ -1,7 +1,7 @@
 package numble.webnovel.controller;
 
 import lombok.RequiredArgsConstructor;
-import numble.webnovel.service.UserLibraryService;
+import numble.webnovel.service.LibraryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api")
 public class UserLibraryApiController {
 
-    private final UserLibraryService userLibraryService;
+    private final LibraryService libraryService;
 
 //    @PostMapping("/userLib/find")
 //    public List<UserLibrary> findUserLibrary(@RequestBody @Validated UserLibraryRequest userLibraryRequest){

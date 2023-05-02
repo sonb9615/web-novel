@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class NovelTicketsChargeService {
+public class NovelTicketChargeService {
 
-    private final UserNovelTicketsService userNovelTicketsService;
-    private final UserInfoService userInfoService;
+    private final NovelTicketService novelTicketService;
+    private final MemberService memberService;
     private final NovelService novelService;
     private final UUIDGeneration uuidGeneration;
     private final ChargeValidationService chargeValidationService;
@@ -28,13 +28,12 @@ public class NovelTicketsChargeService {
         chargeValidationService.saveCharge(userNo, userNo);
 
         Novel novel = novelService.findNovel(novelId);
-        UserInfo userInfo = userInfoService.findByUserNo(userNo);
-        userInfo.buyTicket(novel.getEpisodeCost(), ticketCnt);
+        Member member = memberService.findByUserNo(userNo);
+        member.buyTicket(novel.getEpisodeCost(), ticketCnt);
         novel.plusPaymentCnt(ticketCnt);
 
-        UserNovelTickets userNovelTickets = UserNovelTickets.createUserNovelTickets(uuidGeneration.getUUID(), ticketCnt, ticketCnt
-                ,novel.getEpisodeCost(),userInfo, novel);
-        userNovelTicketsService.saveUserNovelTickets(userNovelTickets);
+        NovelTicket novelTicket = NovelTicket.createNovelTicket(ticketCnt, ticketCnt, novel.getEpisodeCost(), member, novel);
+        novelTicketService.saveUserNovelTickets(novelTicket);
 
         return ticketCnt;
     }

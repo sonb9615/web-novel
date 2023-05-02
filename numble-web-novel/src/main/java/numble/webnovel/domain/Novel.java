@@ -20,70 +20,50 @@ public class Novel {
 
   @Id
   @Column(name = "novel_id")
-  private String novelId;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long novelId;
 
-  @Column(name = "title")
   private String title;
-
-  @Column(name = "author")
   private String author;
-
-  @Column(name = "like_cnt")
-  private int likeCnt;
-
-  @Column(name = "novel_info")
+  private Long likeCnt;
   private String novelInfo;
-
-  @Column(name = "payment_cnt")
   private long paymentCnt;
-
-  @Column(name = "novel_img")
   private String novelImg;
-
-  @Column(name = "genre")
   private String genre;
-
-  @Column(name = "episode_cost")
   private int episodeCost;
-
-  @Column(name = "reg_dt")
   private LocalDateTime regDt;
-
-  @Column(name = "udt_dt")
   private LocalDateTime udtDt;
 
   @OneToMany(mappedBy = "novel", cascade = CascadeType.ALL)
-  private List<NovelEpisode> novelEpisodeList = new ArrayList<>();
+  private List<Episode> episodeList = new ArrayList<>();
 
   @OneToMany(mappedBy = "novel", cascade = CascadeType.ALL)
   private List<NovelTag> novelTagList = new ArrayList<>();
 
   @OneToMany(mappedBy = "novel", cascade = CascadeType.ALL)
-  private List<UserNovelTickets> userNovelTicketsList = new ArrayList<>();
+  private List<NovelTicket> novelTicketList = new ArrayList<>();
 
   public void setNovelTag(NovelTag tag){
     this.novelTagList.add(tag);
     tag.setNovel(this);
   }
 
-  public void setNovelEpisode(NovelEpisode episode){
-    this.novelEpisodeList.add(episode);
+  public void setNovelEpisode(Episode episode){
+    this.episodeList.add(episode);
     episode.setNovel(this);
   }
 
-  public void setUserNovelTicket(UserNovelTickets tickets){
-    this.userNovelTicketsList.add(tickets);
+  public void setUserNovelTicket(NovelTicket tickets){
+    this.novelTicketList.add(tickets);
     tickets.setNovel(this);
   }
 
   // 생성 매서드
-  public static Novel createNovel(String novelId, String title, String author
-          , String novelInfo, String novelImg, int episodeCost, String genre) {
+  public static Novel createNovel(String title, String author, String novelInfo, String novelImg, int episodeCost, String genre) {
     Novel novel = new Novel();
-    novel.setNovelId(novelId);
     novel.setTitle(title);
     novel.setAuthor(author);
-    novel.setLikeCnt(0);
+    novel.setLikeCnt(0L);
     novel.setNovelInfo(novelInfo);
     novel.setPaymentCnt(0);
     novel.setNovelImg(novelImg);
@@ -94,11 +74,11 @@ public class Novel {
   }
 
   // 비지니스 로직
-  public int plusLikeCnt(){
+  public Long plusLikeCnt(){
     return getLikeCnt() + 1;
   }
 
-  public int minusLikeCnt(){
+  public Long minusLikeCnt(){
     return getLikeCnt() - 1;
   }
 

@@ -1,6 +1,6 @@
 
 CREATE TABLE `member` (
-	`member_id`	bigint	NOT NULL	COMMENT '회원 정보 id',
+	`member_id` bigint	NOT NULL AUTO_INCREMENT	COMMENT '회원 정보 id',
 	`nickname`	varchar(100)	NULL	COMMENT '닉네임',
 	`password`	varchar(100)	NULL	COMMENT '유저 비밀번호',
 	`email`	varchar(100)	NULL	COMMENT '이메일',
@@ -9,7 +9,7 @@ CREATE TABLE `member` (
 );
 
 CREATE TABLE `novel` (
-	`novel_id`	bigint	NOT NULL	COMMENT '소설 id',
+	`novel_id` bigint	NOT NULL AUTO_INCREMENT	COMMENT '소설 id',
 	`title`	varchar(100)	NULL	COMMENT '소설제목',
 	`author`	varchar(100)	NULL	COMMENT '소설작가',
 	`like_cnt`	bigint	NULL	DEFAULT 0	COMMENT '좋아요 수',
@@ -23,7 +23,7 @@ CREATE TABLE `novel` (
 );
 
 CREATE TABLE `episode` (
-	`episode_id`	bigint	NULL	COMMENT '에피소드 id',
+	`episode_id` bigint	NOT NULL AUTO_INCREMENT	COMMENT '에피소드 id',
 	`novel_id`	bigint	NOT NULL	COMMENT '소설 id',
 	`episode_no`	INT	NOT NULL	COMMENT '소설 회차',
 	`episode_title`	varchar(100)	NULL	COMMENT '에피소드 제목',
@@ -36,7 +36,7 @@ CREATE TABLE `episode` (
 );
 
 CREATE TABLE `library` (
-	`library_id`	bigint	NOT NULL	COMMENT '각 row 고유 id',
+	`library_id` bigint	NOT NULL AUTO_INCREMENT	COMMENT 'library id',
 	`episode_id`	bigint	NULL	COMMENT '에피소드 id',
 	`ticket_id`	bigint	NOT NULL	COMMENT '이용권 id',
 	`member_id`	bigint	NOT NULL	COMMENT '회원 정보 id',
@@ -46,7 +46,7 @@ CREATE TABLE `library` (
 );
 
 CREATE TABLE `cache_charge_his` (
-	`charge_his_id`	bigint	NULL	COMMENT '결제 번호',
+	`charge_his_id` bigint	NOT NULL AUTO_INCREMENT	COMMENT '결제 이력 id',
 	`member`	bigint	NOT NULL	COMMENT '회원 정보 id',
 	`date`	DATE	NULL	COMMENT '결제날짜',
 	`cost`	int	NULL	COMMENT '결제 금액',
@@ -54,13 +54,13 @@ CREATE TABLE `cache_charge_his` (
 );
 
 CREATE TABLE `novel_tag` (
-	`novel_tag_id`	bigint	NOT NULL	COMMENT '소설 태그 id',
+	`novel_tag_id` bigint	NOT NULL AUTO_INCREMENT	COMMENT '소설 태그 id',
 	`novel_id`	bigint	NOT NULL	COMMENT '소설 id',
 	`tag`	varchar(100)	NULL	COMMENT '소설 태그'
 );
 
 CREATE TABLE `novel_ticket` (
-	`ticket_id`	bigint	NOT NULL	COMMENT '이용권 id',
+	`ticket_id` bigint	NOT NULL AUTO_INCREMENT	COMMENT '이용권 id',
 	`novel_id`	varchar(36)	NOT NULL	COMMENT '소설 id',
 	`member_id`	bigint	NOT NULL	COMMENT '회원 정보 id',
 	`ticket_cnt`	INT	NULL	COMMENT '구매 이용권 수',
@@ -99,6 +99,5 @@ ALTER TABLE `novel_ticket` ADD CONSTRAINT `PK_NOVEL_TICKET` PRIMARY KEY (
 );
 
 create index idx_library on library (`member_id`, `episode_id`);
-
 
 commit;

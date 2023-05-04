@@ -15,46 +15,45 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberService {
 
-    private final UUIDGeneration uuidGeneration;
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Member findByUserNo(String userNo){
-         return memberRepository.findById(userNo)
+    public Member findByMemberId(Long memberId){
+         return memberRepository.findById(memberId)
                  .orElseThrow(() -> new CommonException(ExceptionEnum.RESULT_NOT_EXIST_EXCEPTION));
     }
 
     @Transactional
     public void signUp(SignUpRequest request){
-        if(isDuplicatedUserId(request.getNickname())){
-            Member member = Member.createMember(request.getNickname(), request.getPassword(), request.getRole(), request.getEmail());
+        if(isDuplicatedNickname(request.getNickname())){
+            Member member = request.toMember();
             memberRepository.save(member);
         }
     }
 
     @Transactional
     public boolean login(LoginRequest request){
-        return validLogin(request.getUserId(), request.getPassword());
+        return validLogin(request.getNickname(), request.getPassword());
     }
 
     @Transactional
-    public boolean isDuplicatedUserId(String userId){
-        if(memberRepository.findByUserId(userId).isPresent()){
-            throw new CommonException(ExceptionEnum.DUPLICATE_USER_ID);
+    public boolean isDuplicatedNickname(String nickname){
+        if(memberRepository.findByNickname(nickname).isPresent()){
+            throw new CommonException(ExceptionEnum.DUPLICATE_NICKNAME);
         }
         return true;
     }
 
     @Transactional
-    public boolean validLogin(String userId, String password){
-        if(memberRepository.findByUserIdPW(userId, password).isEmpty()){
+    public boolean validLogin(String nickname, String password){
+        if(memberRepository.findByNicknamePW(nickname, password).isEmpty()){
             throw new CommonException(ExceptionEnum.INVALID_LOGIN);
         }
         return true;
     }
 
     @Transactional
-    public void deleteByUserNo(String userNo){
-        memberRepository.deleteById(userNo);
+    public void deleteByUserNo(Long memberId){
+        memberRepository.deleteById(memberId);
     }
 }

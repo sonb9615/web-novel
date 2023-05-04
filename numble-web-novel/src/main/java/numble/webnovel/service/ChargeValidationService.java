@@ -14,11 +14,11 @@ public class ChargeValidationService {
     private static final String REDIS_KEY = "CHARGE_";
     private final RedisService redisService;
 
-    public boolean isDuplicatedCharge(String userNo) {
-        return stringRedisTemplate.opsForValue().get(REDIS_KEY + userNo) != null;
+    public boolean isDuplicatedCharge(Long memberId) {
+        return stringRedisTemplate.opsForValue().get(REDIS_KEY + memberId) != null;
     }
 
-    public void saveCharge(String userNo, String value) {
-        redisService.setStringValueOneSec(REDIS_KEY + userNo, value);
+    public void saveCharge(Long memberId, String value) {
+        redisService.setStringValueOneSec(REDIS_KEY + memberId, value);
     }
 }

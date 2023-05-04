@@ -27,7 +27,7 @@ public class ChargeApiController {
     public ChargeCacheResponse chargeCache(@RequestBody @Validated CacheChargeRequest request) throws InterruptedException {
         if(cacheChargeService.validRequestParam(request)){
             return ChargeCacheResponse.createChargeCacheResponse("SUCCESS"
-                    ,cacheChargeService.cacheCharge(request.getUserNo(), request.getMoney()));
+                    ,cacheChargeService.cacheCharge(request.getMemberId(), request.getMoney()));
         }
         throw new CommonException(ExceptionEnum.PARAM_NOT_EXIST_EXCEPTION);
     }
@@ -36,7 +36,7 @@ public class ChargeApiController {
     public ChargeTicketsResponse chargeTickets(@RequestBody @Validated NovelTicketChargeRequest request){
         if(novelTicketChargeService.validRequestParam(request)){
             return ChargeTicketsResponse.createChargeTicketsResponse("SUCCESS"
-                    , novelTicketChargeService.chargeTicket(request.getUserNo(), request.getNovelId(), request.getChargeTicketsCnt()));
+                    , novelTicketChargeService.chargeTicket(request.getMemberId(), request.getNovelId(), request.getChargeTicketsCnt()));
         }
         throw new CommonException(ExceptionEnum.PARAM_NOT_EXIST_EXCEPTION);
     }

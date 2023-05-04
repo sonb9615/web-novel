@@ -7,15 +7,15 @@ import lombok.Setter;
 @Setter
 public class CacheChargeRequest {
 
-    private String userNo;
-    private String novelId;
-    private String episodeId;
+    private Long memberId;
+    private Long novelId;
+    private Long episodeId;
     private int payTicketsCnt;
     private int money;
 
-    public static CacheChargeRequest cacheChargeInfo(String userNno, String episodeId, int money) {
+    public static CacheChargeRequest cacheChargeInfo(Long memberId, Long episodeId, int money) {
         CacheChargeRequest cacheChargeRequest = new CacheChargeRequest();
-        cacheChargeRequest.setUserNo(userNno);
+        cacheChargeRequest.setMemberId(memberId);
         cacheChargeRequest.setEpisodeId(episodeId);
         cacheChargeRequest.setMoney(money);
         return cacheChargeRequest;

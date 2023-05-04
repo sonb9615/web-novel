@@ -19,13 +19,12 @@ import java.util.List;
 public class NovelTicketService {
 
     private final LibraryService libraryService;
-    private final UUIDGeneration uuidGeneration;
     private final EpisodeService episodeService;
     private final NovelTicketRepository novelTicketRepository;
 
     @Transactional
-    public void useNovelTickets(String userNo, String novelId, String episodeId){
-        List<NovelTicket> novelTicketList = this.findUsableTickets(userNo, novelId);
+    public void useNovelTickets(Long memberId, Long novelId, Long episodeId){
+        List<NovelTicket> novelTicketList = this.findUsableTickets(memberId, novelId);
         //이용권 하나 사용
         NovelTicket ticket = novelTicketList.get(0);
         String ticketId = ticket.useTicket();
@@ -36,14 +35,14 @@ public class NovelTicketService {
     }
 
     @Transactional
-    public void saveUserNovelTickets(NovelTicket novelTicket){
+    public void saveUserNovelTicket(NovelTicket novelTicket){
         novelTicketRepository.save(novelTicket);
     }
 
     @Transactional
-    public List<NovelTicket> findUsableTickets(String userNo, String novelId){
+    public List<NovelTicket> findUsableTickets(Long memberId, Long novelId){
         List<NovelTicket> novelTicketList
-                = novelTicketRepository.findAllTicketsByNovelIdUserId(userNo, novelId);
+                = novelTicketRepository.findAllTicketsByNovelIdMemberId(memberId, novelId);
         if(novelTicketList.size() == 0){
             throw new CommonException(ExceptionEnum.NOVEL_TICKET_NOT_EXIST_EXCEPTION);
         }
@@ -51,6 +50,6 @@ public class NovelTicketService {
     }
 
     public boolean validRequestParam(NovelTicketsRequest reqParam){
-        return !reqParam.getUserNo().isEmpty() && !reqParam.getNovelId().isEmpty() && !reqParam.getEpisodeId().isEmpty();
+        return reqParam.getMemberId() != null && reqParam.getNovelId() != null && reqParam.getEpisodeId() != null;
     }
 }

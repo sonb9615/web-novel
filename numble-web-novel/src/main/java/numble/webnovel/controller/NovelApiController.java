@@ -33,7 +33,7 @@ public class NovelApiController {
     @PostMapping("/novel/useTicket")
     public NovelTicketsResponse useNovelTicket(@RequestBody @Validated NovelTicketsRequest request){
         if(novelTicketService.validRequestParam(request)){
-            novelTicketService.useNovelTickets(request.getUserNo(), request.getNovelId(), request.getEpisodeId());
+            novelTicketService.useNovelTickets(request.getMemberId(), request.getNovelId(), request.getEpisodeId());
             return NovelTicketsResponse.createNovelTicketsResponse(request.getNovelId(), request.getEpisodeId());
         }
         throw new CommonException(ExceptionEnum.PARAM_NOT_EXIST_EXCEPTION);

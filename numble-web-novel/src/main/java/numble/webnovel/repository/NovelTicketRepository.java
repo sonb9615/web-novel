@@ -7,9 +7,9 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface NovelTicketRepository extends JpaRepository<NovelTicket, String> {
+public interface NovelTicketRepository extends JpaRepository<NovelTicket, Long> {
 
-    @Query("select t from NovelTicket t join fetch t.novel n join fetch t.userInfo u" +
-            " where u.userNo = :userNo and n.novelId = :novelId order by t.regDt")
-    List<NovelTicket> findAllTicketsByNovelIdUserId(@Param("userNo") String userNo, @Param("novelId") String novelId);
+    @Query("select t from NovelTicket t join fetch t.novel n join fetch t.member m" +
+            " where m.memberId = :memberId and n.novelId = :novelId order by t.regDt")
+    List<NovelTicket> findAllTicketsByNovelIdMemberId(@Param("memberId") Long memberId, @Param("novelId") Long novelId);
 }

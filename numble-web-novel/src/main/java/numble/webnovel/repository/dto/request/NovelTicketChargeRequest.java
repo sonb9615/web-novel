@@ -7,15 +7,15 @@ import lombok.Setter;
 @Setter
 public class NovelTicketChargeRequest {
 
-    private String userNo;
-    private String novelId;
+    private Long memberId;
+    private Long novelId;
     private int chargeTicketsCnt;
     private int episodeCost;
     private int userCache;
 
-    public static NovelTicketChargeRequest novelTicketChargeInfo(String userNo, String novelId, int chargeTicketsCnt) {
+    public static NovelTicketChargeRequest novelTicketChargeInfo(Long memberId, Long novelId, int chargeTicketsCnt) {
         NovelTicketChargeRequest novelTicketChargeRequest = new NovelTicketChargeRequest();
-        novelTicketChargeRequest.setUserNo(userNo);
+        novelTicketChargeRequest.setMemberId(memberId);
         novelTicketChargeRequest.setNovelId(novelId);
         novelTicketChargeRequest.setChargeTicketsCnt(chargeTicketsCnt);
         return novelTicketChargeRequest;

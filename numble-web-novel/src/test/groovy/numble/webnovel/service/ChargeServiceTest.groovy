@@ -52,7 +52,7 @@ class ChargeServiceTest extends Specification{
         cacheChargeService.cacheCharge(userNo, 100);
 
         then:
-        Member info = userInfoService.findByUserNo(userNo);
+        Member info = userInfoService.findByMemberId(userNo);
         info.getCache() == 100;
     }
 
@@ -72,7 +72,7 @@ class ChargeServiceTest extends Specification{
         novelTicketsChargeService.chargeTicket(userNo, novelId, 3);
 
         then:
-        Member info = userInfoService.findByUserNo(userNo);
+        Member info = userInfoService.findByMemberId(userNo);
         println(info.getCache());
         info.getCache() == 400;
     }

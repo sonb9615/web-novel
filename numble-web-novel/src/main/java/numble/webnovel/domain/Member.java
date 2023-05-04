@@ -1,9 +1,6 @@
 package numble.webnovel.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import numble.webnovel.enums.ExceptionEnum;
 import numble.webnovel.exceptions.CommonException;
 
@@ -19,14 +16,18 @@ import java.util.List;
 public class Member {
 
     @Id
-    @Column(name="member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
+    @Column(name="nickname")
     private String nickname;
+    @Column(name="password")
     private String password;
+    @Column(name="role")
     private String role;
+    @Column(name="email")
     private String email;
+    @Column(name="own_cache")
     private int ownCache;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
@@ -61,6 +62,16 @@ public class Member {
         member.setEmail(email);
         member.setOwnCache(0);
         return member;
+    }
+
+    @Builder
+    public Member(Long memberId, String nickname, String password, String role, String email, int ownCache){
+        this.memberId = memberId;
+        this.nickname = nickname;
+        this.password = password;
+        this.role = role;
+        this.email = email;
+        this.ownCache = ownCache;
     }
 
     // 비지니스 로직

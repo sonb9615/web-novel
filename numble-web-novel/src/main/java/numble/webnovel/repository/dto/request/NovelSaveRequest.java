@@ -10,7 +10,7 @@ import javax.persistence.Enumerated;
 @Data
 public class NovelSaveRequest {
 
-    private String novelId;
+    private Long novelId;
     private String title;
     private String author;
     private String novelInfo;

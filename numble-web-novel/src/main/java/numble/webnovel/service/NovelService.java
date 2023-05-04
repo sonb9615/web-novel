@@ -17,13 +17,11 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class NovelService {
 
-    private final UUIDGeneration uuidGeneration;
     private final NovelRepository novelRepository;
 
     @Transactional
     public void saveNovel(NovelSaveRequest request){
         if(CommonStatusEnum.CREATE.equals(request.getStatus())) {
-            request.setNovelId(uuidGeneration.getUUID());
             Novel novel = request.toNovel();
             novelRepository.save(novel);
         }else{
@@ -37,13 +35,13 @@ public class NovelService {
     }
 
     @Transactional
-    public Novel findNovel(String novelId){
+    public Novel findNovel(Long novelId){
         return novelRepository.findById(novelId)
                 .orElseThrow(() -> new CommonException(ExceptionEnum.RESULT_NOT_EXIST_EXCEPTION));
     }
 
     @Transactional
-    public void plusNovelLickCnt(String novelId, int cnt){
+    public void plusNovelLickCnt(Long novelId, int cnt){
         Novel novel = this.findNovel(novelId);
         novel.setLikeCnt(novel.getLikeCnt() + cnt);
         novel.setUdtDt(LocalDateTime.now());

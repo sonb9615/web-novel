@@ -19,7 +19,7 @@ public enum ExceptionEnum {
     CACHE_SHORTAGE_EXCEPTION(HttpStatus.BAD_REQUEST, "SE0001", "캐쉬가 부족합니다."),
     PARAM_NOT_EXIST_EXCEPTION(HttpStatus.BAD_REQUEST, "PE0001", "필수 파라미터 확인해주세요."),
     NOVEL_TICKET_NOT_EXIST_EXCEPTION(HttpStatus.BAD_REQUEST, "NE0001", "사용가능한 소설 이용권이 없습니다."),
-    DUPLICATE_USER_ID(HttpStatus.BAD_REQUEST, "LE0001", "해당 id는 이미 존재합니다."),
+    DUPLICATE_NICKNAME(HttpStatus.BAD_REQUEST, "LE0001", "해당 닉네임은 이미 존재합니다."),
     INVALID_LOGIN(HttpStatus.BAD_REQUEST, "LE0002", "id 또는 비밀번호를 확인해주세요.");
 
     private final HttpStatus status;

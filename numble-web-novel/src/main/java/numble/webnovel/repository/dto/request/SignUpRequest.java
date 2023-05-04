@@ -2,6 +2,7 @@ package numble.webnovel.repository.dto.request;
 
 import lombok.Builder;
 import lombok.Data;
+import numble.webnovel.domain.Member;
 
 @Data
 public class SignUpRequest {
@@ -17,5 +18,14 @@ public class SignUpRequest {
         signUpRequest.setNickname(nickname);
         signUpRequest.setPassword(password);
         return signUpRequest;
+    }
+
+    public Member toMember(){
+        return Member.builder()
+                .nickname(this.nickname)
+                .password(this.password)
+                .role(this.role)
+                .email(this.email)
+                .build();
     }
 }

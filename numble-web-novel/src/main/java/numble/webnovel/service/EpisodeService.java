@@ -15,7 +15,7 @@ public class EpisodeService {
 
     private final EpisodeRepository episodeRepository;
 
-    public Episode findNovelEpisodeById(String episodeId){
+    public Episode findNovelEpisodeById(Long episodeId){
         return episodeRepository.findById(episodeId)
                 .orElseThrow(() -> new CommonException(ExceptionEnum.RESULT_NOT_EXIST_EXCEPTION));
     }

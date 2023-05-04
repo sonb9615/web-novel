@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 public class NovelTicketsRequest {
 
-    private String userNo;
-    private String novelId;
-    private String episodeId;
+    private Long memberId;
+    private Long novelId;
+    private Long episodeId;
 
 }

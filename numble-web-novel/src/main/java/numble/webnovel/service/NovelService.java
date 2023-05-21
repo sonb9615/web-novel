@@ -40,13 +40,6 @@ public class NovelService {
                 .orElseThrow(() -> new CommonException(ExceptionEnum.RESULT_NOT_EXIST_EXCEPTION));
     }
 
-    @Transactional
-    public void plusNovelLickCnt(Long novelId, int cnt){
-        Novel novel = this.findNovel(novelId);
-        novel.setLikeCnt(novel.getLikeCnt() + cnt);
-        novel.setUdtDt(LocalDateTime.now());
-    }
-
     public boolean validateRequestParam(NovelSaveRequest request){
         return !request.getTitle().isEmpty() && !request.getAuthor().isEmpty() && request.getEpisodeCost() >= 0;
     }

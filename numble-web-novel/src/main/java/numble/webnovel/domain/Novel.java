@@ -75,11 +75,15 @@ public class Novel {
 
   // 비지니스 로직
   public Long plusLikeCnt(){
-    return getLikeCnt() + 1;
+    this.likeCnt += 1;
+    this.udtDt = LocalDateTime.now();
+    return likeCnt;
   }
 
   public Long minusLikeCnt(){
-    return getLikeCnt() - 1;
+    this.likeCnt -= 1;
+    this.udtDt = LocalDateTime.now();
+    return likeCnt;
   }
 
   public void plusPaymentCnt(int cnt){

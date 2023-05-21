@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: #dbURL
-    username: #DB_userName
-    password: #DB_password
+    url: jdbc:mysql://localhost:3306/web-novel?useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: qwer1234
 
   jpa:
     hibernate:
@@ -15,8 +15,8 @@ spring:
 
   #Redis
   redis:
-    host: #redis_host
-    port: #redis_port
+    host: 127.0.0.1
+    port: 6379
 
 logging:
   level:

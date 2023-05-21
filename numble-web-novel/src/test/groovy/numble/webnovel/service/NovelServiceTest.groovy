@@ -2,11 +2,16 @@ package numble.webnovel.service
 
 import numble.webnovel.domain.Novel
 import numble.webnovel.repository.LibraryRepository
+import numble.webnovel.repository.NovelRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.annotation.Rollback
 import org.springframework.transaction.annotation.Transactional
 import spock.lang.Specification
+
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 @SpringBootTest
 @Rollback
@@ -20,6 +25,8 @@ class NovelServiceTest extends Specification{
     private LibraryRepository userLibraryRepository;
     @Autowired
     private NovelService novelService;
+    @Autowired
+    private NovelRepository novelRepository;
 
     def "소설 찾기"(){
         given:
@@ -29,6 +36,30 @@ class NovelServiceTest extends Specification{
         then:
         "메밀꽃 필 무렵" == novel.getTitle();
 
+    }
+
+    def "좋아요수_증가_동시성_확인"(){
+        given:
+        Novel novel = Novel.createNovel("title","author", "info","img",100,"Action");
+        novelRepository.save(novel);
+        when:
+        int threadCnt = 100;
+        ExecutorService executorService = Executors.newFixedThreadPool(32);
+        CountDownLatch latch = new CountDownLatch(threadCnt);
+
+        for(int i = 0; i < threadCnt; i++){
+            executorService.submit({ ->
+                try {
+                    novel.plusLikeCnt();
+                } finally {
+                    latch.countDown();
+                }
+            });
+        }
+        latch.await();
+
+        then:
+        novel.getLikeCnt() == 100;
     }
 
 

@@ -1,4 +1,4 @@
-package numble.webnovel.redis;
+package numble.webnovel.util.redis;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

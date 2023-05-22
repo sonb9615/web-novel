@@ -5,7 +5,8 @@ CREATE TABLE `member` (
 	`password`	varchar(100)	NULL	COMMENT '유저 비밀번호',
 	`email`	varchar(100)	NULL	COMMENT '이메일',
 	`own_cache`	int	NULL	COMMENT '보유캐시',
-	`role`	varchar(30)	NULL	COMMENT '유저구분'
+	`role`	varchar(30)	NULL	COMMENT '유저구분',
+    primary key(`member_id`)
 );
 
 CREATE TABLE `novel` (
@@ -19,7 +20,8 @@ CREATE TABLE `novel` (
 	`episode_cost`	INT	NULL	COMMENT '소설 이용권 가격',
 	`genre`	varchar(100)	NULL	COMMENT '장르',
     `reg_dt` DATE	NULL	COMMENT '등록날짜',
-    `udt_dt` DATE	NULL	COMMENT '등록날짜'
+    `udt_dt` DATE	NULL	COMMENT '등록날짜',
+    primary key(`novel_id`)
 );
 
 CREATE TABLE `episode` (
@@ -32,7 +34,8 @@ CREATE TABLE `episode` (
 	`free_yn`	boolean	NULL	DEFAULT false	COMMENT '무료 에피소드 판별',
 	`capacity`	INT	NULL	COMMENT '용량',
     `reg_dt` DATE	NULL	COMMENT '등록날짜',
-    `udt_dt` DATE	NULL	COMMENT '업데이트 날짜'
+    `udt_dt` DATE	NULL	COMMENT '업데이트 날짜',
+    primary key(`episode_id`)
 );
 
 CREATE TABLE `library` (
@@ -42,7 +45,8 @@ CREATE TABLE `library` (
 	`member_id`	bigint	NOT NULL	COMMENT '회원 정보 id',
 	`last_read_page`	INT	NULL	COMMENT '마지막 페이지',
 	`last_read_date`	DATE	NULL	COMMENT '마지막 읽은 날짜',
-	`star_point`	INT	NULL	COMMENT '별점'
+	`star_point`	INT	NULL	COMMENT '별점',
+    primary key(`library_id`)
 );
 
 CREATE TABLE `cache_charge_his` (
@@ -50,13 +54,15 @@ CREATE TABLE `cache_charge_his` (
 	`member`	bigint	NOT NULL	COMMENT '회원 정보 id',
 	`date`	DATE	NULL	COMMENT '결제날짜',
 	`cost`	int	NULL	COMMENT '결제 금액',
-	`cache`	int	NULL	COMMENT '거래된 캐시'
+	`cache`	int	NULL	COMMENT '거래된 캐시',
+    primary key(`charge_his_id`)
 );
 
 CREATE TABLE `novel_tag` (
 	`novel_tag_id` bigint	NOT NULL AUTO_INCREMENT	COMMENT '소설 태그 id',
 	`novel_id`	bigint	NOT NULL	COMMENT '소설 id',
-	`tag`	varchar(100)	NULL	COMMENT '소설 태그'
+	`tag`	varchar(100)	NULL	COMMENT '소설 태그',
+    primary key(`novel_tag_id`)
 );
 
 CREATE TABLE `novel_ticket` (
@@ -67,35 +73,8 @@ CREATE TABLE `novel_ticket` (
 	`usable_ticket_cnt`	INT	NULL	COMMENT '사용 가능한 이용권 수',
 	`used_ticket_cnt`	INT	NULL	COMMENT '사용한 이용권 수',
 	`ticket_cost`	INT	NULL	COMMENT '이용권 단가',
-	`reg_dt`	DATE	NULL	COMMENT '이용권 구매 날짜'
-);
-
-ALTER TABLE `member` ADD CONSTRAINT `PK_MEMBER` PRIMARY KEY (
-	`member_id`
-);
-
-ALTER TABLE `novel` ADD CONSTRAINT `PK_NOVEL` PRIMARY KEY (
-	`novel_id`
-);
-
-ALTER TABLE `episode` ADD CONSTRAINT `PK_EPISODE` PRIMARY KEY (
-	`episode_id`
-);
-
-ALTER TABLE `library` ADD CONSTRAINT `PK_LIBRARY` PRIMARY KEY (
-	`library_id`
-);
-
-ALTER TABLE `cache_charge_his` ADD CONSTRAINT `PK_CACHE_CHARGE_HIS` PRIMARY KEY (
-	`charge_his_id`
-);
-
-ALTER TABLE `novel_tag` ADD CONSTRAINT `PK_NOVEL_TAG` PRIMARY KEY (
-	`novel_tag_id`
-);
-
-ALTER TABLE `novel_ticket` ADD CONSTRAINT `PK_NOVEL_TICKET` PRIMARY KEY (
-	`ticket_id`
+	`reg_dt`	DATE	NULL	COMMENT '이용권 구매 날짜',
+    primary key(`ticket_id`)
 );
 
 create index idx_library on library (`member_id`, `episode_id`);

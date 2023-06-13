@@ -13,12 +13,11 @@ CREATE TABLE `novel` (
 	`novel_id` bigint	NOT NULL AUTO_INCREMENT	COMMENT '소설 id',
 	`title`	varchar(100)	NULL	COMMENT '소설제목',
 	`author`	varchar(100)	NULL	COMMENT '소설작가',
-	`like_cnt`	bigint	NULL	DEFAULT 0	COMMENT '좋아요 수',
 	`novel_info`	varchar(1000)	NOT NULL	COMMENT '작품소개',
 	`payment_cnt`	bigint	NULL	DEFAULT 0 COMMENT '구매 카운트',
 	`novel_img`	varchar(100)	NULL,
 	`episode_cost`	INT	NULL	COMMENT '소설 이용권 가격',
-	`genre`	varchar(100)	NULL	COMMENT '장르',
+	`genre_id` bigint COMMENT '장르 id',
     `reg_dt` DATE	NULL	COMMENT '등록날짜',
     `udt_dt` DATE	NULL	COMMENT '등록날짜',
     primary key(`novel_id`)
@@ -58,13 +57,6 @@ CREATE TABLE `cache_charge_his` (
     primary key(`charge_his_id`)
 );
 
-CREATE TABLE `novel_tag` (
-	`novel_tag_id` bigint	NOT NULL AUTO_INCREMENT	COMMENT '소설 태그 id',
-	`novel_id`	bigint	NOT NULL	COMMENT '소설 id',
-	`tag`	varchar(100)	NULL	COMMENT '소설 태그',
-    primary key(`novel_tag_id`)
-);
-
 CREATE TABLE `novel_ticket` (
 	`ticket_id` bigint	NOT NULL AUTO_INCREMENT	COMMENT '이용권 id',
 	`novel_id`	varchar(36)	NOT NULL	COMMENT '소설 id',
@@ -77,6 +69,23 @@ CREATE TABLE `novel_ticket` (
     primary key(`ticket_id`)
 );
 
+CREATE TABLE `genre` (
+	`genre_id` bigint	NOT NULL AUTO_INCREMENT	COMMENT '장르 id',
+	`novel_id`	bigint	NOT NULL	COMMENT '소설 id',
+	`genre_name`	varchar(100)	NULL	COMMENT '장르명',
+    primary key(`genre_id`)
+);
+
+CREATE TABLE `favorite_novel` (
+	`favorite_novel_id`	bigint	NOT NULL	COMMENT '좋아하는 소설 목록 id',
+	`member_id`	bigint	NOT NULL	COMMENT '회원 정보 id',
+	`novel_id`	bigint	NOT NULL	COMMENT '소설 id',
+	`genre_id`	bigint	NOT NULL	COMMENT '장르 id',
+    primary key(`favorite_novel_id`)
+);
+
 create index idx_library on library (`member_id`, `episode_id`);
+
+create unique index uq_idx_nickname on member (`nickname`);
 
 commit;

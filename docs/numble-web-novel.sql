@@ -44,7 +44,6 @@ CREATE TABLE `library` (
 	`member_id`	bigint	NOT NULL	COMMENT '회원 정보 id',
 	`last_read_page`	INT	NULL	COMMENT '마지막 페이지',
 	`last_read_date`	DATE	NULL	COMMENT '마지막 읽은 날짜',
-	`star_point`	INT	NULL	COMMENT '별점',
     primary key(`library_id`)
 );
 

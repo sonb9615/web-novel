@@ -1,9 +1,11 @@
 package numble.webnovel.novel.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import numble.webnovel.genre.domain.Genre;
+import numble.webnovel.novel.enums.Genre;
+import numble.webnovel.novel.enums.NovelStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,17 +21,42 @@ public class Novel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long novelId;
 
+    @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
     private String author;
+    @Column(nullable = false)
     private String novelInfo;
     private long paymentCnt;
+    @Column(nullable = false)
     private String novelImg;
+    @Column(nullable = false)
     private int episodeCost;
     private LocalDateTime regDt;
     private LocalDateTime udtDt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "genre_id")
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Genre genre;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private NovelStatus status;
+
+    @Builder
+    public Novel(Long novelId, String title, String author, String novelInfo, long paymentCnt, String novelImg, int episodeCost, Genre genre, NovelStatus novelStatus, LocalDateTime regDt, LocalDateTime udtDt) {
+        this.novelId = novelId;
+        this.title = title;
+        this.author = author;
+        this.novelInfo = novelInfo;
+        this.paymentCnt = paymentCnt;
+        this.novelImg = novelImg;
+        this.episodeCost = episodeCost;
+        this.genre = genre;
+        this.status = novelStatus;
+        this.regDt = regDt;
+        this.udtDt = udtDt;
+    }
+
+
 
 }

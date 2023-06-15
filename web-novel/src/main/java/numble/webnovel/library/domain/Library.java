@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import numble.webnovel.episode.domain.Episode;
-import numble.webnovel.novelTicket.domain.NovelTicket;
+import numble.webnovel.member.domain.Member;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -28,8 +28,7 @@ public class Library {
     private Episode episode;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="ticket_id")
-    private NovelTicket novelTicket;
-
+    @JoinColumn(name = "member_id")
+    private Member member;
 
 }

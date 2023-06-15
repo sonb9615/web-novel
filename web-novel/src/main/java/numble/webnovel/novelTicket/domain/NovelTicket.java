@@ -3,7 +3,7 @@ package numble.webnovel.novelTicket.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import numble.webnovel.novel.domain.Novel;
+import numble.webnovel.member.domain.Member;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,17 +17,17 @@ public class NovelTicket {
     @Id
     @Column(name = "ticket_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String ticketId;
+    private Long ticketId;
 
-    private int ticketCnt;
+    private Long novelId;
     private int usableTicketCnt;
     private int usedTicketCnt;
     private int ticketCost;
     private LocalDateTime regDt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "novel_id")
-    private Novel novel;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
 
 

@@ -3,6 +3,8 @@ package numble.webnovel.novel.service
 import numble.webnovel.exception.WebNovelServiceException
 import numble.webnovel.novel.domain.Novel
 import numble.webnovel.novel.dto.NovelRegisterRequest
+import numble.webnovel.novel.dto.NovelUpdateRequest
+import numble.webnovel.novel.enums.SerialStatus
 import numble.webnovel.novel.repository.NovelRepository
 import spock.lang.Specification
 
@@ -33,7 +35,7 @@ class NovelServiceTest extends Specification{
         request.setNovelInfoForTest(novelInfo)
         request.setNovelImgForTest(novelImg)
         request.setGenreNameForTest(genre)
-        request.setStatus(status)
+        request.setSerialStatusForTest(status)
 
         Novel novel = request.toNovel()
         novelRepository.save(novel) >> novel
@@ -62,7 +64,7 @@ class NovelServiceTest extends Specification{
         request.setNovelInfoForTest(novelInfo)
         request.setNovelImgForTest(novelImg)
         request.setGenreNameForTest(genre)
-        request.setStatus(status)
+        request.setSerialStatusForTest(status)
 
         when:
         novelService.registerNovel(request)
@@ -88,10 +90,70 @@ class NovelServiceTest extends Specification{
         request.setNovelInfoForTest(novelInfo)
         request.setNovelImgForTest(novelImg)
         request.setGenreNameForTest(genre)
-        request.setStatus(status)
+        request.setSerialStatusForTest(status)
 
         when:
         novelService.registerNovel(request)
+
+        then:
+        thrown(WebNovelServiceException)
+    }
+
+    def "소설 정보 업데이트 정상 케이스"(){
+        given:
+        def novelId = 1L
+        def status = SerialStatus.SERIES
+        def novelInfo = "수정된 소설 정보"
+        def novelImg = "수정된 소설 이미지"
+
+        NovelUpdateRequest request = new NovelUpdateRequest()
+        request.setSerialStatusForTest(status.getStatus())
+        request.setNovelImgForTest(novelImg)
+        request.setNovelInfoForTest(novelInfo)
+
+        Novel novel = Novel.builder()
+                    .novelId(novelId)
+                    .novelInfo("novelInfo")
+                    .novelImg("novelImg")
+                    .serialStatus(SerialStatus.SCHEDULE)
+                    .build()
+
+        novelRepository.findById(novelId) >> Optional.of(novel)
+
+        when:
+        novelService.updateNovel(novel.getNovelId(), request)
+        def newNovelOptional = novelRepository.findById(novelId)
+        def newNovel = newNovelOptional.get()
+
+        then:
+        newNovel.getNovelInfo() == novelInfo
+        newNovel.getNovelImg() == novelImg
+        newNovel.getSerialStatus() == status
+    }
+
+    def "잘못된 연재 상태를 업데이트하는 경우 에러 발생"(){
+        given:
+        def novelId = 1L
+        def status = "올바르지 않은 연재 상태"
+        def novelInfo = "수정된 소설 정보"
+        def novelImg = "수정된 소설 이미지"
+
+        NovelUpdateRequest request = new NovelUpdateRequest()
+        request.setSerialStatusForTest(status)
+        request.setNovelImgForTest(novelImg)
+        request.setNovelInfoForTest(novelInfo)
+
+        Novel novel = Novel.builder()
+                .novelId(novelId)
+                .novelInfo("novelInfo")
+                .novelImg("novelImg")
+                .serialStatus(null)
+                .build()
+
+        novelRepository.findById(novelId) >> Optional.of(novel)
+
+        when:
+        novelService.updateNovel(novel.getNovelId(), request)
 
         then:
         thrown(WebNovelServiceException)

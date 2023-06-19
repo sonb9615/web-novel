@@ -15,6 +15,7 @@ public enum ErrorCode {
     //Novel
     ,NO_VALID_GENRE(HttpStatus.BAD_REQUEST, "NOVEL_001","올바르지 않은 장르입니다.")
     ,NO_VALID_NOVEL_STATUS(HttpStatus.BAD_REQUEST, "NOVEL_002","올바르지 않은 연재 상태 입니다.")
+    ,NO_EXISTS_NOVEL(HttpStatus.BAD_REQUEST, "NOVEL_003","존재하지 않는 소설입니다.")
     ;
 
     private final HttpStatus httpStatus;

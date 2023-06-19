@@ -4,7 +4,7 @@ import numble.webnovel.exception.WebNovelServiceException;
 
 import static numble.webnovel.exception.ErrorCode.NO_VALID_NOVEL_STATUS;
 
-public enum NovelStatus {
+public enum SerialStatus {
 
     SERIES("연재중")
     ,RECESS("휴재중")
@@ -15,11 +15,11 @@ public enum NovelStatus {
 
     private final String status;
 
-    NovelStatus(String status) { this.status = status; }
+    SerialStatus(String status) { this.status = status; }
 
     public String getStatus() { return status; }
 
-    public static NovelStatus getNovelStatus(String status){
+    public static SerialStatus getNovelStatus(String status){
         return switch (status){
             case "연재중" -> SERIES;
             case "휴재중" -> RECESS;

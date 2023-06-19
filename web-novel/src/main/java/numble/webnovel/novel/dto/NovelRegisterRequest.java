@@ -3,7 +3,7 @@ package numble.webnovel.novel.dto;
 import lombok.Getter;
 import numble.webnovel.novel.domain.Novel;
 import numble.webnovel.novel.enums.Genre;
-import numble.webnovel.novel.enums.NovelStatus;
+import numble.webnovel.novel.enums.SerialStatus;
 
 import java.time.LocalDateTime;
 
@@ -16,12 +16,12 @@ public class NovelRegisterRequest {
     private String novelImg;
     private int episodeCost;
     private String genre;
-    private String status;
+    private String serialStatus;
 
     public Novel toNovel(){
 
         Genre genreEnum = Genre.getGenreCode(genre);
-        NovelStatus novelStatus = NovelStatus.getNovelStatus(status);
+        SerialStatus statusEnum = SerialStatus.getNovelStatus(serialStatus);
 
         return Novel.builder()
                 .title(title)
@@ -30,7 +30,7 @@ public class NovelRegisterRequest {
                 .novelImg(novelImg)
                 .episodeCost(episodeCost)
                 .genre(genreEnum)
-                .novelStatus(novelStatus)
+                .serialStatus(statusEnum)
                 .regDt(LocalDateTime.now())
                 .build();
     }
@@ -60,7 +60,7 @@ public class NovelRegisterRequest {
         this.genre = genre;
     }
 
-    public void setStatus(String status){
-        this.status = status;
+    public void setSerialStatusForTest(String serialStatus){
+        this.serialStatus = serialStatus;
     }
 }

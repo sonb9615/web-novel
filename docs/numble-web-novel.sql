@@ -18,7 +18,7 @@ CREATE TABLE `novel` (
 	`novel_img`	varchar(100) NOT NULL COMMENT '소설 썸네일',
 	`episode_cost`	INT	NOT NULL	COMMENT '소설 이용권 가격',
     `genre` varchar(100) NOT NULL	COMMENT '장르',
-    `status` varchar(100) NOT NULL	COMMENT '연재 상태',
+    `serial_status` varchar(100) NOT NULL	COMMENT '연재 상태',
     `reg_dt` DATE	NULL	COMMENT '등록날짜',
     `udt_dt` DATE	NULL	COMMENT '등록날짜',
     primary key(`novel_id`)

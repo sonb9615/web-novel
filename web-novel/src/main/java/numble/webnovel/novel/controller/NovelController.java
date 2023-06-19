@@ -29,4 +29,10 @@ public class NovelController {
         return new ResponseEntity<>(new CommonResponse<>("소설 정보 업데이트 성공", null), HttpStatus.OK);
     }
 
+    @DeleteMapping("/{novelId}")
+    public ResponseEntity<CommonResponse<Void>> deleteNovel(@PathVariable Long novelId){
+        novelService.deleteNovel(novelId);
+        return new ResponseEntity<>(new CommonResponse<>("소설 삭제 성공", null), HttpStatus.OK);
+    }
+
 }

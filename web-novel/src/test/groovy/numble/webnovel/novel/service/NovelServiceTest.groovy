@@ -158,4 +158,21 @@ class NovelServiceTest extends Specification{
         then:
         thrown(WebNovelServiceException)
     }
+
+    def "소설 삭제 정상 케이스"(){
+        given:
+        def novelId = 1L
+
+        Novel novel = Novel.builder()
+                        . novelId(novelId)
+                        .build()
+
+        novelRepository.findById(novelId) >> Optional.of(novel)
+
+        when:
+        novelService.deleteNovel(novelId)
+
+        then:
+        1* novelRepository.delete(_)
+    }
 }

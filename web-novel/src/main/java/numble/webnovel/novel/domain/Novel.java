@@ -4,8 +4,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import numble.webnovel.novel.dto.NovelUpdateRequest;
 import numble.webnovel.novel.enums.Genre;
-import numble.webnovel.novel.enums.NovelStatus;
+import numble.webnovel.novel.enums.SerialStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -38,12 +39,13 @@ public class Novel {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Genre genre;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private NovelStatus status;
+    private SerialStatus serialStatus;
 
     @Builder
-    public Novel(Long novelId, String title, String author, String novelInfo, long paymentCnt, String novelImg, int episodeCost, Genre genre, NovelStatus novelStatus, LocalDateTime regDt, LocalDateTime udtDt) {
+    public Novel(Long novelId, String title, String author, String novelInfo, long paymentCnt, String novelImg, int episodeCost, Genre genre, SerialStatus serialStatus, LocalDateTime regDt, LocalDateTime udtDt) {
         this.novelId = novelId;
         this.title = title;
         this.author = author;
@@ -52,11 +54,16 @@ public class Novel {
         this.novelImg = novelImg;
         this.episodeCost = episodeCost;
         this.genre = genre;
-        this.status = novelStatus;
+        this.serialStatus = serialStatus;
         this.regDt = regDt;
         this.udtDt = udtDt;
     }
 
-
+    public void updateNovel(NovelUpdateRequest request){
+        this.serialStatus = SerialStatus.getNovelStatus(request.getSerialStatus());
+        this.novelInfo = request.getNovelInfo();
+        this.novelImg = request.getNovelImg();
+        this.udtDt = LocalDateTime.now();
+    }
 
 }

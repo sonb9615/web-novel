@@ -12,6 +12,10 @@ public enum ErrorCode {
     ,ALREADY_EXISTS_EMAIL(HttpStatus.BAD_REQUEST, "MEMBER_002","이미 존재하는 이메일입니다.")
     ,NO_EXISTS_MEMBER(HttpStatus.BAD_REQUEST, "MEMBER_003","존재하지 않는 회원입니다.")
     ,NOT_CORRECT_PASSWORD(HttpStatus.BAD_REQUEST, "MEMBER_004","비밀번호가 맞지 않습니다.")
+    //Novel
+    ,NO_VALID_GENRE(HttpStatus.BAD_REQUEST, "NOVEL_001","올바르지 않은 장르입니다.")
+    ,NO_VALID_NOVEL_STATUS(HttpStatus.BAD_REQUEST, "NOVEL_002","올바르지 않은 연재 상태 입니다.")
+    ,NO_EXISTS_NOVEL(HttpStatus.BAD_REQUEST, "NOVEL_003","존재하지 않는 소설입니다.")
     ;
 
     private final HttpStatus httpStatus;

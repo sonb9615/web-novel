@@ -14,9 +14,13 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
+    @Column(nullable = false, unique = true)
     private String nickname;
+    @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
     private String role;
+    @Column(nullable = false)
     private String email;
     private int ownCache;
 
@@ -40,5 +44,8 @@ public class Member {
         this.ownCache = ownCache;
     }
 
+    public void updateNickname(String newNickName){
+        this.nickname = newNickName;
+    }
 
 }

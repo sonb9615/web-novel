@@ -28,6 +28,7 @@ public class Episode {
     private String content;
     @Column(nullable = false)
     private int totalPage;
+    @Column(columnDefinition = "false")
     private boolean freeYn;
     @Column(nullable = false)
     private int capacity;
@@ -50,5 +51,21 @@ public class Episode {
         this.regDt = regDt;
         this.udtDt = udtDt;
         this.novel = novel;
+    }
+
+    public void updateContent(String content){
+        this.content = content;
+    }
+
+    public void updateFreeYn(boolean freeYn){
+        this.freeYn = freeYn;
+    }
+
+    public void updateTotalPage(int totalPage){
+        this.totalPage = totalPage;
+    }
+
+    public void updateCapacity(int capacity){
+        this.capacity = capacity;
     }
 }

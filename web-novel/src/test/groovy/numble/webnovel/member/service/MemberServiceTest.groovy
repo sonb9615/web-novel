@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServletResponse
 
 class MemberServiceTest extends Specification{
 
-    def memberRepository;
-    def passwordEncoder;
-    def jwtAuthProvider;
-    def memberService;
+    def memberRepository
+    def passwordEncoder
+    def jwtAuthProvider
+    def memberService
 
     def setup(){
         memberRepository = Mock(MemberRepository.class)
@@ -117,10 +117,10 @@ class MemberServiceTest extends Specification{
         def response = Mock(HttpServletResponse.class)
 
         memberRepository.findByNickname(nickname) >> Optional.of(member)
-        passwordEncoder.matches(request.getPassword(), member.getPassword()) >> true;
+        passwordEncoder.matches(request.getPassword(), member.getPassword()) >> true
 
         when:
-        memberService.login(request, response);
+        memberService.login(request, response)
 
         then:
         1*response.addHeader("AUTH_TOKEN",_)
@@ -143,10 +143,10 @@ class MemberServiceTest extends Specification{
         def response = Mock(HttpServletResponse.class)
 
         memberRepository.findByNickname(nickname) >> null
-        passwordEncoder.matches(request.getPassword(), member.getPassword()) >> true;
+        passwordEncoder.matches(request.getPassword(), member.getPassword()) >> true
 
         when:
-        memberService.login(request, response);
+        memberService.login(request, response)
 
         then:
         thrown(NullPointerException)
@@ -172,7 +172,7 @@ class MemberServiceTest extends Specification{
         passwordEncoder.matches(request.getPassword(), member.getPassword()) >> false
 
         when:
-        memberService.login(request, response);
+        memberService.login(request, response)
 
         then:
         thrown(WebNovelServiceException)

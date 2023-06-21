@@ -35,8 +35,7 @@ public class NovelService {
         novelRepository.delete(novel);
     }
 
-    @Transactional
-    public Novel findNovelById(Long novelId){
+    private Novel findNovelById(Long novelId){
         return novelRepository.findById(novelId)
                 .orElseThrow(() -> new WebNovelServiceException(NO_EXISTS_NOVEL));
     }

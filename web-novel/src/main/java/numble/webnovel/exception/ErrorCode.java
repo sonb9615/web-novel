@@ -18,6 +18,8 @@ public enum ErrorCode {
     ,NO_EXISTS_NOVEL(HttpStatus.BAD_REQUEST, "NOVEL_003","존재하지 않는 소설입니다.")
     //Episode
     ,NO_EXISTS_EPISODE(HttpStatus.BAD_REQUEST, "EPISODE_001","존재하지 않는 에피소드입니다.")
+    //Lock
+    ,NO_AVAILABLE_LOCK(HttpStatus.BAD_REQUEST, "LOCK_001","Lock 획득에 실패하였습니다.")
     ;
 
     private final HttpStatus httpStatus;

@@ -35,6 +35,10 @@ public class UserDetailsImpl implements UserDetails {
         return this.username;
     }
 
+    public Member getMember(){
+        return this.member;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return false;

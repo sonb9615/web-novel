@@ -42,4 +42,8 @@ public class NovelTicket {
         this.member = member;
     }
 
+    public void useNovelTicket(int useTicketCnt){
+        this.usableTicketCnt -= useTicketCnt;
+        this.usedTicketCnt += useTicketCnt;
+    }
 }

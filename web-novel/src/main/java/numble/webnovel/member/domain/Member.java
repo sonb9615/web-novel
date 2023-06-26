@@ -48,4 +48,7 @@ public class Member {
         this.nickname = newNickName;
     }
 
+    public void chargeCache(int cache){
+        this.ownCache += cache;
+    }
 }

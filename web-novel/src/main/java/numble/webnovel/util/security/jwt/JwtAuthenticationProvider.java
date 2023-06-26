@@ -8,7 +8,6 @@ import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import numble.webnovel.util.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -48,16 +47,16 @@ public class JwtAuthenticationProvider {
     public String resolveToken(HttpServletRequest request, String authorization){
         String token = request.getHeader(authorization);
         if(StringUtils.hasText(token) && token.startsWith(BEARER_TYPE)){
-            return token;
+            return token.substring(6);
         }
         return null;
     }
 
     // token 생성
-    public String createAccessToken(String email){
+    public String createAccessToken(String nickname){
         Date date = new Date();
         return BEARER_TYPE + Jwts.builder()
-                .setSubject(email)
+                .setSubject(nickname)
                 .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpireTime))
                 .setIssuedAt(date)
                 .signWith(accessTokenKey, signatureAlgorithm)
@@ -67,7 +66,7 @@ public class JwtAuthenticationProvider {
     // 유효성 검사
     public void validateAccessToken(HttpServletRequest request, HttpServletResponse response){
         try{
-            Jwts.parserBuilder().setSigningKey(accessTokenKey).build().parseClaimsJwt(request.getHeader(AUTHORIZATION_TOKEN));
+            Jwts.parserBuilder().setSigningKey(accessTokenKey).build().parseClaimsJws(request.getHeader(AUTHORIZATION_TOKEN).substring(6));
         }catch (Exception e){
 
         }
@@ -76,12 +75,12 @@ public class JwtAuthenticationProvider {
     public Claims getUserInfoFromToken(String token, boolean isRefresh){
         if(isRefresh){
             try{
-                return Jwts.parserBuilder().setSigningKey(accessTokenKey).build().parseClaimsJwt(token).getBody();
+                return Jwts.parserBuilder().setSigningKey(accessTokenKey).build().parseClaimsJws(token).getBody();
             }catch (ExpiredJwtException e){
                 return e.getClaims();
             }
         }else{
-            return Jwts.parserBuilder().setSigningKey(accessTokenKey).build().parseClaimsJwt(token).getBody();
+            return Jwts.parserBuilder().setSigningKey(accessTokenKey).build().parseClaimsJws(token).getBody();
         }
     }
 

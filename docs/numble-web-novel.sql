@@ -47,10 +47,10 @@ CREATE TABLE `library` (
     primary key(`library_id`)
 );
 
-CREATE TABLE `cache_charge_his` (
+CREATE TABLE `charge_cache_his` (
 	`charge_his_id` bigint	NOT NULL AUTO_INCREMENT	COMMENT '결제 이력 id',
 	`member_id`	bigint	NOT NULL	COMMENT '회원 정보 id',
-	`date`	DATE	NULL	COMMENT '결제날짜',
+	`reg_dt`	DATE	NULL	COMMENT '결제날짜',
 	`cost`	int	NULL	COMMENT '결제 금액',
 	`cache`	int	NULL	COMMENT '거래된 캐시',
     primary key(`charge_his_id`)

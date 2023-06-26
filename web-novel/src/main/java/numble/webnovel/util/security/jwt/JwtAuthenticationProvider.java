@@ -1,11 +1,10 @@
 package numble.webnovel.util.security.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SecurityException;
 import lombok.RequiredArgsConstructor;
+import numble.webnovel.exception.WebNovelServiceException;
 import numble.webnovel.util.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
+
+import static numble.webnovel.exception.ErrorCode.*;
 
 @Component
 @RequiredArgsConstructor
@@ -67,8 +68,14 @@ public class JwtAuthenticationProvider {
     public void validateAccessToken(HttpServletRequest request, HttpServletResponse response){
         try{
             Jwts.parserBuilder().setSigningKey(accessTokenKey).build().parseClaimsJws(request.getHeader(AUTHORIZATION_TOKEN).substring(6));
-        }catch (Exception e){
-
+        }catch (SecurityException | MalformedJwtException e){
+            throw new WebNovelServiceException(NOT_CORRECT_TOKEN);
+        } catch (ExpiredJwtException e){
+            throw new WebNovelServiceException(EXPIRED_TOKEN);
+        } catch (UnsupportedJwtException e){
+            throw new WebNovelServiceException(NOT_SUPPORTED_TOKEN);
+        } catch (IllegalArgumentException e){
+            throw new WebNovelServiceException(NOT_VALID_TOKEN);
         }
     }
 

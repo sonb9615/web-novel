@@ -13,11 +13,12 @@ public enum ErrorCode {
     ,EXPIRED_TOKEN(HttpStatus.BAD_REQUEST, "SECURITY_002","만료된 JWT 토큰입니다.")
     ,NOT_SUPPORTED_TOKEN(HttpStatus.BAD_REQUEST, "SECURITY_003","지원되지 않는 JWT 토큰입니다.")
     ,NOT_VALID_TOKEN(HttpStatus.BAD_REQUEST, "SECURITY_004","유효하지 않은 JWT 토큰입니다.")
-    //Memeber
+    //Member
     ,ALREADY_EXISTS_NICKNAME(HttpStatus.BAD_REQUEST, "MEMBER_001","이미 존재하는 닉네임입니다.")
     ,ALREADY_EXISTS_EMAIL(HttpStatus.BAD_REQUEST, "MEMBER_002","이미 존재하는 이메일입니다.")
     ,NO_EXISTS_MEMBER(HttpStatus.BAD_REQUEST, "MEMBER_003","존재하지 않는 회원입니다.")
     ,NOT_CORRECT_PASSWORD(HttpStatus.BAD_REQUEST, "MEMBER_004","비밀번호가 맞지 않습니다.")
+    ,NO_ENOUGH_CACHE(HttpStatus.BAD_REQUEST, "MEMBER_005","보유한 캐시가 충분하지 않습니다.")
     //Novel
     ,NO_VALID_GENRE(HttpStatus.BAD_REQUEST, "NOVEL_001","올바르지 않은 장르입니다.")
     ,NO_VALID_NOVEL_STATUS(HttpStatus.BAD_REQUEST, "NOVEL_002","올바르지 않은 연재 상태 입니다.")

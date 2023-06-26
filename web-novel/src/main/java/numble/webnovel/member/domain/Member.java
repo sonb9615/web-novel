@@ -51,4 +51,12 @@ public class Member {
     public void chargeCache(int cache){
         this.ownCache += cache;
     }
+
+    public boolean isEnoughOwnCache(int cache, int ticketCnt){
+        return this.ownCache >= cache * ticketCnt;
+    }
+
+    public void chargeNovelTicket(int paymentCache){
+        this.ownCache -= paymentCache;
+    }
 }

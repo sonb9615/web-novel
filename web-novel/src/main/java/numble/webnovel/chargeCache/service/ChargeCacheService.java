@@ -10,6 +10,7 @@ import numble.webnovel.member.repository.MemberRepository;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.TimeUnit;
 
@@ -25,8 +26,9 @@ public class ChargeCacheService {
     private final ChargeCacheHisRepository chargeCacheHisRepository;
     private static final String CACHE_LOCK_NAME = "CACHE_CHARGE";
 
-    public void chargeCache(Member cuurentMember, ChargeCacheRequest request){
-        String lockName = CACHE_LOCK_NAME + ":lock";
+    @Transactional
+    public void chargeCache(Member currentMember, ChargeCacheRequest request){
+        String lockName = CACHE_LOCK_NAME + currentMember.getMemberId();
         RLock lock = redissonClient.getLock(lockName);
 
         try {
@@ -35,7 +37,7 @@ public class ChargeCacheService {
                 throw new WebNovelServiceException(NO_AVAILABLE_LOCK);
             }
 
-            Member member = memberRepository.findByNickname(cuurentMember.getNickname())
+            Member member = memberRepository.findByNickname(currentMember.getNickname())
                     .orElseThrow(() -> new WebNovelServiceException(NO_EXISTS_MEMBER));
             member.chargeCache(request.getCache());
 

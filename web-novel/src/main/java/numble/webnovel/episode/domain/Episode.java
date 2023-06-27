@@ -68,4 +68,8 @@ public class Episode {
     public void updateCapacity(int capacity){
         this.capacity = capacity;
     }
+
+    public void updateUdtDt(){
+        this.udtDt = LocalDateTime.now();
+    }
 }

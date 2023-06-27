@@ -20,7 +20,7 @@ public class NovelTicket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticketId;
 
-    @Column(nullable = false)
+    @Column(name = "novel_id", nullable = false)
     private Long novelId;
     private int usableTicketCnt;
     private int usedTicketCnt;
@@ -42,12 +42,12 @@ public class NovelTicket {
         this.member = member;
     }
 
-    public void useNovelTicket(int useTicketCnt){
-        this.usableTicketCnt -= useTicketCnt;
-        this.usedTicketCnt += useTicketCnt;
+    public void useNovelTicket(){
+        this.usableTicketCnt -= 1;
+        this.usedTicketCnt += 1;
     }
 
-    public boolean isEnoughNovelTicket(int ticketCnt){
-        return usableTicketCnt >= ticketCnt;
+    public boolean isEnoughNovelTicket(){
+        return usableTicketCnt >= 1;
     }
 }

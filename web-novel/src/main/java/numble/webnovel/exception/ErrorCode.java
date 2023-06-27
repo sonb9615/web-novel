@@ -27,6 +27,10 @@ public enum ErrorCode {
     ,NO_EXISTS_EPISODE(HttpStatus.BAD_REQUEST, "EPISODE_001","존재하지 않는 에피소드입니다.")
     //Lock
     ,NO_AVAILABLE_LOCK(HttpStatus.BAD_REQUEST, "LOCK_001","Lock 획득에 실패하였습니다.")
+    //NovelTicket
+    ,NO_ENOUGH_TICKET(HttpStatus.BAD_REQUEST, "TICKET_001","소설 이용권이 부족합니다.")
+    //Library
+    ,ALREADY_EXIST_EPISODE(HttpStatus.BAD_REQUEST, "LIBRARY_001","이미 소유한 에피소드 입니다.")
     ;
 
     private final HttpStatus httpStatus;

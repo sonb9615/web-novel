@@ -76,6 +76,8 @@ CREATE TABLE `favorite_novel` (
 
 create index idx_library on library (`member_id`, `episode_id`);
 
+create index idx_novel_ticket on novel_ticket (`member_id`, `novel_id`);
+
 create unique index uq_idx_nickname on member (`nickname`);
 
 commit;

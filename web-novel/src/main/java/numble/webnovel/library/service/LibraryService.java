@@ -7,7 +7,6 @@ import numble.webnovel.exception.WebNovelServiceException;
 import numble.webnovel.library.domain.Library;
 import numble.webnovel.library.repository.LibraryRepository;
 import numble.webnovel.member.domain.Member;
-import numble.webnovel.member.repository.MemberRepository;
 import numble.webnovel.novelTicket.domain.NovelTicket;
 import numble.webnovel.novelTicket.repository.NovelTicketRepository;
 import org.redisson.api.RLock;
@@ -24,7 +23,6 @@ import static numble.webnovel.exception.ErrorCode.*;
 public class LibraryService {
 
     private final RedissonClient redissonClient;
-    private final MemberRepository memberRepository;
     private final NovelTicketRepository novelTicketRepository;
     private final EpisodeRepository episodeRepository;
     private final LibraryRepository libraryRepository;
@@ -44,19 +42,17 @@ public class LibraryService {
             Episode episode = episodeRepository.findById(episodeId)
                     .orElseThrow(() -> new WebNovelServiceException(NO_EXISTS_EPISODE));
             Long novelId = episode.getNovel().getNovelId();
-            Member member = memberRepository.findById(currentMember.getMemberId())
-                    .orElseThrow(() -> new WebNovelServiceException(NO_EXISTS_MEMBER));
             // 이미 존재하는 에피소드 확인
-            throwIfAlreadyOwnEpisode(currentMember.getMemberId(), episodeId);
+            throwIfAlreadyOwnEpisode(currentMember, episode);
             // 소설 이용권 충분한지 확인
-            NovelTicket novelTicket = novelTicketRepository.findNovelTicketByMemberIdAndNovelId(member.getMemberId(), novelId)
+            NovelTicket novelTicket = novelTicketRepository.findNovelTicketByMemberIdAndNovelId(currentMember.getMemberId(), novelId)
                     .orElseThrow(() -> new WebNovelServiceException(NO_ENOUGH_TICKET));
             if(!novelTicket.isEnoughNovelTicket()){
                 throw new WebNovelServiceException(NO_ENOUGH_TICKET);
             }
             novelTicket.useNovelTicket();
             // 라이브러리에 저장
-            Library library = Library.createLibrary(member, episode);
+            Library library = Library.createLibrary(currentMember, episode);
             libraryRepository.save(library);
 
         } catch (InterruptedException e){
@@ -66,8 +62,8 @@ public class LibraryService {
         }
     }
 
-    private void throwIfAlreadyOwnEpisode(Long memberId, Long episodeId){
-        if(libraryRepository.existsByMemberIdAndEpisodeId(memberId, episodeId)){
+    private void throwIfAlreadyOwnEpisode(Member member, Episode episode){
+        if(libraryRepository.existsByMemberAndEpisode(member, episode)){
             throw new WebNovelServiceException(ALREADY_EXIST_EPISODE);
         }
     }

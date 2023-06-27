@@ -20,7 +20,7 @@ public class NovelTicket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticketId;
 
-    @Column(nullable = false)
+    @Column(name = "novel_id", nullable = false)
     private Long novelId;
     private int usableTicketCnt;
     private int usedTicketCnt;

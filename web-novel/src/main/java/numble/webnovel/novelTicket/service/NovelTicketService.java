@@ -45,7 +45,7 @@ public class NovelTicketService {
             Member member = memberRepository.findById(currentMember.getMemberId())
                     .orElseThrow(() -> new WebNovelServiceException(NO_EXISTS_MEMBER));
 
-            if(member.isEnoughOwnCache(novel.getEpisodeCost(), request.getChargeTicketCnt())){
+            if(!member.isEnoughOwnCache(novel.getEpisodeCost(), request.getChargeTicketCnt())){
                 throw new WebNovelServiceException(NO_ENOUGH_CACHE);
             }
             member.chargeNovelTicket(novel.getEpisodeCost() * request.getChargeTicketCnt());

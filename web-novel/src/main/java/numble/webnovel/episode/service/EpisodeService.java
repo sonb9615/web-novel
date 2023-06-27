@@ -31,6 +31,7 @@ public class EpisodeService {
         episode.updateFreeYn(request.isFreeYn());
         episode.updateTotalPage(request.getTotalPage());
         episode.updateCapacity(request.getCapacity());
+        episode.updateUdtDt();
     }
 
     @Transactional

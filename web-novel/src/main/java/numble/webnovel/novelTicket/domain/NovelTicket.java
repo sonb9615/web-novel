@@ -46,4 +46,8 @@ public class NovelTicket {
         this.usableTicketCnt -= useTicketCnt;
         this.usedTicketCnt += useTicketCnt;
     }
+
+    public boolean isEnoughNovelTicket(int ticketCnt){
+        return usableTicketCnt >= ticketCnt;
+    }
 }

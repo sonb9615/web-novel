@@ -51,13 +51,24 @@ public class NovelTicketService {
             member.chargeNovelTicket(novel.getEpisodeCost() * request.getChargeTicketCnt());
 
             //티켓 구매
-            NovelTicket novelTicket = request.toNovelTicket(currentMember, novelId, novel.getEpisodeCost());
-            novelTicketRepository.save(novelTicket);
-
+            if(novelTicketRepository.existsByMemberAndNovelId(member, novelId)){
+                //티켓 구매 이력이 있다면 해당 데이터에 업데이트
+                NovelTicket novelTicket = findByMemberIdNovelId(member.getMemberId(), novelId);
+                novelTicket.chargeNovelTicket(request.getChargeTicketCnt());
+            }else {
+                //티켓 구매 이력이 없다면 새로 저장
+                NovelTicket novelTicket = request.toNovelTicket(currentMember, novelId, novel.getEpisodeCost());
+                novelTicketRepository.save(novelTicket);
+            }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         } finally {
             lock.unlock();
         }
+    }
+
+    private NovelTicket findByMemberIdNovelId(Long memberId, Long novelId){
+        return novelTicketRepository.findNovelTicketByMemberIdAndNovelId(memberId, novelId)
+                .orElseThrow(() -> new WebNovelServiceException(INVALID_TICKET));
     }
 }

@@ -50,4 +50,8 @@ public class NovelTicket {
     public boolean isEnoughNovelTicket(){
         return usableTicketCnt >= 1;
     }
+
+    public void chargeNovelTicket(int chargeTicketCnt){
+        this.usableTicketCnt += chargeTicketCnt;
+    }
 }

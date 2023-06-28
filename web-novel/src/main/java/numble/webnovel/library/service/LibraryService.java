@@ -44,13 +44,16 @@ public class LibraryService {
             Long novelId = episode.getNovel().getNovelId();
             // 이미 존재하는 에피소드 확인
             throwIfAlreadyOwnEpisode(currentMember, episode);
-            // 소설 이용권 충분한지 확인
-            NovelTicket novelTicket = novelTicketRepository.findNovelTicketByMemberIdAndNovelId(currentMember.getMemberId(), novelId)
-                    .orElseThrow(() -> new WebNovelServiceException(NO_ENOUGH_TICKET));
-            if(!novelTicket.isEnoughNovelTicket()){
-                throw new WebNovelServiceException(NO_ENOUGH_TICKET);
+            // 에피소드가 무료이면 이용권 사용하지 않아도 된다.
+            if(!episode.isFreeYn()){
+                // 소설 이용권 충분한지 확인
+                NovelTicket novelTicket = novelTicketRepository.findNovelTicketByMemberIdAndNovelId(currentMember.getMemberId(), novelId)
+                        .orElseThrow(() -> new WebNovelServiceException(NO_ENOUGH_TICKET));
+                if(!novelTicket.isEnoughNovelTicket()){
+                    throw new WebNovelServiceException(NO_ENOUGH_TICKET);
+                }
+                novelTicket.useNovelTicket();
             }
-            novelTicket.useNovelTicket();
             // 라이브러리에 저장
             Library library = Library.createLibrary(currentMember, episode);
             libraryRepository.save(library);
@@ -67,6 +70,4 @@ public class LibraryService {
             throw new WebNovelServiceException(ALREADY_EXIST_EPISODE);
         }
     }
-
-
 }

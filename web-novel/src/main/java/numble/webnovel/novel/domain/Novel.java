@@ -66,4 +66,7 @@ public class Novel {
         this.udtDt = LocalDateTime.now();
     }
 
+    public void plusPaymentCnt(){
+        this.paymentCnt++;
+    }
 }

@@ -25,13 +25,16 @@ public enum ErrorCode {
     ,NO_EXISTS_NOVEL(HttpStatus.BAD_REQUEST, "NOVEL_003","존재하지 않는 소설입니다.")
     //Episode
     ,NO_EXISTS_EPISODE(HttpStatus.BAD_REQUEST, "EPISODE_001","존재하지 않는 에피소드입니다.")
+    ,EXCEED_TOTAL_PAGE(HttpStatus.BAD_REQUEST, "EPISODE_002","마지막 페이지 입니다.")
+    ,NO_EXIST_PAGE(HttpStatus.BAD_REQUEST, "EPISODE_003","첫 페이지 입니다.")
     //Lock
     ,NO_AVAILABLE_LOCK(HttpStatus.BAD_REQUEST, "LOCK_001","Lock 획득에 실패하였습니다.")
     //NovelTicket
     ,NO_ENOUGH_TICKET(HttpStatus.BAD_REQUEST, "TICKET_001","소설 이용권이 부족합니다.")
     ,INVALID_TICKET(HttpStatus.BAD_REQUEST, "TICKET_002","유효하지 않은 티켓입니다.")
     //Library
-    ,ALREADY_EXIST_EPISODE(HttpStatus.BAD_REQUEST, "LIBRARY_001","이미 소유한 에피소드 입니다.")
+    ,ALREADY_EXIST_EPISODE(HttpStatus.BAD_REQUEST, "LIBRARY_001","이미 소유한 에피소드입니다.")
+    ,NOT_FOUND_EPISODE(HttpStatus.BAD_REQUEST, "LIBRARY_002","에피소드를 찾을 수 없습니다.")
     ;
 
     private final HttpStatus httpStatus;

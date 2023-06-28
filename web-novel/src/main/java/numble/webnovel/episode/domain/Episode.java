@@ -72,4 +72,12 @@ public class Episode {
     public void updateUdtDt(){
         this.udtDt = LocalDateTime.now();
     }
+
+    public boolean checkNextPage(int currentPage){
+        return currentPage + 1 <= this.totalPage;
+    }
+
+    public boolean checkPreviousPage(int currentPage){
+        return currentPage - 1 >= 1;
+    }
 }

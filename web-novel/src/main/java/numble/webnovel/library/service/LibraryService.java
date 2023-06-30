@@ -5,8 +5,10 @@ import numble.webnovel.episode.domain.Episode;
 import numble.webnovel.episode.repository.EpisodeRepository;
 import numble.webnovel.exception.WebNovelServiceException;
 import numble.webnovel.library.domain.Library;
+import numble.webnovel.library.dto.OwnEpisodeReadInfoResponse;
 import numble.webnovel.library.repository.LibraryRepository;
 import numble.webnovel.member.domain.Member;
+import numble.webnovel.novel.domain.Novel;
 import numble.webnovel.novelTicket.domain.NovelTicket;
 import numble.webnovel.novelTicket.repository.NovelTicketRepository;
 import org.redisson.api.RLock;
@@ -69,5 +71,48 @@ public class LibraryService {
         if(libraryRepository.existsByMemberAndEpisode(member, episode)){
             throw new WebNovelServiceException(ALREADY_EXIST_EPISODE);
         }
+    }
+
+    @Transactional
+    public OwnEpisodeReadInfoResponse readOwnEpisode(Member currentMember, Long episodeId){
+        Library library = findByMemberIdEpisodeId(episodeId, currentMember.getMemberId());
+        Episode episode = library.getEpisode();
+        Novel novel = episode.getNovel();
+        //소설 구매 카운트 +1
+        novel.plusPaymentCnt();
+        library.checkRead(library.getLastReadPage());
+        return OwnEpisodeReadInfoResponse.toInfoResponse(library);
+    }
+
+    @Transactional
+    public void readNextPage(Member currentMember, Long episodeId){
+        Library library = findByMemberIdEpisodeId(episodeId, currentMember.getMemberId());
+        Episode episode = library.getEpisode();
+        throwIfExceedTotalPage(episode, library.getLastReadPage());
+        library.readNextPage();
+    }
+
+    public void readPreviousPage(Member currentMember, Long episodeId){
+        Library library = findByMemberIdEpisodeId(episodeId, currentMember.getMemberId());
+        Episode episode = library.getEpisode();
+        throwIfNoExistPreviousPage(episode, library.getLastReadPage());
+        library.readPreviousPage();
+    }
+
+    private void throwIfExceedTotalPage(Episode episode,int currentPage){
+        if(!episode.checkNextPage(currentPage)){
+            throw new WebNovelServiceException(EXCEED_TOTAL_PAGE);
+        }
+    }
+
+    private void throwIfNoExistPreviousPage(Episode episode, int currentPage){
+        if(!episode.checkPreviousPage(currentPage)){
+            throw new WebNovelServiceException(EXCEED_TOTAL_PAGE);
+        }
+    }
+
+    private Library findByMemberIdEpisodeId(Long episodeId, Long memberId){
+        return libraryRepository.findByEpisodeIdAndMemberIdWithEpisodeAndNovel(episodeId, memberId)
+                .orElseThrow(() -> new WebNovelServiceException(NOT_FOUND_EPISODE));
     }
 }

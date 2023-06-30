@@ -49,4 +49,21 @@ public class Library {
                 .member(member)
                 .build();
     }
+
+    public void checkRead(int currentPage){
+        if(currentPage == 0) {
+            this.lastReadPage = 1;
+        }
+        this.lastReadDate = LocalDateTime.now();
+    }
+
+    public void readNextPage(){
+        this.lastReadPage++;
+        this.lastReadDate = LocalDateTime.now();
+    }
+
+    public void readPreviousPage(){
+        this.lastReadPage--;
+        this.lastReadDate = LocalDateTime.now();
+    }
 }

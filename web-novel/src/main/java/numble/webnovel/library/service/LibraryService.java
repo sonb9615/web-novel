@@ -6,6 +6,7 @@ import numble.webnovel.episode.repository.EpisodeRepository;
 import numble.webnovel.exception.WebNovelServiceException;
 import numble.webnovel.library.domain.Library;
 import numble.webnovel.library.dto.OwnEpisodeReadInfoResponse;
+import numble.webnovel.library.dto.OwnEpisodeReadRequest;
 import numble.webnovel.library.repository.LibraryRepository;
 import numble.webnovel.member.domain.Member;
 import numble.webnovel.novel.domain.Novel;
@@ -85,16 +86,23 @@ public class LibraryService {
     }
 
     @Transactional
-    public void readNextPage(Member currentMember, Long episodeId){
+    public void readNextPage(Member currentMember, Long episodeId, OwnEpisodeReadRequest request){
         Library library = findByMemberIdEpisodeId(episodeId, currentMember.getMemberId());
         Episode episode = library.getEpisode();
+        if(!request.isRead()){
+            throw new WebNovelServiceException(IS_NOT_READ);
+        }
         throwIfExceedTotalPage(episode, library.getLastReadPage());
         library.readNextPage();
     }
 
-    public void readPreviousPage(Member currentMember, Long episodeId){
+    @Transactional
+    public void readPreviousPage(Member currentMember, Long episodeId, OwnEpisodeReadRequest request){
         Library library = findByMemberIdEpisodeId(episodeId, currentMember.getMemberId());
         Episode episode = library.getEpisode();
+        if(!request.isRead()){
+            throw new WebNovelServiceException(IS_NOT_READ);
+        }
         throwIfNoExistPreviousPage(episode, library.getLastReadPage());
         library.readPreviousPage();
     }

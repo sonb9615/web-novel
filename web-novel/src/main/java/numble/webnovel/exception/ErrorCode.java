@@ -35,6 +35,7 @@ public enum ErrorCode {
     //Library
     ,ALREADY_EXIST_EPISODE(HttpStatus.BAD_REQUEST, "LIBRARY_001","이미 소유한 에피소드입니다.")
     ,NOT_FOUND_EPISODE(HttpStatus.BAD_REQUEST, "LIBRARY_002","에피소드를 찾을 수 없습니다.")
+    ,IS_NOT_READ(HttpStatus.BAD_REQUEST, "LIBRARY_003","에피소드를 읽고 있는 상태가 아닙니다.")
     ;
 
     private final HttpStatus httpStatus;

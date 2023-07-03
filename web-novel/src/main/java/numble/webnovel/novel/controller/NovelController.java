@@ -2,6 +2,7 @@ package numble.webnovel.novel.controller;
 
 import lombok.RequiredArgsConstructor;
 import numble.webnovel.common.CommonResponse;
+import numble.webnovel.novel.dto.NovelInfoResponseList;
 import numble.webnovel.novel.dto.NovelRegisterRequest;
 import numble.webnovel.novel.dto.NovelUpdateRequest;
 import numble.webnovel.novel.service.NovelService;
@@ -35,4 +36,27 @@ public class NovelController {
         return new ResponseEntity<>(new CommonResponse<>("소설 삭제 성공", null), HttpStatus.OK);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<CommonResponse<NovelInfoResponseList>> showNovelList(){
+        NovelInfoResponseList responseList = novelService.showNovelList();
+        return new ResponseEntity<>(new CommonResponse<>("소설 리스트 조회 성공", responseList), HttpStatus.OK);
+    }
+
+    @GetMapping("/search/{searchWord}")
+    public ResponseEntity<CommonResponse<NovelInfoResponseList>> showNovelListBySearchWord(@PathVariable String searchWord){
+        NovelInfoResponseList responseList = novelService.showNovelListBySearchWord(searchWord);
+        return new ResponseEntity<>(new CommonResponse<>("소설 리스트 조회 성공", responseList), HttpStatus.OK);
+    }
+
+    @GetMapping("/genre/{genre}")
+    public ResponseEntity<CommonResponse<NovelInfoResponseList>> showNovelListByGenre(@PathVariable String genre){
+        NovelInfoResponseList responseList = novelService.showNovelListByGenre(genre);
+        return new ResponseEntity<>(new CommonResponse<>("소설 리스트 조회 성공", responseList), HttpStatus.OK);
+    }
+
+    @GetMapping("/status/{serialStatus}")
+    public ResponseEntity<CommonResponse<NovelInfoResponseList>> showNovelListBySerialStatus(@PathVariable String serialStatus){
+        NovelInfoResponseList responseList = novelService.showNovelListBySerialStatus(serialStatus);
+        return new ResponseEntity<>(new CommonResponse<>("소설 리스트 조회 성공", responseList), HttpStatus.OK);
+    }
 }

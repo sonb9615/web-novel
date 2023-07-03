@@ -13,20 +13,30 @@ public enum SerialStatus {
     ,SCHEDULE("연재예정")
     ;
 
-    private final String status;
+    private final String statusName;
 
-    SerialStatus(String status) { this.status = status; }
+    SerialStatus(String status) { this.statusName = status; }
 
-    public String getStatus() { return status; }
+    public String getStatusName() { return statusName; }
 
-    public static SerialStatus getNovelStatus(String status){
-        return switch (status){
+    public static SerialStatus toNovelStatus(String statusName){
+        return switch (statusName){
             case "연재중" -> SERIES;
             case "휴재중" -> RECESS;
             case "완결" -> COMPLETE;
             case "종료" -> TERMINATION;
             case "연재예정" -> SCHEDULE;
             default -> throw new WebNovelServiceException(NO_VALID_NOVEL_STATUS);
+        };
+    }
+
+    public static String toStatusName(SerialStatus status){
+        return switch (status){
+            case SERIES -> SERIES.getStatusName();
+            case RECESS -> RECESS.getStatusName();
+            case COMPLETE -> COMPLETE.getStatusName();
+            case TERMINATION -> TERMINATION.getStatusName();
+            case SCHEDULE -> SCHEDULE.getStatusName();
         };
     }
 }

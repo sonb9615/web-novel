@@ -60,7 +60,7 @@ public class Novel {
     }
 
     public void updateNovel(NovelUpdateRequest request){
-        this.serialStatus = SerialStatus.getNovelStatus(request.getSerialStatus());
+        this.serialStatus = SerialStatus.toNovelStatus(request.getSerialStatus());
         this.novelInfo = request.getNovelInfo();
         this.novelImg = request.getNovelImg();
         this.udtDt = LocalDateTime.now();

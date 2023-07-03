@@ -22,13 +22,22 @@ public enum Genre {
         return genreName;
     }
 
-    public static Genre getGenreCode(String genreName){
+    public static Genre toGenreCode(String genreName){
         return switch (genreName){
             case "로맨스" -> ROMANCE;
             case "호러" -> HORROR;
             case "드라마" -> DRAMA;
             case "액션" -> ACTION;
             default -> throw new WebNovelServiceException(NO_VALID_GENRE);
+        };
+    }
+
+    public static String toGenreName(Genre genre){
+        return switch (genre){
+            case ROMANCE -> ROMANCE.genreName;
+            case HORROR -> HORROR.genreName;
+            case DRAMA -> DRAMA.genreName;
+            case ACTION -> ACTION.genreName;
         };
     }
 

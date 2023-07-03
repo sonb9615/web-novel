@@ -2,6 +2,7 @@ package numble.webnovel.novel.service
 
 import numble.webnovel.exception.WebNovelServiceException
 import numble.webnovel.novel.domain.Novel
+import numble.webnovel.novel.dto.NovelInfoResponseList
 import numble.webnovel.novel.dto.NovelRegisterRequest
 import numble.webnovel.novel.dto.NovelUpdateRequest
 import numble.webnovel.novel.enums.SerialStatus
@@ -107,7 +108,7 @@ class NovelServiceTest extends Specification{
         def novelImg = "수정된 소설 이미지"
 
         NovelUpdateRequest request = new NovelUpdateRequest()
-        request.setSerialStatusForTest(status.getStatus())
+        request.setSerialStatusForTest(status.getStatusName())
         request.setNovelImgForTest(novelImg)
         request.setNovelInfoForTest(novelInfo)
 
@@ -174,5 +175,30 @@ class NovelServiceTest extends Specification{
 
         then:
         1* novelRepository.delete(_)
+    }
+
+    def "소설제목과 작가로 검색 정상 케이스"(){
+        given:
+
+        Novel novel_1 = Novel.builder()
+                        .novelId(1L)
+                        .title("test_1")
+                        .author("author_1")
+                        .build()
+
+        Novel novel_2 = Novel.builder()
+                .novelId(2L)
+                .title("test_2")
+                .author("author_2")
+                .build()
+
+        novelRepository.findById(1L) >> Optional.of(novel_1)
+        novelRepository.findById(2L) >> Optional.of(novel_2)
+
+        when:
+        NovelInfoResponseList novelList = novelService.showNovelListBySearchWord("test")
+        then:
+        novelList.getNovelList().size() == 2
+        println novelList.getNovelList().get(0).getTitle()
     }
 }

@@ -20,8 +20,8 @@ public class NovelRegisterRequest {
 
     public Novel toNovel(){
 
-        Genre genreEnum = Genre.getGenreCode(genre);
-        SerialStatus statusEnum = SerialStatus.getNovelStatus(serialStatus);
+        Genre genreEnum = Genre.toGenreCode(genre);
+        SerialStatus statusEnum = SerialStatus.toNovelStatus(serialStatus);
 
         return Novel.builder()
                 .title(title)

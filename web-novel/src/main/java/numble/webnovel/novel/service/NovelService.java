@@ -1,8 +1,14 @@
 package numble.webnovel.novel.service;
 
 import lombok.RequiredArgsConstructor;
+import numble.webnovel.episode.domain.Episode;
+import numble.webnovel.episode.repository.EpisodeRepository;
 import numble.webnovel.exception.WebNovelServiceException;
+import numble.webnovel.library.domain.Library;
+import numble.webnovel.library.repository.LibraryRepository;
+import numble.webnovel.member.domain.Member;
 import numble.webnovel.novel.domain.Novel;
+import numble.webnovel.novel.dto.NovelDetailInfoResponse;
 import numble.webnovel.novel.dto.NovelInfoResponseList;
 import numble.webnovel.novel.dto.NovelRegisterRequest;
 import numble.webnovel.novel.dto.NovelUpdateRequest;
@@ -14,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static numble.webnovel.exception.ErrorCode.NO_EXISTS_EPISODES;
 import static numble.webnovel.exception.ErrorCode.NO_EXISTS_NOVEL;
 
 @Service
@@ -21,6 +28,8 @@ import static numble.webnovel.exception.ErrorCode.NO_EXISTS_NOVEL;
 public class NovelService {
 
     private final NovelRepository novelRepository;
+    private final EpisodeRepository episodeRepository;
+    private final LibraryRepository libraryRepository;
 
     @Transactional
     public void registerNovel(NovelRegisterRequest request){
@@ -38,11 +47,6 @@ public class NovelService {
     public void deleteNovel(Long novelId){
         Novel novel = this.findNovelById(novelId);
         novelRepository.delete(novel);
-    }
-
-    private Novel findNovelById(Long novelId){
-        return novelRepository.findById(novelId)
-                .orElseThrow(() -> new WebNovelServiceException(NO_EXISTS_NOVEL));
     }
 
     @Transactional(readOnly = true)
@@ -69,5 +73,19 @@ public class NovelService {
         SerialStatus status = SerialStatus.toNovelStatus(serialStatusName);
         List<Novel> novelList = novelRepository.findBySerialStatus(status);
         return NovelInfoResponseList.toNovelInfoResponseList(novelList);
+    }
+
+    @Transactional(readOnly = true)
+    public NovelDetailInfoResponse showNovelDetails(Member member, Long novelId){
+        Novel novel = this.findNovelById(novelId);
+        List<Episode> episodes = episodeRepository.findByNovel(novel)
+                .orElseThrow(() -> new WebNovelServiceException(NO_EXISTS_EPISODES));
+        List<Library> libraryList = libraryRepository.findByMemberAndEpisodeIn(member, episodes);
+        return NovelDetailInfoResponse.toResponse(novel, episodes, libraryList);
+    }
+
+    private Novel findNovelById(Long novelId){
+        return novelRepository.findById(novelId)
+                .orElseThrow(() -> new WebNovelServiceException(NO_EXISTS_NOVEL));
     }
 }

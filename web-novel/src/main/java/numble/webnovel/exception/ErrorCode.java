@@ -23,6 +23,7 @@ public enum ErrorCode {
     ,NO_VALID_GENRE(HttpStatus.BAD_REQUEST, "NOVEL_001","올바르지 않은 장르입니다.")
     ,NO_VALID_NOVEL_STATUS(HttpStatus.BAD_REQUEST, "NOVEL_002","올바르지 않은 연재 상태 입니다.")
     ,NO_EXISTS_NOVEL(HttpStatus.BAD_REQUEST, "NOVEL_003","존재하지 않는 소설입니다.")
+    ,NO_EXISTS_EPISODES(HttpStatus.BAD_REQUEST, "NOVEL_004","해당 소설의 에피소드는 존재하지 않습니다.")
     //Episode
     ,NO_EXISTS_EPISODE(HttpStatus.BAD_REQUEST, "EPISODE_001","존재하지 않는 에피소드입니다.")
     ,EXCEED_TOTAL_PAGE(HttpStatus.BAD_REQUEST, "EPISODE_002","마지막 페이지 입니다.")

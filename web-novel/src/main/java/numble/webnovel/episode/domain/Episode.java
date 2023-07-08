@@ -4,10 +4,13 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import numble.webnovel.library.domain.Library;
 import numble.webnovel.novel.domain.Novel;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -39,6 +42,9 @@ public class Episode {
     @JoinColumn(name = "novel_id")
     private Novel novel;
 
+    @OneToMany(mappedBy = "episode")
+    private List<Library> libraryList = new ArrayList<>();
+
     @Builder
     public Episode(Long episodeId, int episodeNo, String episodeTitle, String content, int totalPage, boolean freeYn, int capacity, LocalDateTime regDt, LocalDateTime udtDt, Novel novel) {
         this.episodeId = episodeId;
@@ -51,6 +57,10 @@ public class Episode {
         this.regDt = regDt;
         this.udtDt = udtDt;
         this.novel = novel;
+    }
+
+    public void addLibraryList(Library library){
+        this.libraryList.add(library);
     }
 
     public void updateContent(String content){

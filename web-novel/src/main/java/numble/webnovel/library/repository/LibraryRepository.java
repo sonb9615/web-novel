@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface LibraryRepository extends JpaRepository<Library, Long> {
@@ -15,4 +17,6 @@ public interface LibraryRepository extends JpaRepository<Library, Long> {
     Optional<Library> findByEpisodeIdAndMemberIdWithEpisodeAndNovel(@Param("episodeId") Long episodeId, @Param("memberId") Long memberId);
 
     boolean existsByMemberAndEpisode(Member member, Episode episode);
+
+    List<Library> findByMemberAndEpisodeIn(Member member, Collection<Episode> episode);
 }

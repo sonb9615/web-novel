@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/novelTicket")
+@RequestMapping("/api/novel-ticket")
 public class NovelTicketController {
 
     private final NovelTicketService novelTicketService;

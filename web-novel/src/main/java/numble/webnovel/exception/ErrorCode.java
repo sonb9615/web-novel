@@ -37,6 +37,10 @@ public enum ErrorCode {
     ,ALREADY_EXIST_EPISODE(HttpStatus.BAD_REQUEST, "LIBRARY_001","이미 소유한 에피소드입니다.")
     ,NOT_FOUND_EPISODE(HttpStatus.BAD_REQUEST, "LIBRARY_002","에피소드를 찾을 수 없습니다.")
     ,IS_NOT_READ(HttpStatus.BAD_REQUEST, "LIBRARY_003","에피소드를 읽고 있는 상태가 아닙니다.")
+    //favoriteNovel
+    ,NO_EXISTS_FAVORITE_NOVEL(HttpStatus.BAD_REQUEST, "FAVORITE_001","선호작 목록에 존재하지 않습니다.")
+    ,ALREADY_FAVORITE_NOVEL(HttpStatus.BAD_REQUEST, "FAVORITE_002","선호작 목록에 이미 존재합니다.")
+    ,EMPTY_FAVORITE_NOVEL(HttpStatus.BAD_REQUEST, "FAVORITE_003","선호작 목록이 비어있습니다.")
     ;
 
     private final HttpStatus httpStatus;

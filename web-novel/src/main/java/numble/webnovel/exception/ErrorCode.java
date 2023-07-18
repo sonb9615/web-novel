@@ -41,6 +41,8 @@ public enum ErrorCode {
     ,NO_EXISTS_FAVORITE_NOVEL(HttpStatus.BAD_REQUEST, "FAVORITE_001","선호작 목록에 존재하지 않습니다.")
     ,ALREADY_FAVORITE_NOVEL(HttpStatus.BAD_REQUEST, "FAVORITE_002","선호작 목록에 이미 존재합니다.")
     ,EMPTY_FAVORITE_NOVEL(HttpStatus.BAD_REQUEST, "FAVORITE_003","선호작 목록이 비어있습니다.")
+    //ranking
+    ,NO_EXISTS_RANKING_INFO(HttpStatus.BAD_REQUEST, "RANKING_001","검색되는 랭킹 리스트가 없습니다.")
     ;
 
     private final HttpStatus httpStatus;

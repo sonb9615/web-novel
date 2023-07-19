@@ -2,6 +2,7 @@ package numble.webnovel.ranking.controller;
 
 import lombok.RequiredArgsConstructor;
 import numble.webnovel.common.CommonResponse;
+import numble.webnovel.ranking.dto.RankingForFavoriteCnt;
 import numble.webnovel.ranking.dto.RankingForPaymentCnt;
 import numble.webnovel.ranking.service.RankingService;
 import org.springframework.http.HttpStatus;
@@ -21,5 +22,11 @@ public class RankingController {
     public ResponseEntity<CommonResponse<RankingForPaymentCnt>> showRankingForPaymentCnt(){
         RankingForPaymentCnt response = rankingService.showRankingForPaymentCnt();
         return new ResponseEntity<>(new CommonResponse<>("소설 구매수 랭킹 리스트 조회 성공", response), HttpStatus.OK);
+    }
+
+    @GetMapping("/favorite-cnt")
+    public ResponseEntity<CommonResponse<RankingForFavoriteCnt>> showRankingFavoriteCnt(){
+        RankingForFavoriteCnt response = rankingService.showRankingForFavoriteCnt();
+        return new ResponseEntity<>(new CommonResponse<>("선호작 랭킹 리스트 조회 성공", response), HttpStatus.OK);
     }
 }

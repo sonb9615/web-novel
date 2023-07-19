@@ -3,7 +3,6 @@ package numble.webnovel.ranking.repository;
 import lombok.RequiredArgsConstructor;
 import numble.webnovel.exception.WebNovelServiceException;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +16,6 @@ import static numble.webnovel.ranking.enums.RankingEnum.NOVEL_PAYMENT_RANKING;
 @RequiredArgsConstructor
 public class RankingRepository {
 
-    private final StringRedisTemplate stringRedisTemplate;
     private final RedisTemplate<String, String> redisTemplate;
 
     public void increasePaymentCntScore(Long novelId, Long paymentCnt){
@@ -25,21 +23,31 @@ public class RankingRepository {
                 .add(NOVEL_PAYMENT_RANKING.getValue(), String.valueOf(novelId), paymentCnt);
     }
 
-    public void increaseFavoriteNovelCnt(Long novelId){
-        redisTemplate.opsForHash()
-                .increment(FAVORITE_NOVEL_RANKING.getValue(), String.valueOf(novelId), 1);
-    }
-
-    public void decreaseFavoriteNovelCnt(Long novelId){
-
-    }
-
     public List<Long> findNovelIdByRankingForPaymentCnt(){
         String key = NOVEL_PAYMENT_RANKING.getValue();
-        Set<String> typedTuples = redisTemplate.opsForZSet().reverseRangeByScore(key, 0, 10);
-        if(typedTuples == null){
+        Set<String> stringSet = redisTemplate.opsForZSet().reverseRangeByScore(key, 0, 10);
+        if(stringSet == null){
             throw new WebNovelServiceException(NO_EXISTS_RANKING_INFO);
         }
-        return typedTuples.stream().map(Long::parseLong).toList();
+        return stringSet.stream().map(Long::parseLong).toList();
+    }
+
+    public void increaseFavoriteCnt(Long novelId){
+        redisTemplate.opsForZSet()
+                .incrementScore(FAVORITE_NOVEL_RANKING.getValue(), String.valueOf(novelId), 1);
+    }
+
+    public void decreaseFavoriteCnt(Long novelId){
+        redisTemplate.opsForZSet()
+                .incrementScore(FAVORITE_NOVEL_RANKING.getValue(), String.valueOf(novelId), -1);
+    }
+
+    public List<Long> findNovelIdByRankingForFavoriteCnt(){
+        String key = FAVORITE_NOVEL_RANKING.getValue();
+        Set<String> stringSet = redisTemplate.opsForZSet().reverseRangeByScore(key, 0, 10);
+        if(stringSet == null){
+            throw new WebNovelServiceException(NO_EXISTS_RANKING_INFO);
+        }
+        return stringSet.stream().map(Long::parseLong).toList();
     }
 }

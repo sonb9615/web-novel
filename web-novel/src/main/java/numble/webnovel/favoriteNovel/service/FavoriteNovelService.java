@@ -8,6 +8,7 @@ import numble.webnovel.favoriteNovel.repository.FavoriteNovelRepository;
 import numble.webnovel.member.domain.Member;
 import numble.webnovel.novel.domain.Novel;
 import numble.webnovel.novel.repository.NovelRepository;
+import numble.webnovel.ranking.repository.RankingRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ public class FavoriteNovelService {
 
     private final FavoriteNovelRepository favoriteNovelRepository;
     private final NovelRepository novelRepository;
+    private final RankingRepository rankingRepository;
 
     public void registerFavoriteNovel(Member member, Long novelId){
         Novel novel = novelRepository.findById(novelId)
@@ -33,6 +35,7 @@ public class FavoriteNovelService {
                                         .member(member)
                                         .build();
         favoriteNovelRepository.save(favoriteNovel);
+        rankingRepository.increaseFavoriteCnt(novelId);
     }
 
     public void deleteFavoriteNovel(Member member, Long novelId){
@@ -40,6 +43,7 @@ public class FavoriteNovelService {
                 .orElseThrow(() -> new WebNovelServiceException(NO_EXISTS_NOVEL));
         FavoriteNovel favoriteNovel = findByNovelAndMember(novel, member);
         favoriteNovelRepository.delete(favoriteNovel);
+        rankingRepository.decreaseFavoriteCnt(novelId);
     }
 
     @Transactional(readOnly = true)

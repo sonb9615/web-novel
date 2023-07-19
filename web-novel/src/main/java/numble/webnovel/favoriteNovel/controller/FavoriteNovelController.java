@@ -30,7 +30,7 @@ public class FavoriteNovelController {
         return new ResponseEntity<>(new CommonResponse<>("선호작 삭제 완료", null), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<CommonResponse<FavoriteNovelInfoResponseList>> showFavoriteNovels(@AuthenticationPrincipal UserDetailsImpl userDetails){
         FavoriteNovelInfoResponseList responseList = favoriteNovelService.showFavoriteNovelsByMember(userDetails.getMember());
         return new ResponseEntity<>(new CommonResponse<>("선호작 리스트 조회 완료", responseList), HttpStatus.OK);

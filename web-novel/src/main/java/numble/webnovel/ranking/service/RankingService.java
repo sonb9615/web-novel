@@ -3,6 +3,7 @@ package numble.webnovel.ranking.service;
 import lombok.RequiredArgsConstructor;
 import numble.webnovel.novel.domain.Novel;
 import numble.webnovel.novel.repository.NovelRepository;
+import numble.webnovel.ranking.dto.RankingForFavoriteCnt;
 import numble.webnovel.ranking.dto.RankingForPaymentCnt;
 import numble.webnovel.ranking.repository.RankingRepository;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,10 @@ public class RankingService {
         return RankingForPaymentCnt.toRankingForPaymentCnt(novels);
     }
 
-
+    public RankingForFavoriteCnt showRankingForFavoriteCnt() {
+        List<Long> novelIds = rankingRepository.findNovelIdByRankingForFavoriteCnt();
+        List<Novel> novels = novelRepository.findByNovelIdIn(novelIds);
+        return RankingForFavoriteCnt.toRankingForFavoriteCnt(novels);
+    }
 
 }

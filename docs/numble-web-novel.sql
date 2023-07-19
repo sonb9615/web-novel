@@ -68,7 +68,7 @@ CREATE TABLE `novel_ticket` (
 );
 
 CREATE TABLE `favorite_novel` (
-	`favorite_novel_id`	bigint	NOT NULL	COMMENT '좋아하는 소설 목록 id',
+	`favorite_novel_id`	bigint	NOT NULL AUTO_INCREMENT	COMMENT '좋아하는 소설 목록 id',
 	`member_id`	bigint	NOT NULL	COMMENT '회원 정보 id',
 	`novel_id`	bigint	NOT NULL	COMMENT '소설 id',
     primary key(`favorite_novel_id`)
@@ -79,5 +79,7 @@ create index idx_library on library (`member_id`, `episode_id`);
 create index idx_novel_ticket on novel_ticket (`member_id`, `novel_id`);
 
 create unique index uq_idx_nickname on member (`nickname`);
+
+create index idx_favorite_novel on favorite_novel (`member_id`, `novel_id`);
 
 commit;

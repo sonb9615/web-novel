@@ -12,6 +12,7 @@ import numble.webnovel.member.domain.Member;
 import numble.webnovel.novel.domain.Novel;
 import numble.webnovel.novelTicket.domain.NovelTicket;
 import numble.webnovel.novelTicket.repository.NovelTicketRepository;
+import numble.webnovel.ranking.repository.RankingRepository;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class LibraryService {
     private final NovelTicketRepository novelTicketRepository;
     private final EpisodeRepository episodeRepository;
     private final LibraryRepository libraryRepository;
+    private final RankingRepository rankingRepository;
 
     private static final String EPISODE_PURCHASE_LOCK_NAME = "EPISODE_PURCHASE";
 
@@ -81,6 +83,8 @@ public class LibraryService {
         Novel novel = episode.getNovel();
         //소설 구매 카운트 +1
         novel.plusPaymentCnt();
+        //구매 랭킹
+        rankingRepository.increasePaymentCntScore(novel.getNovelId(), novel.getPaymentCnt());
         library.checkRead(library.getLastReadPage());
         return OwnEpisodeReadInfoResponse.toInfoResponse(library);
     }

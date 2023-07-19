@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import numble.webnovel.novel.domain.Novel;
 import numble.webnovel.novel.repository.NovelRepository;
 import numble.webnovel.ranking.dto.RankingForFavoriteCnt;
-import numble.webnovel.ranking.dto.RankingForPaymentCnt;
+import numble.webnovel.ranking.dto.RankingForDailyBestView;
 import numble.webnovel.ranking.repository.RankingRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +17,10 @@ public class RankingService {
     private final RankingRepository rankingRepository;
     private final NovelRepository novelRepository;
 
-    public RankingForPaymentCnt showRankingForPaymentCnt(){
-        List<Long> novelIds = rankingRepository.findNovelIdByRankingForPaymentCnt();
+    public RankingForDailyBestView showRankingForDailyBestView(){
+        List<Long> novelIds = rankingRepository.findNovelIdByRankingForDailyBestView();
         List<Novel> novels =  novelRepository.findByNovelIdIn(novelIds);
-        return RankingForPaymentCnt.toRankingForPaymentCnt(novels);
+        return RankingForDailyBestView.toRankingForDailyBestView(novels);
     }
 
     public RankingForFavoriteCnt showRankingForFavoriteCnt() {

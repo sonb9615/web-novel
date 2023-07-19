@@ -5,6 +5,10 @@ import numble.webnovel.exception.WebNovelServiceException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
 
@@ -21,9 +25,12 @@ public class RankingRepository {
     public void increasePaymentCntScore(Long novelId, Long paymentCnt){
         redisTemplate.opsForZSet()
                 .add(NOVEL_PAYMENT_RANKING.getValue(), String.valueOf(novelId), paymentCnt);
+        LocalDateTime tomorrowMidnight = LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT);
+        Duration duration = Duration.between(LocalDateTime.now(), tomorrowMidnight.plusDays(1));
+        redisTemplate.expire(NOVEL_PAYMENT_RANKING.getValue(), duration);
     }
 
-    public List<Long> findNovelIdByRankingForPaymentCnt(){
+    public List<Long> findNovelIdByRankingForDailyBestView(){
         String key = NOVEL_PAYMENT_RANKING.getValue();
         Set<String> stringSet = redisTemplate.opsForZSet().reverseRangeByScore(key, 0, 10);
         if(stringSet == null){

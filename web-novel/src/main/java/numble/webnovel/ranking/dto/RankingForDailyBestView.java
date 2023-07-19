@@ -8,19 +8,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class RankingForPaymentCnt {
+public class RankingForDailyBestView {
 
     private List<NovelInfoResponse> novelList;
 
-    public RankingForPaymentCnt(List<NovelInfoResponse> novelList) {
+    public RankingForDailyBestView(List<NovelInfoResponse> novelList) {
         this.novelList = novelList;
     }
 
-    public static RankingForPaymentCnt toRankingForPaymentCnt(List<Novel> novels){
+    public static RankingForDailyBestView toRankingForDailyBestView(List<Novel> novels){
         List<NovelInfoResponse> responseList = novels.stream()
                 .map(NovelInfoResponse::toNovelInfoResponse)
                 .collect(Collectors.toList());
-        return new RankingForPaymentCnt(responseList);
+        return new RankingForDailyBestView(responseList);
     }
 
 }

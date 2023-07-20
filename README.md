@@ -1,4 +1,19 @@
-# web-novel
+# 웹소설 서비스 클론코딩 프로젝트
+- 개인 프로젝트 입니다.
+- 백엔드 개발자로서, 테이블 설계, API설계, API 개발을 담당하였습니다.
+
+## 프로젝트 목표
+
+- 동시성 이슈를 대비한 로직을 설계해보자
+: 공유된 자원에 동시에 여러 작업들이 접근하는 과정에서 동시성 이슈가 발생 할 수 있습니다. 이는 프로그램의 성능 저하를 일으키는 원인이 되므로 해당 이슈를 고려한 설계를 진행해야합니다. 
+
+## 테이블 설계
+![web-novel-230720](https://github.com/sonb9615/web-novel/assets/50348496/2c167935-c428-47f3-8ad1-f3d57a067392)
+
+
+## API 문서
+[Web Novel Service API문서](https://www.notion.so/rini--/bdaa86b7ef6e42baa966abb2c6c239b3?v=18c0010bc5bb4cfab50d6c7038a3caa5&pvs=4)
+
 
 ## Project Spec
     - Java11
@@ -9,90 +24,8 @@
     - Docker
     
 ## docs
-    - ERD Diagram
     - 테이블 DDL
-    - figma 자료
     
 ## settings
     - redis 서버 실행을 위한 docker-compose file
     
-
-## API 설명
-
-### 1. 캐쉬 충전 API
-
-#### HTTP Mthod
-- POST
-
-#### Request Url
-- /charge/cache
-
-#### Request Body
-| 속성 | 타입  | 필수여부 | 설명 |
-| --- | --- | --- | ---|
-| userNo | String | Y | 회원 고유 번호
-| money | int | Y | 충전 결제 금액
- 
-#### Request
-```json
-{
-	"userNo": "ef21dc73ec124a93b1d8896c08374de7",
-	"money" : 1000
-}
-```
-
-#### Response
-```json
-{
-    "result": "SUCESS"
-}
-```
-
-#### Error Response
-```json
-{
-    "status": "BAD_REQUEST",
-    "code": "PE0001",
-    "message": "필수 파라미터 확인해주세요."
-}
-```
-
-### 2. 이용권 충전 API
-
-#### HTTP Mthod
-- POST
-
-#### Request Url
-- /charge/tickets
-
-#### Request Body
-| 속성 | 타입  | 필수여부 | 설명 |
-| --- | --- | --- | ---|
-| userNo | String | Y | 회원 고유 번호
-| novelId | String | Y | 이용권 구입할 소설 고유 ID
-| chargeTicketsCnt | int | Y | 구입할 이용권 수량
- 
-#### Request
-```json
-{
-	"userNo": "ef21dc73ec124a93b1d8896c08374de7",
-	"novelId" : "45ed40d9224a4d70bc1fff6f8306881c",
-    "chargeTicketsCnt" : 3
-}
-```
-
-#### Response
-```json
-{
-    "result": "SUCESS"
-}
-```
-
-#### Error Response
-```json
-{
-    "status": "BAD_REQUEST",
-    "code": "PE0001",
-    "message": "필수 파라미터 확인해주세요."
-}
-```

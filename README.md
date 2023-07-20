@@ -1,9 +1,9 @@
-# 📔웹소설 서비스 클론코딩 프로젝트
+# 📔 웹소설 서비스 클론코딩 프로젝트
 - 개인 프로젝트 입니다.
 - 백엔드 개발자로서, 테이블 설계, API설계, API 개발을 담당하였습니다.
 <br>
 
-## 📌프로젝트 목표
+## 📌 프로젝트 목표
 
 - 동시성 이슈 고려
 
@@ -15,17 +15,17 @@
 
 <br>
 
-## 📌테이블 설계
+## 📌 테이블 설계
 ![web-novel-230720](https://github.com/sonb9615/web-novel/assets/50348496/2c167935-c428-47f3-8ad1-f3d57a067392)
 
 <br>
 
-## 📌API 문서
+## 📌 API 문서
 [Web Novel Service API문서](https://www.notion.so/rini--/bdaa86b7ef6e42baa966abb2c6c239b3?v=18c0010bc5bb4cfab50d6c7038a3caa5&pvs=4)
 
 <br>
 
-## 📌Project Spec
+## 📌 Project Spec
     - Java11
     - Spring boot 2.7
     - JPA
